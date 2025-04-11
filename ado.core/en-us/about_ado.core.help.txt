@@ -1,0 +1,11 @@
+﻿TOPIC
+	about_ado.core
+	
+SHORT DESCRIPTION
+	Explains how to use the ado.core powershell module
+	
+LONG DESCRIPTION
+	<Insert Content here>
+
+KEYWORDS
+	ado.core
