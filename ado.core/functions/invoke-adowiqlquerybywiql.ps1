@@ -50,6 +50,7 @@
 #>
 
 function Invoke-ADOWiqlQueryByWiql {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

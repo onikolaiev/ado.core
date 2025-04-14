@@ -32,6 +32,7 @@
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 function Remove-ADOWorkItemType {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

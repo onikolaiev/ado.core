@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-ADOProjectProperties
+# Get-ADOProjectPropertieList
 
 ## SYNOPSIS
 Retrieves a collection of team project properties in Azure DevOps.
@@ -13,7 +13,7 @@ Retrieves a collection of team project properties in Azure DevOps.
 ## SYNTAX
 
 ```
-Get-ADOProjectProperties [-Organization] <String> [-Token] <String> [-ProjectId] <String> [[-Keys] <String>]
+Get-ADOProjectPropertieList [-Organization] <String> [-Token] <String> [-ProjectId] <String> [[-Keys] <String>]
  [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
@@ -25,14 +25,14 @@ It supports optional parameters to filter properties by specific keys.
 
 ### EXAMPLE 1
 ```
-Get-ADOProjectProperties -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c"
+Get-ADOProjectPropertieList -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c"
 ```
 
 Retrieves all properties for the specified project.
 
 ### EXAMPLE 2
 ```
-Get-ADOProjectProperties -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Keys "System.CurrentProcessTemplateId,*SourceControl*"
+Get-ADOProjectPropertieList -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Keys "System.CurrentProcessTemplateId,*SourceControl*"
 ```
 
 Retrieves specific properties for the specified project.

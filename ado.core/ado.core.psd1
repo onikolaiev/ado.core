@@ -77,8 +77,8 @@ FunctionsToExport = @(
     'Update-ADOProject',
     'Remove-ADOProject',    
     
-    'Get-ADOProjectProperties',
-    'Set-ADOProjectProperties',
+    'Get-ADOProjectPropertieList',
+    'Set-ADOProjectPropertieList',
 
     'Get-ADOWitFieldList',
     'Get-ADOWitField',

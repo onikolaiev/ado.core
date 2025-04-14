@@ -42,6 +42,7 @@
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 function Get-ADOProject {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

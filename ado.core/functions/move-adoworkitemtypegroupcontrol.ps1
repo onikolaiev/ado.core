@@ -62,6 +62,7 @@
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 function Move-ADOWorkItemTypeGroupControl {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

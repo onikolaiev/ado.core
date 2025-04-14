@@ -24,12 +24,12 @@
         The version of the Azure DevOps REST API to use. Default is set globally.
         
     .EXAMPLE
-        Get-ADOProjectProperties -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c"
+        Get-ADOProjectPropertieList -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c"
         
         Retrieves all properties for the specified project.
         
     .EXAMPLE
-        Get-ADOProjectProperties -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Keys "System.CurrentProcessTemplateId,*SourceControl*"
+        Get-ADOProjectPropertieList -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Keys "System.CurrentProcessTemplateId,*SourceControl*"
         
         Retrieves specific properties for the specified project.
         
@@ -38,7 +38,8 @@
         
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
-function Get-ADOProjectProperties {
+function Get-ADOProjectPropertieList {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

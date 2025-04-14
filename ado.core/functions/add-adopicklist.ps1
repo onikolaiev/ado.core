@@ -44,6 +44,7 @@
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 function Add-ADOPickList {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

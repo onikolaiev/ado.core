@@ -23,6 +23,7 @@
 #>
 
 function Enable-ADOException {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param ()
 

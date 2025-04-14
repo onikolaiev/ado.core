@@ -48,6 +48,7 @@
 #>
 
 function Invoke-ADOWiqlQueryById {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

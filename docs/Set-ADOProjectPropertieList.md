@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-ADOProjectProperties
+# Set-ADOProjectPropertieList
 
 ## SYNOPSIS
 Create, update, or delete team project properties in Azure DevOps.
@@ -13,7 +13,7 @@ Create, update, or delete team project properties in Azure DevOps.
 ## SYNTAX
 
 ```
-Set-ADOProjectProperties [-Organization] <String> [-Token] <String> [-ProjectId] <String> [-Body] <String>
+Set-ADOProjectPropertieList [-Organization] <String> [-Token] <String> [-ProjectId] <String> [-Body] <String>
  [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
@@ -36,7 +36,7 @@ $body = @"
 "@
 ```
 
-Set-ADOProjectProperties -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Body $body
+Set-ADOProjectPropertieList -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Body $body
 
 Creates or updates the "Alias" property for the specified project.
 
@@ -52,7 +52,7 @@ $body = @"
 "@
 ```
 
-Set-ADOProjectProperties -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Body $body
+Set-ADOProjectPropertieList -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Body $body
 
 Deletes the "Alias" property for the specified project.
 

@@ -40,23 +40,23 @@
     .EXAMPLE
         # Example 1: Update a work item by ID
         $body = @(
-            @{
-                op    = "add"
-                path  = "/fields/System.Title"
-                value = "Updated Title"
-            }
+        @{
+        op    = "add"
+        path  = "/fields/System.Title"
+        value = "Updated Title"
+        }
         )
-
+        
         Update-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Id 12345 -Body $body
         
     .EXAMPLE
         # Example 2: Validate an update without saving
         $body = @(
-            @{
-                op    = "add"
-                path  = "/fields/System.History"
-                value = "Adding a comment for context"
-            }
+        @{
+        op    = "add"
+        path  = "/fields/System.History"
+        value = "Adding a comment for context"
+        }
         )
         
         Update-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Id 12345 -Body $body -ValidateOnly $true
@@ -68,6 +68,7 @@
 #>
 
 function Update-ADOWorkItem {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

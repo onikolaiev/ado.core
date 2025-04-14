@@ -33,7 +33,7 @@
         ]
         "@
         
-        Set-ADOProjectProperties -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Body $body
+        Set-ADOProjectPropertieList -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Body $body
         
         Creates or updates the "Alias" property for the specified project.
         
@@ -47,7 +47,7 @@
         ]
         "@
         
-        Set-ADOProjectProperties -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Body $body
+        Set-ADOProjectPropertieList -Organization "fabrikam" -Token "my-token" -ProjectId "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c" -Body $body
         
         Deletes the "Alias" property for the specified project.
         
@@ -56,7 +56,8 @@
         
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
-function Set-ADOProjectProperties {
+function Set-ADOProjectPropertieList {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

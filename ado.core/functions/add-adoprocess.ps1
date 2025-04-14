@@ -38,6 +38,7 @@
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 function Add-ADOProcess {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

@@ -56,6 +56,7 @@
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 function Update-ADOWorkItemTypeGroup {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

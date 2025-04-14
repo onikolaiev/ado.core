@@ -55,6 +55,7 @@
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 function Add-ADOWitField {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

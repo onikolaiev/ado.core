@@ -29,6 +29,7 @@
         It follows PSFramework best practices for logging and error handling.
 #>
 function Remove-ADOProject {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
