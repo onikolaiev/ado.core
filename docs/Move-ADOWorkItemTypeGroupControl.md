@@ -28,19 +28,19 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-    "label": "",
-    "readonly": false,
-    "id": "c1681eea-cf9e-4a32-aee9-83e97fde894a",
-    "isContribution": true,
-    "visible": true,
-    "contribution": {
-        "contributionId": "ms-devlabs.toggle-control.toggle-control-contribution",
-        "inputs": {
-            "FieldName": "System.BoardColumnDone",
-            "TrueLabel": "new value"
-        }
-    },
-    "order": 0
+"label": "",
+"readonly": false,
+"id": "c1681eea-cf9e-4a32-aee9-83e97fde894a",
+"isContribution": true,
+"visible": true,
+"contribution": {
+"contributionId": "ms-devlabs.toggle-control.toggle-control-contribution",
+"inputs": {
+"FieldName": "System.BoardColumnDone",
+"TrueLabel": "new value"
+}
+},
+"order": 0
 }
 "@
 ```

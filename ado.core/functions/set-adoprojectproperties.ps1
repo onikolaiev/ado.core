@@ -98,7 +98,7 @@ process {
                                              -Method "PATCH" `
                                              -Body $Body `
                                              -ApiVersion $ApiVersion `
-                                             -Headers @{ "Content-Type" = "application/json-patch+json" }
+                                             -Headers @{ "Content-Type" = "application/json" }
 
             # Log the successful response
             Write-PSFMessage -Level Verbose -Message "Successfully updated project properties for ProjectId: $ProjectId"

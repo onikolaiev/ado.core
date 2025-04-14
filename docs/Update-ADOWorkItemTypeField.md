@@ -27,7 +27,7 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-    "defaultValue": "Blue"
+"defaultValue": "Blue"
 }
 "@
 ```

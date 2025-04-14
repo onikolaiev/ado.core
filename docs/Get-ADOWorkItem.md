@@ -5,37 +5,36 @@ online version:
 schema: 2.0.0
 ---
 
-# Hide-ADOWorkItemTypeState
+# Get-ADOWorkItem
 
 ## SYNOPSIS
-Hides a state definition in the work item type of the process.
+Retrieves a single work item from Azure DevOps.
 
 ## SYNTAX
 
 ```
-Hide-ADOWorkItemTypeState [-Organization] <String> [-Token] <String> [-ProcessId] <String>
- [-WitRefName] <String> [-StateId] <String> [-Hidden] <String> [[-ApiVersion] <String>]
+Get-ADOWorkItem [-Organization] <String> [[-Project] <String>] [-Token] <String> [-Id] <Int32>
+ [[-Fields] <String>] [[-Expand] <String>] [[-AsOf] <DateTime>] [[-ApiVersion] <String>]
  [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOps REST API and hide a state definition in a specified work item type of a process.
-Only states with \`customizationType: System\` can be hidden.
+This function retrieves a single work item from Azure DevOps using its ID.
+It supports optional parameters to specify fields, expand attributes, and retrieve the work item as of a specific date.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-$body = @"
-{
-"hidden": "true"
-}
-"@
+# Example 1: Retrieve a work item by ID
+Get-ADOWorkItem -Organization "my-org" -Token "my-token" -Id 12345
 ```
 
-Hide-ADOWorkItemTypeState -Organization "fabrikam" -Token "my-token" -ProcessId "a6c1d9b6-ea27-407d-8c40-c9b7ab112bb6" -WitRefName "Agile1.Bug" -StateId "f36cfea7-889a-448e-b5d1-fbc9b134ec82" -Hidden $true
-
-Hides the specified state definition in the work item type of the process.
+### EXAMPLE 2
+```
+# Example 2: Retrieve a work item with specific fields and expand attributes
+Get-ADOWorkItem -Organization "my-org" -Token "my-token" -Id 12345 -Fields "System.Title,System.State" -Expand "Relations"
+```
 
 ## PARAMETERS
 
@@ -54,23 +53,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Token
-The authentication token for accessing Azure DevOps.
+### -Project
+(Optional) The name or ID of the Azure DevOps project.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProcessId
-The ID of the process.
+### -Token
+The personal access token (PAT) used for authentication.
 
 ```yaml
 Type: String
@@ -84,54 +83,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WitRefName
-The reference name of the work item type.
+### -Id
+The ID of the work item to retrieve.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: True
 Position: 4
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -StateId
-The ID of the state to hide.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Hidden
-Boolean value indicating whether the state should be hidden.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ApiVersion
-The version of the Azure DevOps REST API to use.
-Default is "7.1".
+### -Fields
+(Optional) A comma-separated list of fields to include in the response.
 
 ```yaml
 Type: String
@@ -139,7 +107,54 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Expand
+(Optional) Specifies the expand parameters for work item attributes.
+Possible values are \`None\`, \`Relations\`, \`Fields\`, \`Links\`, or \`All\`.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AsOf
+(Optional) The UTC date-time string to retrieve the work item as of a specific date.
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ApiVersion
+(Optional) The API version to use.
+Default is \`7.1\`.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
 Default value: $Script:ADOApiVersion
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -168,8 +183,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-This function follows PSFramework best practices for logging and error handling.
-
 Author: Oleksandr Nikolaiev (@onikolaiev)
+This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
 
 ## RELATED LINKS

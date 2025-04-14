@@ -26,27 +26,27 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-    "name": "myRule",
-    "conditions": [
-        {
-            "conditionType": "$when",
-            "field": "Microsoft.VSTS.Common.Priority",
-            "value": "1"
-        },
-        {
-            "conditionType": "$when",
-            "field": "System.State",
-            "value": "Active"
-        }
-    ],
-    "actions": [
-        {
-            "actionType": "$copyValue",
-            "targetField": "Microsoft.VSTS.Common.Severity",
-            "value": "1 - Critical"
-        }
-    ],
-    "isDisabled": true
+"name": "myRule",
+"conditions": [
+{
+"conditionType": "$when",
+"field": "Microsoft.VSTS.Common.Priority",
+"value": "1"
+},
+{
+"conditionType": "$when",
+"field": "System.State",
+"value": "Active"
+}
+],
+"actions": [
+{
+"actionType": "$copyValue",
+"targetField": "Microsoft.VSTS.Common.Severity",
+"value": "1 - Critical"
+}
+],
+"isDisabled": true
 }
 "@
 ```

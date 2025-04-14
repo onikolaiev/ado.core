@@ -601,5 +601,40 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>ADO.CORE.WorkItem</Name>
+			<ViewSelectedBy>
+				<TypeName>ADO.CORE.WorkItem</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>_links</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>commentVersionRef</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>fields</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>id</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>relations</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>rev</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>url</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

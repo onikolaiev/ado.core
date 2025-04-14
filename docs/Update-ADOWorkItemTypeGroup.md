@@ -27,13 +27,13 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-    "controls": null,
-    "id": "faf0f718-776c-422a-9424-3c5f7952901c",
-    "label": "NewGroup1",
-    "order": null,
-    "overridden": null,
-    "inherited": null,
-    "visible": null
+"controls": null,
+"id": "faf0f718-776c-422a-9424-3c5f7952901c",
+"label": "NewGroup1",
+"order": null,
+"overridden": null,
+"inherited": null,
+"visible": null
 }
 "@
 ```

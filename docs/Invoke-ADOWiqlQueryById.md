@@ -5,37 +5,36 @@ online version:
 schema: 2.0.0
 ---
 
-# Hide-ADOWorkItemTypeState
+# Invoke-ADOWiqlQueryById
 
 ## SYNOPSIS
-Hides a state definition in the work item type of the process.
+Executes a WIQL query in Azure DevOps using a query ID and retrieves the results.
 
 ## SYNTAX
 
 ```
-Hide-ADOWorkItemTypeState [-Organization] <String> [-Token] <String> [-ProcessId] <String>
- [-WitRefName] <String> [-StateId] <String> [-Hidden] <String> [[-ApiVersion] <String>]
+Invoke-ADOWiqlQueryById [-Organization] <String> [[-Project] <String>] [[-Team] <String>] [-Token] <String>
+ [-QueryId] <String> [-TimePrecision] [[-Top] <Int32>] [[-ApiVersion] <String>]
  [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOps REST API and hide a state definition in a specified work item type of a process.
-Only states with \`customizationType: System\` can be hidden.
+This function allows you to execute a WIQL query in Azure DevOps by providing the query ID.
+It supports optional parameters to limit the number of results, enable time precision, and specify a team context.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-$body = @"
-{
-"hidden": "true"
-}
-"@
+# Example 1: Execute a WIQL query by ID
+Invoke-ADOWiqlQueryById -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc"
 ```
 
-Hide-ADOWorkItemTypeState -Organization "fabrikam" -Token "my-token" -ProcessId "a6c1d9b6-ea27-407d-8c40-c9b7ab112bb6" -WitRefName "Agile1.Bug" -StateId "f36cfea7-889a-448e-b5d1-fbc9b134ec82" -Hidden $true
-
-Hides the specified state definition in the work item type of the process.
+### EXAMPLE 2
+```
+# Example 2: Execute a WIQL query by ID with time precision and limit results to 10
+Invoke-ADOWiqlQueryById -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc" -TimePrecision $true -Top 10
+```
 
 ## PARAMETERS
 
@@ -54,38 +53,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Token
-The authentication token for accessing Azure DevOps.
+### -Project
+(Optional) The name or ID of the Azure DevOps project.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProcessId
-The ID of the process.
+### -Team
+(Optional) The name or ID of the Azure DevOps team.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WitRefName
-The reference name of the work item type.
+### -Token
+The personal access token (PAT) used for authentication.
 
 ```yaml
 Type: String
@@ -99,8 +98,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -StateId
-The ID of the state to hide.
+### -QueryId
+The ID of the WIQL query to execute.
 
 ```yaml
 Type: String
@@ -114,24 +113,40 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Hidden
-Boolean value indicating whether the state should be hidden.
+### -TimePrecision
+(Optional) Whether or not to use time precision.
+Default is \`$false\`.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Top
+(Optional) The maximum number of results to return.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: 6
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-The version of the Azure DevOps REST API to use.
-Default is "7.1".
+(Optional) The API version to use.
+Default is \`7.1\`.
 
 ```yaml
 Type: String
@@ -168,8 +183,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-This function follows PSFramework best practices for logging and error handling.
-
 Author: Oleksandr Nikolaiev (@onikolaiev)
+This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
 
 ## RELATED LINKS

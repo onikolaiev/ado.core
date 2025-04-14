@@ -26,24 +26,24 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-    "name": "New Work Item Field",
-    "referenceName": "SupportedOperations.GreaterThanEquals",
-    "description": null,
-    "type": "string",
-    "usage": "workItem",
-    "readOnly": false,
-    "canSortBy": true,
-    "isQueryable": true,
-    "supportedOperations": [
-        {
-            "referenceName": "SupportedOperations.Equals",
-            "name": "="
-        }
-    ],
-    "isIdentity": true,
-    "isPicklist": false,
-    "isPicklistSuggested": false,
-    "url": null
+"name": "New Work Item Field",
+"referenceName": "SupportedOperations.GreaterThanEquals",
+"description": null,
+"type": "string",
+"usage": "workItem",
+"readOnly": false,
+"canSortBy": true,
+"isQueryable": true,
+"supportedOperations": [
+{
+"referenceName": "SupportedOperations.Equals",
+"name": "="
+}
+],
+"isIdentity": true,
+"isPicklist": false,
+"isPicklistSuggested": false,
+"url": null
 }
 "@
 ```

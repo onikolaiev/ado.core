@@ -26,15 +26,15 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-    "id": "a07a079a-c79e-4221-9436-a9d732a8a4d0",
-    "name": null,
-    "type": null,
-    "items": [
-        "Blue",
-        "Red"
-    ],
-    "isSuggested": false,
-    "url": null
+"id": "a07a079a-c79e-4221-9436-a9d732a8a4d0",
+"name": null,
+"type": null,
+"items": [
+"Blue",
+"Red"
+],
+"isSuggested": false,
+"url": null
 }
 "@
 ```

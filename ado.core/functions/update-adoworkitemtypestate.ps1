@@ -66,7 +66,7 @@ function Update-ADOWorkItemTypeState {
         [string]$Body,
 
         [Parameter()]
-        [string]$ApiVersion = "7.1"
+        [string]$ApiVersion = $Script:ADOApiVersion
     )
 
     begin {

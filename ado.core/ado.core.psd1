@@ -145,6 +145,13 @@ FunctionsToExport = @(
     'Add-ADOProcess',
     'Update-ADOProcess',
     'Remove-ADOProcess',
+
+    'Get-ADOWorkItemList',
+    'Get-ADOWorkItem',
+
+    'Invoke-ADOWiqlQueryByWiql',
+    'Invoke-ADOWiqlQueryById',
+    'Invoke-ADOWiqlQuery',
     
     'Enable-ADOException',
     'Disable-ADOException'
