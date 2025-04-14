@@ -116,7 +116,7 @@ function Invoke-ADOWiqlQuery {
             # Log the error
             Write-PSFMessage -Level Error -Message "Failed to check WIQL query existence: $($_.ErrorDetails.Message)" -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors"
-            return $false
+            return
         }
     }
 
