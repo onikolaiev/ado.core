@@ -5,44 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# Update-ADOWorkItemTypePage
+# Remove-ADOWorkItem
 
 ## SYNOPSIS
-Updates a page on the work item form.
+Deletes a work item in Azure DevOps.
 
 ## SYNTAX
 
 ```
-Update-ADOWorkItemTypePage [-Organization] <String> [-Token] <String> [-ProcessId] <String>
- [-WitRefName] <String> [-Body] <String> [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Remove-ADOWorkItem [-Organization] <String> [[-Project] <String>] [-Token] <String> [-Id] <Int32> [-Destroy]
+ [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOps REST API and update a page in the layout of a specified work item type.
+This function deletes a specified work item in Azure DevOps and sends it to the Recycle Bin.
+Optionally, the work item can be permanently destroyed if the \`Destroy\` parameter is set to \`$true\`.
+**WARNING**: If \`Destroy\` is set to \`$true\`, the deletion is permanent and cannot be undone.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-$body = @"
-{
-"sections": null,
-"id": "230f8598-71ed-4192-917e-aa1aacc5174a",
-"label": "Page2",
-"overridden": null,
-"inherited": null,
-"visible": true,
-"locked": false,
-"pageType": "custom",
-"contribution": null
-}
-"@
+# Example 1: Delete a work item and send it to the Recycle Bin
 ```
 
-Update-ADOWorkItemTypePage -Organization "fabrikam" -Token "my-token" -ProcessId "c5ef8a1b-4f0d-48ce-96c4-20e62993c218" -WitRefName "MyNewAgileProcess.ChangeRequest" -Body $body
+Remove-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Id 12345
 
-Updates the specified page in the work item type.
+### EXAMPLE 2
+```
+# Example 2: Permanently delete a work item
+```
+
+Remove-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Id 12345 -Destroy $true
 
 ## PARAMETERS
 
@@ -61,23 +55,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Token
-The authentication token for accessing Azure DevOps.
+### -Project
+(Optional) The name or ID of the Azure DevOps project.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProcessId
-The ID of the process where the work item type exists.
+### -Token
+The personal access token (PAT) used for authentication.
 
 ```yaml
 Type: String
@@ -91,39 +85,40 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WitRefName
-The reference name of the work item type.
+### -Id
+The ID of the work item to delete.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: True
 Position: 4
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Body
-The JSON string containing the properties for the page to update.
+### -Destroy
+(Optional) Indicates if the work item should be permanently destroyed.
+Default is \`$false\`.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 5
-Default value: None
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-The version of the Azure DevOps REST API to use.
-Default is "7.1".
+(Optional) The API version to use.
+Default is \`$Script:ADOApiVersion\`.
 
 ```yaml
 Type: String
@@ -131,7 +126,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: $Script:ADOApiVersion
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -160,8 +155,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-This function follows PSFramework best practices for logging and error handling.
-
 Author: Oleksandr Nikolaiev (@onikolaiev)
+
+This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
 
 ## RELATED LINKS

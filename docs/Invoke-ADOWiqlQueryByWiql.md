@@ -27,16 +27,18 @@ It supports optional parameters to limit the number of results, enable time prec
 ### EXAMPLE 1
 ```
 # Example 1: Execute a WIQL query to retrieve all active tasks
-$query = "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' AND [State] <> 'Closed' order by [System.CreatedDate] desc"
-Invoke-ADOWiqlQueryByWiql -Organization "my-org" -Project "my-project" -Token "my-token" -Query $query
 ```
+
+$query = "Select \[System.Id\], \[System.Title\], \[System.State\] From WorkItems Where \[System.WorkItemType\] = 'Task' AND \[State\] \<\> 'Closed' order by \[System.CreatedDate\] desc"
+Invoke-ADOWiqlQueryByWiql -Organization "my-org" -Project "my-project" -Token "my-token" -Query $query
 
 ### EXAMPLE 2
 ```
 # Example 2: Execute a WIQL query with time precision and limit results to 10
-$query = "Select [System.Id], [System.Title] From WorkItems Where [System.WorkItemType] = 'Bug'"
-Invoke-ADOWiqlQueryByWiql -Organization "my-org" -Project "my-project" -Token "my-token" -Query $query -TimePrecision $true -Top 10
 ```
+
+$query = "Select \[System.Id\], \[System.Title\] From WorkItems Where \[System.WorkItemType\] = 'Bug'"
+Invoke-ADOWiqlQueryByWiql -Organization "my-org" -Project "my-project" -Token "my-token" -Query $query -TimePrecision $true -Top 10
 
 ## PARAMETERS
 
@@ -185,7 +187,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
+
+Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS

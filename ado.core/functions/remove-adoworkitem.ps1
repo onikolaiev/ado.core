@@ -28,14 +28,17 @@
         
     .EXAMPLE
         # Example 1: Delete a work item and send it to the Recycle Bin
+        
         Remove-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Id 12345
         
     .EXAMPLE
         # Example 2: Permanently delete a work item
+        
         Remove-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Id 12345 -Destroy $true
         
     .NOTES
         Author: Oleksandr Nikolaiev (@onikolaiev)
+        
         This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
 #>
 
@@ -87,6 +90,7 @@ function Remove-ADOWorkItem {
                                              -Token $Token `
                                              -ApiUri $apiUri `
                                              -Method "DELETE" `
+                                             -Headers @{"Content-Type" = "application/json"} `
                                              -ApiVersion $ApiVersion
 
             # Log the successful response

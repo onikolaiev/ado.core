@@ -5,37 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# Update-ADOWorkItemTypeState
+# Get-ADOWorkItemsList
 
 ## SYNOPSIS
-Updates a given state definition in the work item type of the process.
+Retrieves a list of work items by their IDs.
 
 ## SYNTAX
 
 ```
-Update-ADOWorkItemTypeState [-Organization] <String> [-Token] <String> [-ProcessId] <String>
- [-WitRefName] <String> [-StateId] <String> [-Body] <String> [[-ApiVersion] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-ADOWorkItemsList [-Organization] <String> [-Token] <String> [[-Project] <String>] [-Ids] <String>
+ [[-Fields] <String>] [[-Expand] <String>] [[-AsOf] <String>] [[-ErrorPolicy] <String>]
+ [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOps REST API and update a state definition for a specified work item type.
+This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOps REST API and retrieve a list of work items based on their IDs.
+Additional parameters allow filtering by fields, expanding attributes, and specifying error handling policies.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-$body = @"
-{
-"name": "CustomState2",
-"color": "5688E0"
-}
-"@
+Get-ADOWorkItemsList -Organization "fabrikam" -Token "my-token" -Ids "297,299,300"
 ```
 
-Update-ADOWorkItemTypeState -Organization "fabrikam" -Token "my-token" -ProcessId "c5ef8a1b-4f0d-48ce-96c4-20e62993c218" -WitRefName "MyNewAgileProcess.ChangeRequest" -StateId "dada09e4-6f80-46b5-887b-8051981bcf00" -Body $body
+Retrieves the specified work items by their IDs.
 
-Updates the specified state definition for the work item type.
+### EXAMPLE 2
+```
+Get-ADOWorkItemsList -Organization "fabrikam" -Token "my-token" -Ids "297,299,300" -Fields "System.Id,System.Title,System.WorkItemType" -Expand "Fields"
+```
+
+Retrieves the specified work items with specific fields expanded.
 
 ## PARAMETERS
 
@@ -69,23 +70,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProcessId
-The ID of the process where the work item type exists.
+### -Project
+The ID or name of the project.
+This parameter is optional.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WitRefName
-The reference name of the work item type.
+### -Ids
+A comma-separated list of work item IDs to retrieve (maximum 200 IDs).
 
 ```yaml
 Type: String
@@ -99,39 +101,39 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -StateId
-The ID of the state to update.
+### -Fields
+A comma-separated list of requested fields.
+This parameter is optional.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Body
-The JSON string containing the properties to update for the state.
+### -Expand
+Optional parameter to expand specific attributes of the work items (e.g., None, Relations, Fields, Links, All).
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ApiVersion
-The version of the Azure DevOps REST API to use.
-Default is "7.1".
+### -AsOf
+Optional parameter to specify the UTC date-time string for retrieving work items as of a specific time.
 
 ```yaml
 Type: String
@@ -140,6 +142,37 @@ Aliases:
 
 Required: False
 Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ErrorPolicy
+Optional parameter to specify the error policy (e.g., Fail, Omit).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ApiVersion
+(Optional) The API version to use.
+Default is \`7.1\`.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
 Default value: $Script:ADOApiVersion
 Accept pipeline input: False
 Accept wildcard characters: False

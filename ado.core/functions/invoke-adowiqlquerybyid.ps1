@@ -33,15 +33,18 @@
         
     .EXAMPLE
         # Example 1: Execute a WIQL query by ID
+        
         Invoke-ADOWiqlQueryById -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc"
         
     .EXAMPLE
         # Example 2: Execute a WIQL query by ID with time precision and limit results to 10
+        
         Invoke-ADOWiqlQueryById -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc" -TimePrecision $true -Top 10
         
     .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
         This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
+        
+        Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 
 function Invoke-ADOWiqlQueryById {

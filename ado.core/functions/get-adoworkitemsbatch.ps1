@@ -36,15 +36,18 @@
         
     .EXAMPLE
         # Example 1: Retrieve a batch of work items by IDs
+        
         Get-ADOWorkItemsBatch -Organization "my-org" -Token "my-token" -Ids @(297, 299, 300)
         
     .EXAMPLE
         # Example 2: Retrieve a batch of work items with specific fields and expand attributes
+        
         Get-ADOWorkItemsBatch -Organization "my-org" -Token "my-token" -Ids @(297, 299, 300) -Fields @("System.Id", "System.Title") -Expand "Relations"
         
     .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
         This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
+        
+        Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 
 function Get-ADOWorkItemsBatch {

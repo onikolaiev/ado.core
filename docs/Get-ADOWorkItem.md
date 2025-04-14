@@ -27,14 +27,16 @@ It supports optional parameters to specify fields, expand attributes, and retrie
 ### EXAMPLE 1
 ```
 # Example 1: Retrieve a work item by ID
-Get-ADOWorkItem -Organization "my-org" -Token "my-token" -Id 12345
 ```
+
+Get-ADOWorkItem -Organization "my-org" -Token "my-token" -Id 12345
 
 ### EXAMPLE 2
 ```
 # Example 2: Retrieve a work item with specific fields and expand attributes
-Get-ADOWorkItem -Organization "my-org" -Token "my-token" -Id 12345 -Fields "System.Title,System.State" -Expand "Relations"
 ```
+
+Get-ADOWorkItem -Organization "my-org" -Token "my-token" -Id 12345 -Fields "System.Title,System.State" -Expand "Relations"
 
 ## PARAMETERS
 
@@ -183,7 +185,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
+
+Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS

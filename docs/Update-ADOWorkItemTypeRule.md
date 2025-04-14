@@ -160,7 +160,7 @@ Aliases:
 
 Required: False
 Position: 7
-Default value: 7.1
+Default value: $Script:ADOApiVersion
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -27,14 +27,16 @@ It supports optional parameters to limit the number of results, enable time prec
 ### EXAMPLE 1
 ```
 # Example 1: Check the existence of a WIQL query by ID
-Invoke-ADOWiqlQuery -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc"
 ```
+
+Invoke-ADOWiqlQuery -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc"
 
 ### EXAMPLE 2
 ```
 # Example 2: Check the existence of a WIQL query by ID with time precision and limit results to 10
-Invoke-ADOWiqlQuery -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc" -TimePrecision $true -Top 10
 ```
+
+Invoke-ADOWiqlQuery -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc" -TimePrecision $true -Top 10
 
 ## PARAMETERS
 
@@ -183,7 +185,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
+
+Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS

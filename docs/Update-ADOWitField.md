@@ -5,44 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# Update-ADOWorkItemTypePage
+# Update-ADOWitField
 
 ## SYNOPSIS
-Updates a page on the work item form.
+Updates a field in Azure DevOps.
 
 ## SYNTAX
 
 ```
-Update-ADOWorkItemTypePage [-Organization] <String> [-Token] <String> [-ProcessId] <String>
- [-WitRefName] <String> [-Body] <String> [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Update-ADOWitField [-Organization] <String> [[-Project] <String>] [-Token] <String>
+ [-FieldNameOrRefName] <String> [-IsLocked] [-IsDeleted] [[-ApiVersion] <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOps REST API and update a page in the layout of a specified work item type.
+This function updates a specified field in Azure DevOps.
+It supports optional parameters to lock or unlock the field and to restore or delete the field.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-$body = @"
-{
-"sections": null,
-"id": "230f8598-71ed-4192-917e-aa1aacc5174a",
-"label": "Page2",
-"overridden": null,
-"inherited": null,
-"visible": true,
-"locked": false,
-"pageType": "custom",
-"contribution": null
-}
-"@
+# Example 1: Lock a field
 ```
 
-Update-ADOWorkItemTypePage -Organization "fabrikam" -Token "my-token" -ProcessId "c5ef8a1b-4f0d-48ce-96c4-20e62993c218" -WitRefName "MyNewAgileProcess.ChangeRequest" -Body $body
+Update-ADOWitField -Organization "my-org" -Token "my-token" -FieldNameOrRefName "Custom.TestField" -IsLocked $true
 
-Updates the specified page in the work item type.
+### EXAMPLE 2
+```
+# Example 2: Restore a deleted field
+```
+
+Update-ADOWitField -Organization "my-org" -Token "my-token" -FieldNameOrRefName "Custom.TestField" -IsDeleted $false
 
 ## PARAMETERS
 
@@ -61,23 +55,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Token
-The authentication token for accessing Azure DevOps.
+### -Project
+(Optional) The name or ID of the Azure DevOps project.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProcessId
-The ID of the process where the work item type exists.
+### -Token
+The personal access token (PAT) used for authentication.
 
 ```yaml
 Type: String
@@ -91,8 +85,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WitRefName
-The reference name of the work item type.
+### -FieldNameOrRefName
+The name or reference name of the field to update.
 
 ```yaml
 Type: String
@@ -106,24 +100,39 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Body
-The JSON string containing the properties for the page to update.
+### -IsLocked
+(Optional) Indicates whether the field should be locked for editing.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 5
-Default value: None
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IsDeleted
+(Optional) Indicates whether the field should be restored or deleted.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-The version of the Azure DevOps REST API to use.
-Default is "7.1".
+(Optional) The API version to use.
+Default is \`7.1\`.
 
 ```yaml
 Type: String
@@ -131,7 +140,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: $Script:ADOApiVersion
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -160,7 +169,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-This function follows PSFramework best practices for logging and error handling.
+This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
 
 Author: Oleksandr Nikolaiev (@onikolaiev)
 

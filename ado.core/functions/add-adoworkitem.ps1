@@ -61,8 +61,9 @@
         Add-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Type "Bug" -Body $body -ValidateOnly $true
         
     .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
         This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
+        
+        Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 
 function Add-ADOWorkItem {

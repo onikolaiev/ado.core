@@ -5,38 +5,52 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-ADOWiqlQueryById
+# Update-ADOWorkItem
 
 ## SYNOPSIS
-Executes a WIQL query in Azure DevOps using a query ID and retrieves the results.
+Updates a work item in Azure DevOps.
 
 ## SYNTAX
 
 ```
-Invoke-ADOWiqlQueryById [-Organization] <String> [[-Project] <String>] [[-Team] <String>] [-Token] <String>
- [-QueryId] <String> [-TimePrecision] [[-Top] <Int32>] [[-ApiVersion] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Update-ADOWorkItem [-Organization] <String> [[-Project] <String>] [-Token] <String> [-Id] <Int32>
+ [-Body] <PSObject[]> [-ValidateOnly] [-BypassRules] [-SuppressNotifications] [[-Expand] <String>]
+ [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function allows you to execute a WIQL query in Azure DevOps by providing the query ID.
-It supports optional parameters to limit the number of results, enable time precision, and specify a team context.
+This function updates a specified work item in Azure DevOps using a JSON Patch document.
+It supports optional parameters to validate changes, bypass rules, suppress notifications, and expand additional attributes of the work item.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-# Example 1: Execute a WIQL query by ID
+# Example 1: Update a work item by ID
+$body = @(
+    @{
+        op    = "add"
+        path  = "/fields/System.Title"
+        value = "Updated Title"
+    }
+)
 ```
 
-Invoke-ADOWiqlQueryById -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc"
+Update-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Id 12345 -Body $body
 
 ### EXAMPLE 2
 ```
-# Example 2: Execute a WIQL query by ID with time precision and limit results to 10
+# Example 2: Validate an update without saving
+$body = @(
+    @{
+        op    = "add"
+        path  = "/fields/System.History"
+        value = "Adding a comment for context"
+    }
+)
 ```
 
-Invoke-ADOWiqlQueryById -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc" -TimePrecision $true -Top 10
+Update-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Id 12345 -Body $body -ValidateOnly $true
 
 ## PARAMETERS
 
@@ -70,21 +84,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Team
-(Optional) The name or ID of the Azure DevOps team.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Token
 The personal access token (PAT) used for authentication.
 
@@ -94,17 +93,32 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 4
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -QueryId
-The ID of the WIQL query to execute.
+### -Id
+The ID of the work item to update.
 
 ```yaml
-Type: String
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 4
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Body
+The JSON Patch document containing the fields and values to update.
+
+```yaml
+Type: PSObject[]
 Parameter Sets: (All)
 Aliases:
 
@@ -115,8 +129,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -TimePrecision
-(Optional) Whether or not to use time precision.
+### -ValidateOnly
+(Optional) Indicates if you only want to validate the changes without saving the work item.
 Default is \`$false\`.
 
 ```yaml
@@ -131,17 +145,50 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Top
-(Optional) The maximum number of results to return.
+### -BypassRules
+(Optional) Indicates if work item type rules should be bypassed.
+Default is \`$false\`.
 
 ```yaml
-Type: Int32
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SuppressNotifications
+(Optional) Indicates if notifications should be suppressed for this change.
+Default is \`$false\`.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Expand
+(Optional) Specifies the expand parameters for work item attributes.
+Possible values are \`None\`, \`Relations\`, \`Fields\`, \`Links\`, or \`All\`.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 6
-Default value: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -33,15 +33,18 @@
         
     .EXAMPLE
         # Example 1: Retrieve a work item by ID
+        
         Get-ADOWorkItem -Organization "my-org" -Token "my-token" -Id 12345
         
     .EXAMPLE
         # Example 2: Retrieve a work item with specific fields and expand attributes
+        
         Get-ADOWorkItem -Organization "my-org" -Token "my-token" -Id 12345 -Fields "System.Title,System.State" -Expand "Relations"
         
     .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
         This function is part of the ADO Tools module and adheres to the conventions used in the module for logging, error handling, and API interaction.
+        
+        Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 
 function Get-ADOWorkItem {

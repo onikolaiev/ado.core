@@ -5,38 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-ADOWiqlQueryById
+# Get-ADOWorkItemsBatch
 
 ## SYNOPSIS
-Executes a WIQL query in Azure DevOps using a query ID and retrieves the results.
+Retrieves a batch of work items from Azure DevOps by their IDs.
 
 ## SYNTAX
 
 ```
-Invoke-ADOWiqlQueryById [-Organization] <String> [[-Project] <String>] [[-Team] <String>] [-Token] <String>
- [-QueryId] <String> [-TimePrecision] [[-Top] <Int32>] [[-ApiVersion] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-ADOWorkItemsBatch [-Organization] <String> [[-Project] <String>] [-Token] <String> [-Ids] <String[]>
+ [[-Fields] <String[]>] [[-Expand] <String>] [[-AsOf] <DateTime>] [[-ErrorPolicy] <String>]
+ [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function allows you to execute a WIQL query in Azure DevOps by providing the query ID.
-It supports optional parameters to limit the number of results, enable time precision, and specify a team context.
+This function retrieves a batch of work items from Azure DevOps using their IDs.
+It supports optional parameters to specify fields, expand attributes, control error policy, and retrieve work items as of a specific date.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-# Example 1: Execute a WIQL query by ID
+# Example 1: Retrieve a batch of work items by IDs
 ```
 
-Invoke-ADOWiqlQueryById -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc"
+Get-ADOWorkItemsBatch -Organization "my-org" -Token "my-token" -Ids @(297, 299, 300)
 
 ### EXAMPLE 2
 ```
-# Example 2: Execute a WIQL query by ID with time precision and limit results to 10
+# Example 2: Retrieve a batch of work items with specific fields and expand attributes
 ```
 
-Invoke-ADOWiqlQueryById -Organization "my-org" -Project "my-project" -Token "my-token" -QueryId "12345678-1234-1234-1234-123456789abc" -TimePrecision $true -Top 10
+Get-ADOWorkItemsBatch -Organization "my-org" -Token "my-token" -Ids @(297, 299, 300) -Fields @("System.Id", "System.Title") -Expand "Relations"
 
 ## PARAMETERS
 
@@ -70,26 +70,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Team
-(Optional) The name or ID of the Azure DevOps team.
+### -Token
+The personal access token (PAT) used for authentication.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Token
-The personal access token (PAT) used for authentication.
+### -Ids
+The list of work item IDs to retrieve (maximum 200).
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -100,48 +100,64 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -QueryId
-The ID of the WIQL query to execute.
+### -Fields
+(Optional) A list of fields to include in the response.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -TimePrecision
-(Optional) Whether or not to use time precision.
-Default is \`$false\`.
+### -Expand
+(Optional) Specifies the expand parameters for work item attributes.
+Possible values are \`None\`, \`Relations\`, \`Fields\`, \`Links\`, or \`All\`.
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Top
-(Optional) The maximum number of results to return.
-
-```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 6
-Default value: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AsOf
+(Optional) The UTC date-time string to retrieve the work items as of a specific date.
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ErrorPolicy
+(Optional) The error policy for the request.
+Possible values are \`Fail\` or \`Omit\`.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: Fail
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -156,7 +172,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 9
 Default value: $Script:ADOApiVersion
 Accept pipeline input: False
 Accept wildcard characters: False
