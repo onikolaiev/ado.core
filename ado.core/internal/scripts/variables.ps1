@@ -1,2 +1,2 @@
 ﻿$Script:TimeSignals = @{ }
-$Script:ADOApiVersion = $Script:ADOApiVersion
+$Script:ADOApiVersion = "7.1"
