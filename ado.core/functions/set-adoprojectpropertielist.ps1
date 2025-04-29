@@ -26,9 +26,9 @@
         $body = @"
         [
         {
-        "op": "add",
-        "path": "/Alias",
-        "value": "Fabrikam"
+            "op": "add",
+            "path": "/Alias",
+            "value": "Fabrikam"
         }
         ]
         "@
@@ -41,8 +41,8 @@
         $body = @"
         [
         {
-        "op": "remove",
-        "path": "/Alias"
+            "op": "remove",
+            "path": "/Alias"
         }
         ]
         "@

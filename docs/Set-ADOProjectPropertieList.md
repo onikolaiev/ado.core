@@ -28,9 +28,9 @@ It supports operations such as add, remove, replace, and more using JSON Patch.
 $body = @"
 [
 {
-"op": "add",
-"path": "/Alias",
-"value": "Fabrikam"
+    "op": "add",
+    "path": "/Alias",
+    "value": "Fabrikam"
 }
 ]
 "@
@@ -45,8 +45,8 @@ Creates or updates the "Alias" property for the specified project.
 $body = @"
 [
 {
-"op": "remove",
-"path": "/Alias"
+    "op": "remove",
+    "path": "/Alias"
 }
 ]
 "@

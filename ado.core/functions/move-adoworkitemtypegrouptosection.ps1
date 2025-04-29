@@ -39,14 +39,14 @@
     .EXAMPLE
         $body = @"
         {
-        "id": "faf0f718-776c-422a-9424-3c5f7952901c",
-        "label": "NewGroup1",
-        "controls": null,
-        "order": 1,
-        "visible": true,
-        "contribution": null,
-        "isContribution": false,
-        "height": null
+            "id": "faf0f718-776c-422a-9424-3c5f7952901c",
+            "label": "NewGroup1",
+            "controls": null,
+            "order": 1,
+            "visible": true,
+            "contribution": null,
+            "isContribution": false,
+            "height": null
         }
         "@
         

@@ -27,9 +27,9 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-"name": "Ready to test",
-"color": "b2b2b2",
-"stateCategory": "Proposed"
+    "name": "Ready to test",
+    "color": "b2b2b2",
+    "stateCategory": "Proposed"
 }
 "@
 ```

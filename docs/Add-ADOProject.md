@@ -26,16 +26,16 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-"name": "FabrikamTravel",
-"description": "Fabrikam travel app for Windows Phone",
-"capabilities": {
-"versioncontrol": {
-"sourceControlType": "Git"
-},
-"processTemplate": {
-"templateTypeId": "6b724908-ef14-45cf-84f8-768b5384da45"
-}
-}
+    "name": "FabrikamTravel",
+    "description": "Fabrikam travel app for Windows Phone",
+    "capabilities": {
+        "versioncontrol": {
+            "sourceControlType": "Git"
+        },
+        "processTemplate": {
+            "templateTypeId": "6b724908-ef14-45cf-84f8-768b5384da45"
+        }
+    }
 }
 "@
 ```

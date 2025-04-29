@@ -25,12 +25,12 @@
     .EXAMPLE
         $body = @"
         {
-        "name": "Change Request",
-        "description": "Tracks requests for changes",
-        "color": "f6546a",
-        "icon": "icon_airplane",
-        "isDisabled": false,
-        "inheritsFrom": null
+            "name": "Change Request",
+            "description": "Tracks requests for changes",
+            "color": "f6546a",
+            "icon": "icon_airplane",
+            "isDisabled": false,
+            "inheritsFrom": null
         }
         "@
         

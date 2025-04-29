@@ -27,9 +27,9 @@
     .EXAMPLE
         $body = @"
         {
-        "referenceName": "Custom.Fields.Colors",
-        "defaultValue": "",
-        "allowGroups": false
+            "referenceName": "Custom.Fields.Colors",
+            "defaultValue": "",
+            "allowGroups": false
         }
         "@
         

@@ -21,10 +21,10 @@
     .EXAMPLE
         $body = @"
         {
-        "name": "MyNewAgileProcess",
-        "parentProcessTypeId": "adcc42ab-9882-485e-a3ed-7678f01f66bc",
-        "referenceName": "fabrikam.MyNewAgileProcess",
-        "description": "My new process"
+            "name": "MyNewAgileProcess",
+            "parentProcessTypeId": "adcc42ab-9882-485e-a3ed-7678f01f66bc",
+            "referenceName": "fabrikam.MyNewAgileProcess",
+            "description": "My new process"
         }
         "@
         

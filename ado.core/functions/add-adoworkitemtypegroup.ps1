@@ -33,13 +33,13 @@
     .EXAMPLE
         $body = @"
         {
-        "controls": null,
-        "id": null,
-        "label": "NewGroup",
-        "order": null,
-        "overridden": null,
-        "inherited": null,
-        "visible": true
+            "controls": null,
+            "id": null,
+            "label": "NewGroup",
+            "order": null,
+            "overridden": null,
+            "inherited": null,
+            "visible": true
         }
         "@
         

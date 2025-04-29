@@ -46,9 +46,10 @@
         This example retrieves only the first page of projects in the specified organization.
         
     .NOTES
-        - The function uses the Azure DevOps REST API.
-        - An authentication token is required.
-        - Handles pagination through continuation tokens.
+            - The function uses the Azure DevOps REST API.
+            - An authentication token is required.
+            - Handles pagination through continuation tokens.
+        Author: Oleksandr Nikolaiev
 #>
 
 function Invoke-ADOApiRequest {

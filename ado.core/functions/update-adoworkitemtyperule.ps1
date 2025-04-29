@@ -30,28 +30,28 @@
     .EXAMPLE
         $body = @"
         {
-        "id": "238ea945-a184-47f1-b458-9f858e9e552f",
-        "name": "myRule",
-        "conditions": [
-        {
-        "conditionType": "$when",
-        "field": "Microsoft.VSTS.Common.Priority",
-        "value": "1"
-        },
-        {
-        "conditionType": "$when",
-        "field": "System.State",
-        "value": "Active"
-        }
-        ],
-        "actions": [
-        {
-        "actionType": "$copyValue",
-        "targetField": "Microsoft.VSTS.Common.Severity",
-        "value": "1 - Critical"
-        }
-        ],
-        "isDisabled": true
+            "id": "238ea945-a184-47f1-b458-9f858e9e552f",
+            "name": "myRule",
+            "conditions": [
+            {
+                "conditionType": "$when",
+                "field": "Microsoft.VSTS.Common.Priority",
+                "value": "1"
+            },
+            {
+                "conditionType": "$when",
+                "field": "System.State",
+                "value": "Active"
+            }
+            ],
+            "actions": [
+            {
+                "actionType": "$copyValue",
+                "targetField": "Microsoft.VSTS.Common.Severity",
+                "value": "1 - Critical"
+            }
+            ],
+            "isDisabled": true
         }
         "@
         

@@ -30,8 +30,8 @@
     .EXAMPLE
         $body = @"
         {
-        "name": "CustomState2",
-        "color": "5688E0"
+            "name": "CustomState2",
+            "color": "5688E0"
         }
         "@
         

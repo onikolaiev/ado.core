@@ -27,15 +27,15 @@
     .EXAMPLE
         $body = @"
         {
-        "sections": null,
-        "id": "230f8598-71ed-4192-917e-aa1aacc5174a",
-        "label": "Page2",
-        "overridden": null,
-        "inherited": null,
-        "visible": true,
-        "locked": false,
-        "pageType": "custom",
-        "contribution": null
+            "sections": null,
+            "id": "230f8598-71ed-4192-917e-aa1aacc5174a",
+            "label": "Page2",
+            "overridden": null,
+            "inherited": null,
+            "visible": true,
+            "locked": false,
+            "pageType": "custom",
+            "contribution": null
         }
         "@
         

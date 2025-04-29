@@ -24,10 +24,10 @@
     .EXAMPLE
         $body = @"
         {
-        "name": "MyNewAgileProcess_Renamed",
-        "description": "My new renamed process",
-        "isDefault": false,
-        "isEnabled": false
+            "name": "MyNewAgileProcess_Renamed",
+            "description": "My new renamed process",
+            "isDefault": false,
+            "isEnabled": false
         }
         "@
         

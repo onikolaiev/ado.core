@@ -27,10 +27,10 @@ The request body is passed as a string variable.
 ```
 $body = @"
 {
-"description": "Updated description",
-"color": "f6546a",
-"icon": "icon_airplane",
-"isDisabled": false
+    "description": "Updated description",
+    "color": "f6546a",
+    "icon": "icon_airplane",
+    "isDisabled": false
 }
 "@
 ```

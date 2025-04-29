@@ -21,16 +21,16 @@
     .EXAMPLE
         $body = @"
         {
-        "id": null,
-        "name": "picklist_aef2c045-0d2d-4f92-9d09-56eea553e1ef",
-        "type": "String",
-        "url": null,
-        "items": [
-        "Blue",
-        "Green",
-        "Red"
-        ],
-        "isSuggested": false
+            "id": null,
+            "name": "picklist_aef2c045-0d2d-4f92-9d09-56eea553e1ef",
+            "type": "String",
+            "url": null,
+            "items": [
+            "Blue",
+            "Green",
+            "Red"
+            ],
+            "isSuggested": false
         }
         "@
         

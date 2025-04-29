@@ -27,9 +27,9 @@
     .EXAMPLE
         $body = @"
         {
-        "name": "Ready to test",
-        "color": "b2b2b2",
-        "stateCategory": "Proposed"
+            "name": "Ready to test",
+            "color": "b2b2b2",
+            "stateCategory": "Proposed"
         }
         "@
         

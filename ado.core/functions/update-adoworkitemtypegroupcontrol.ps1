@@ -33,27 +33,27 @@
     .EXAMPLE
         $body = @"
         {
-        "order": null,
-        "label": "",
-        "readOnly": false,
-        "visible": true,
-        "controlType": null,
-        "id": "c1681eea-cf9e-4a32-aee9-83e97fde894a",
-        "metadata": null,
-        "inherited": null,
-        "overridden": null,
-        "watermark": null,
-        "contribution": {
-        "contributionId": "ms-devlabs.toggle-control.toggle-control-contribution",
-        "inputs": {
-        "FieldName": "System.BoardColumnDone",
-        "TrueLabel": "new value"
-        },
-        "height": null,
-        "showOnDeletedWorkItem": null
-        },
-        "isContribution": true,
-        "height": null
+            "order": null,
+            "label": "",
+            "readOnly": false,
+            "visible": true,
+            "controlType": null,
+            "id": "c1681eea-cf9e-4a32-aee9-83e97fde894a",
+            "metadata": null,
+            "inherited": null,
+            "overridden": null,
+            "watermark": null,
+            "contribution": {
+                "contributionId": "ms-devlabs.toggle-control.toggle-control-contribution",
+                "inputs": {
+                    "FieldName": "System.BoardColumnDone",
+                    "TrueLabel": "new value"
+                },
+                "height": null,
+                "showOnDeletedWorkItem": null
+            },
+            "isContribution": true,
+            "height": null
         }
         "@
         

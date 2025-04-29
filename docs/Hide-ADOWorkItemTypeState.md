@@ -28,7 +28,7 @@ Only states with \`customizationType: System\` can be hidden.
 ```
 $body = @"
 {
-"hidden": "true"
+    "hidden": "true"
 }
 "@
 ```

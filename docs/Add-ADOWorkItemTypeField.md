@@ -27,9 +27,9 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-"referenceName": "Custom.Fields.Colors",
-"defaultValue": "",
-"allowGroups": false
+    "referenceName": "Custom.Fields.Colors",
+    "defaultValue": "",
+    "allowGroups": false
 }
 "@
 ```

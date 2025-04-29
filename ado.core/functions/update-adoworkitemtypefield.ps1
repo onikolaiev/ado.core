@@ -30,7 +30,7 @@
     .EXAMPLE
         $body = @"
         {
-        "defaultValue": "Blue"
+            "defaultValue": "Blue"
         }
         "@
         

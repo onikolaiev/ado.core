@@ -25,9 +25,9 @@
     .EXAMPLE
         $body = @"
         {
-        "name": "New Project Name",
-        "description": "Updated description",
-        "visibility": "Private"
+            "name": "New Project Name",
+            "description": "Updated description",
+            "visibility": "Private"
         }
         "@
         

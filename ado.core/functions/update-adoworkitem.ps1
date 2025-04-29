@@ -40,10 +40,10 @@
     .EXAMPLE
         # Example 1: Update a work item by ID
         $body = @(
-        @{
-        op    = "add"
-        path  = "/fields/System.Title"
-        value = "Updated Title"
+            @{
+            op    = "add"
+            path  = "/fields/System.Title"
+            value = "Updated Title"
         }
         )
         
@@ -52,10 +52,10 @@
     .EXAMPLE
         # Example 2: Validate an update without saving
         $body = @(
-        @{
-        op    = "add"
-        path  = "/fields/System.History"
-        value = "Adding a comment for context"
+            @{
+            op    = "add"
+            path  = "/fields/System.History"
+            value = "Adding a comment for context"
         }
         )
         

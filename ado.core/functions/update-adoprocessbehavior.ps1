@@ -27,8 +27,8 @@
     .EXAMPLE
         $body = @"
         {
-        "name": "NewCustomBehavior",
-        "color": "FFFABC"
+            "name": "NewCustomBehavior",
+            "color": "FFFABC"
         }
         "@
         

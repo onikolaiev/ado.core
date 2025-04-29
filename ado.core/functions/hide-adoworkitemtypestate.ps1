@@ -31,7 +31,7 @@
     .EXAMPLE
         $body = @"
         {
-        "hidden": "true"
+            "hidden": "true"
         }
         "@
         

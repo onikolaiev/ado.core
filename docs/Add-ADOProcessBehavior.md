@@ -26,9 +26,9 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-"name": "NewCustomBehavior",
-"color": "009CDD",
-"inherits": "System.PortfolioBacklogBehavior"
+    "name": "NewCustomBehavior",
+    "color": "009CDD",
+    "inherits": "System.PortfolioBacklogBehavior"
 }
 "@
 ```

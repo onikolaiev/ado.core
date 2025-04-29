@@ -26,24 +26,24 @@ This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOp
 ```
 $body = @"
 {
-"sections": [
-{
-"id": "Section1",
-"groups": [],
-"overridden": false
-},
-{
-"id": "Section2",
-"groups": [],
-"overridden": false
-}
-],
-"id": "",
-"label": "Page1",
-"order": 1,
-"visible": true,
-"locked": false,
-"pageType": "custom"
+    "sections": [
+    {
+        "id": "Section1",
+        "groups": [],
+        "overridden": false
+    },
+    {
+        "id": "Section2",
+        "groups": [],
+        "overridden": false
+    }
+    ],
+    "id": "",
+    "label": "Page1",
+    "order": 1,
+    "visible": true,
+    "locked": false,
+    "pageType": "custom"
 }
 "@
 ```

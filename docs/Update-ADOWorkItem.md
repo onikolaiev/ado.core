@@ -29,10 +29,10 @@ It supports optional parameters to validate changes, bypass rules, suppress noti
 # Example 1: Update a work item by ID
 $body = @(
     @{
-        op    = "add"
-        path  = "/fields/System.Title"
-        value = "Updated Title"
-    }
+    op    = "add"
+    path  = "/fields/System.Title"
+    value = "Updated Title"
+}
 )
 ```
 
@@ -43,10 +43,10 @@ Update-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token
 # Example 2: Validate an update without saving
 $body = @(
     @{
-        op    = "add"
-        path  = "/fields/System.History"
-        value = "Adding a comment for context"
-    }
+    op    = "add"
+    path  = "/fields/System.History"
+    value = "Adding a comment for context"
+}
 )
 ```
 

@@ -27,9 +27,9 @@ It expects the request body as a JSON string parameter.
 ```
 $body = @"
 {
-"name": "New Project Name",
-"description": "Updated description",
-"visibility": "Private"
+    "name": "New Project Name",
+    "description": "Updated description",
+    "visibility": "Private"
 }
 "@
 ```

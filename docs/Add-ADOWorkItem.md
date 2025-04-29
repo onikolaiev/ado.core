@@ -29,9 +29,9 @@ It supports optional parameters to bypass rules, suppress notifications, validat
 # Example 1: Create a new Task work item
 $body = @"
 {
-"op": "add",
-"path": "/fields/System.Title",
-"value": "Sales Order Process",
+    "op": "add",
+    "path": "/fields/System.Title",
+    "value": "Sales Order Process",
 }
 "@
 ```
@@ -43,9 +43,9 @@ Add-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -
 # Example 2: Create a new Bug work item with validation only
 $body = @"
 {
-"op": "add",
-"path": "/fields/System.Title",
-"value": "Sample Bug",
+    "op": "add",
+    "path": "/fields/System.Title",
+    "value": "Sample Bug",
 }
 "@
 Add-ADOWorkItem -Organization "my-org" -Project "my-project" -Token "my-token" -Type "Bug" -Body $body -ValidateOnly $true

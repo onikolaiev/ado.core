@@ -24,9 +24,9 @@
     .EXAMPLE
         $body = @"
         {
-        "name": "NewCustomBehavior",
-        "color": "009CDD",
-        "inherits": "System.PortfolioBacklogBehavior"
+            "name": "NewCustomBehavior",
+            "color": "009CDD",
+            "inherits": "System.PortfolioBacklogBehavior"
         }
         "@
         
