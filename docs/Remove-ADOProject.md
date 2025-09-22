@@ -118,6 +118,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 This function requires the \`Invoke-ADOApiRequest\` function to be defined.
 It follows PSFramework best practices for logging and error handling.
-Author: Oleksandr Nikolaiev
+
+Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS

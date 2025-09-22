@@ -21,7 +21,7 @@ ModuleVersion = '1.0.1'
 GUID = 'd7f2b5a8-8d1e-467e-9f0c-6d5a1f3b2c8d'
 
 # Author of this module
-Author = 'Oleksandr Nikolaiev'
+Author = 'Oleksandr Nikolaiev (@onikolaiev)'
 
 # Company or vendor of this module
 CompanyName = 'Ciellos INC.'
@@ -158,7 +158,9 @@ FunctionsToExport = @(
     'Invoke-ADOWiqlQuery',
     
     'Enable-ADOException',
-    'Disable-ADOException'
+    'Disable-ADOException',
+
+    'Get-ADOSourceWorkItemsList'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

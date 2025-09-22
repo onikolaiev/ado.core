@@ -27,7 +27,8 @@
     .NOTES
         This function requires the `Invoke-ADOApiRequest` function to be defined.
         It follows PSFramework best practices for logging and error handling.
-        Author: Oleksandr Nikolaiev
+
+        Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 function Remove-ADOProject {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]

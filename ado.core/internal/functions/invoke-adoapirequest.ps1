@@ -49,7 +49,8 @@
             - The function uses the Azure DevOps REST API.
             - An authentication token is required.
             - Handles pagination through continuation tokens.
-        Author: Oleksandr Nikolaiev
+
+        Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
 
 function Invoke-ADOApiRequest {

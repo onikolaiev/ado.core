@@ -65,7 +65,7 @@ function Get-ADOWitField {
         }
     }
 
-process {
+    process {
         if (Test-PSFFunctionInterrupt) { return }      
         try {
             # Build the API URI
