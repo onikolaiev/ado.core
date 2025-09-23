@@ -88,14 +88,17 @@ function Invoke-ADOWiqlQueryByWiql {
         if (Test-PSFFunctionInterrupt) { return }
         try {
             # Build the API URI with optional parameters
-            $adoProject = Get-ADOProjectList -Organization $Organization -Token $Token -ApiVersion 7.1 |
-            Where-Object Name -eq $Project
-            if (-not $adoProject) {
-                Write-Warning \"Project '$Project' not found in organization '$Organization'\"
-                return
-            }
+
             $apiUri = "_apis/wit/wiql"
-            if ($Project) { $apiUri = "/$($adoProject.name)/$apiUri" }
+            if ($Project) { 
+                $adoProject = Get-ADOProjectList -Organization $Organization -Token $Token -ApiVersion 7.1 |
+                Where-Object Name -eq $Project
+                if (-not $adoProject) {
+                    Write-Warning \"Project '$Project' not found in organization '$Organization'\"
+                    return
+                }
+                $apiUri = "/$($adoProject.name)/$apiUri"
+            }
             if ($Team) { $apiUri = "$Team/$apiUri" }
 
             # Append query parameters directly to the URI
