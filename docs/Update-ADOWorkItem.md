@@ -14,7 +14,7 @@ Updates a work item in Azure DevOps.
 
 ```
 Update-ADOWorkItem [-Organization] <String> [[-Project] <String>] [-Token] <String> [-Id] <Int32>
- [-Body] <PSObject[]> [-ValidateOnly] [-BypassRules] [-SuppressNotifications] [[-Expand] <String>]
+ [-Body] <String> [-ValidateOnly] [-BypassRules] [-SuppressNotifications] [[-Expand] <String>]
  [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
@@ -118,7 +118,7 @@ Accept wildcard characters: False
 The JSON Patch document containing the fields and values to update.
 
 ```yaml
-Type: PSObject[]
+Type: String
 Parameter Sets: (All)
 Aliases:
 

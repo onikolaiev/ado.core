@@ -84,7 +84,7 @@ function Update-ADOWorkItem {
         [int]$Id,
 
         [Parameter(Mandatory = $true)]
-        [PSCustomObject[]]$Body,
+        [string]$Body,
 
         [Parameter(Mandatory = $false)]
         [switch]$ValidateOnly,

@@ -66,7 +66,7 @@
 		It 'Should have the expected parameter Body' {
 			$parameter = (Get-Command Update-ADOWorkItem).Parameters['Body']
 			$parameter.Name | Should -Be 'Body'
-			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.PSObject[]
+			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
