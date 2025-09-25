@@ -94,7 +94,7 @@ function Invoke-ADOWiqlQueryByWiql {
                 $adoProject = Get-ADOProjectList -Organization $Organization -Token $Token -ApiVersion 7.1 |
                 Where-Object Name -eq $Project
                 if (-not $adoProject) {
-                    Write-Warning \"Project '$Project' not found in organization '$Organization'\"
+                    Write-Warning "Project '$Project' not found in organization '$Organization'"
                     return
                 }
                 $apiUri = "/$($adoProject.name)/$apiUri"
