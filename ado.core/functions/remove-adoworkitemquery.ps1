@@ -1,28 +1,34 @@
 <#
     .SYNOPSIS
-        Deletes a query or folder.
+        Deletes a work item query or folder.
     .DESCRIPTION
-        Wraps Queries - Delete. Removes the item and its permission changes irreversibly.
+        Wraps Queries - Delete endpoint. Permanently removes the item and its permission changes.
     .OUTPUTS
-        System.String (when -PassThru)
+        System.String
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        PAT.
+        PAT (vso.work_write scope).
     .PARAMETER Query
-        Query path or id.
+        Query path or GUID.
     .PARAMETER PassThru
-        Emit the deleted identifier/path.
+        Return the supplied path/id when deletion succeeds.
     .PARAMETER ApiVersion
         API version (default 7.1).
     .PARAMETER Confirm
-        Confirmation control (SupportsShouldProcess).
+        Confirmation prompt.
     .PARAMETER WhatIf
         Simulation only.
     .EXAMPLE
         PS> Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Old' -Confirm:$false
+
+        Deletes the query or folder by path.
+    .EXAMPLE
+        PS> Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 8a8c8212-15ca-41ed-97aa-1d6fbfbcd581 -PassThru -Confirm:$false
+
+        Deletes the query by id and returns the id when successful.
     .LINK
         https://learn.microsoft.com/azure/devops
 #>

@@ -45,6 +45,7 @@
 function Get-ADOWorkItemCommentList {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding(DefaultParameterSetName = 'Paged')]
+    [OutputType([PSCustomObject[]])]
     param(
         [Parameter(Mandatory = $true)]
         [string]$Organization,

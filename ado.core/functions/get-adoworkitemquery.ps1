@@ -1,9 +1,9 @@
-
 <#
     .SYNOPSIS
-        Retrieves a single query (and optional descendants).
+        Retrieves a single work item query (optionally with descendants).
     .DESCRIPTION
-        Wraps Queries - Get endpoint with depth, expansion and deleted/ISO date options.
+        Wraps the Azure DevOps Queries - Get endpoint. Supports expansion of WIQL/clauses,
+        inclusion of deleted queries, depth for folder children and ISO date formatting.
     .OUTPUTS
         ADO.TOOLS.QueryHierarchyItem
     .PARAMETER Organization
@@ -11,31 +11,40 @@
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        PAT (vso.work scope).
+        Personal Access Token (PAT) (vso.work scope).
     .PARAMETER Query
-        Query id or path.
+        Query GUID or path (e.g. 'Shared Queries/All Bugs').
     .PARAMETER Depth
-        Child depth for folders.
+        Depth of child expansion for folders.
     .PARAMETER Expand
         none | wiql | clauses | all | minimal
     .PARAMETER IncludeDeleted
-        Include deleted queries.
+        Include deleted queries/folders.
     .PARAMETER UseIsoDateFormat
-        Format date clauses in ISO 8601.
+        Format DateTime clauses in ISO 8601.
     .PARAMETER Raw
-        Return raw object.
+        Return raw response instead of typed object.
     .PARAMETER ApiVersion
         API version (default 7.1).
     .EXAMPLE
         PS> Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/All Bugs'
+        
+        Gets the query by path.
     .EXAMPLE
-        PS> Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-... -Expand wiql
+        PS> Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-4069-46b1-a940-3d0468979ceb -Expand wiql
+        
+        Gets the query by id including WIQL text.
+    .EXAMPLE
+        PS> Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Folder' -Depth 2 -Expand clauses
+        
+        Gets a folder plus its children to depth 2 including clauses.
     .LINK
         https://learn.microsoft.com/azure/devops
 #>
 function Get-ADOWorkItemQuery {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding()]
+    [OutputType('ADO.TOOLS.QueryHierarchyItem')]
     param(
         [Parameter(Mandatory = $true)] [string]$Organization,
         [Parameter(Mandatory = $true)] [string]$Project,

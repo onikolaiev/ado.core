@@ -1,9 +1,8 @@
-
 <#
     .SYNOPSIS
-        Updates text/format of a work item comment.
+        Updates (PATCH) an existing work item comment.
     .DESCRIPTION
-        Wraps Comments - Update Work Item Comment endpoint (PATCH) returning updated comment.
+        Wraps Comments - Update Work Item Comment endpoint. Allows changing text and format.
     .OUTPUTS
         ADO.TOOLS.WorkItem.Comment
     .PARAMETER Organization
@@ -13,23 +12,30 @@
     .PARAMETER Token
         PAT (vso.work_write scope).
     .PARAMETER WorkItemId
-        Work item id.
+        Work item id owning the comment.
     .PARAMETER CommentId
-        Comment id.
+        Comment id to update.
     .PARAMETER Text
         New comment text.
     .PARAMETER Format
-        markdown | html format for update.
+        markdown | html
     .PARAMETER ApiVersion
         API version (default 7.1-preview.4).
     .EXAMPLE
         PS> Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Text "Corrected"
+
+        Updates comment 42 on work item 100.
+    .EXAMPLE
+        PS> Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Text "<b>Updated</b>" -Format html
+
+        Updates comment 42 with HTML formatted text.
     .LINK
         https://learn.microsoft.com/azure/devops
 #>
 function Update-ADOWorkItemComment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding()]
+    [OutputType('ADO.TOOLS.WorkItem.Comment')]
     param(
         [Parameter(Mandatory = $true)] [string]$Organization,
         [Parameter(Mandatory = $true)] [string]$Project,

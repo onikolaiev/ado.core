@@ -1,9 +1,8 @@
-
 <#
     .SYNOPSIS
-        Renames an existing work item tag.
+        Renames a work item tag.
     .DESCRIPTION
-        PATCH wrapper for Tags - Update endpoint.
+        Wraps Tags - Update endpoint to set a new tag name.
     .OUTPUTS
         ADO.TOOLS.WorkItem.TagDefinition
     .PARAMETER Organization
@@ -13,25 +12,30 @@
     .PARAMETER Token
         PAT (vso.work_write scope).
     .PARAMETER Tag
-        Existing tag id or name.
+        Existing tag GUID or current name.
     .PARAMETER NewName
         New tag name.
     .PARAMETER ApiVersion
         API version (default 7.1).
     .PARAMETER Confirm
-        Confirmation prompt.
+        Confirmation prompt (SupportsShouldProcess).
     .PARAMETER WhatIf
-        Show what would happen.
+        Simulation.
     .EXAMPLE
-        PS> Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old -NewName new
+        PS> Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old-tag -NewName new-tag
+
+        Renames the tag from 'old-tag' to 'new-tag'.
     .EXAMPLE
         PS> Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -NewName standardized
+
+        Renames the tag identified by GUID to 'standardized'.
     .LINK
         https://learn.microsoft.com/azure/devops
 #>
 function Update-ADOWorkItemTag {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
+    [OutputType('ADO.TOOLS.WorkItem.TagDefinition')]
     param(
         [Parameter(Mandatory = $true)] [string]$Organization,
         [Parameter(Mandatory = $true)] [string]$Project,

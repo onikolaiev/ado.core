@@ -1,20 +1,18 @@
-
 <#
     .SYNOPSIS
-        Lists root query folders (optionally expanded).
+        Lists root query folders (optionally expanding details).
     .DESCRIPTION
-        Wraps Queries - List endpoint. Supports depth, expansion and including deleted queries.
+        Wraps Queries - List endpoint. Supports depth, expand, include deleted and raw return.
     .OUTPUTS
         ADO.TOOLS.QueryHierarchyItem
-        (Raw payload when -Raw)
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        PAT.
+        PAT (vso.work scope).
     .PARAMETER Depth
-        Child depth.
+        Depth of child retrieval.
     .PARAMETER Expand
         none | wiql | clauses | all | minimal
     .PARAMETER IncludeDeleted
@@ -24,15 +22,24 @@
     .PARAMETER ApiVersion
         API version (default 7.1).
     .EXAMPLE
+        PS> Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat
+        
+        Returns root folders only.
+    .EXAMPLE
         PS> Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat -Depth 1
+        
+        Returns root plus one level of children.
     .EXAMPLE
         PS> Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat -Expand wiql
+        
+        Includes WIQL text for each query.
     .LINK
         https://learn.microsoft.com/azure/devops
 #>
 function Get-ADOWorkItemQueryList {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding()]
+    [OutputType('ADO.TOOLS.QueryHierarchyItem')]
     param(
         [Parameter(Mandatory = $true)] [string]$Organization,
         [Parameter(Mandatory = $true)] [string]$Project,

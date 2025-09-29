@@ -1,34 +1,37 @@
-
 <#
     .SYNOPSIS
-        Removes (deletes) a work item comment.
+        Deletes a work item comment.
     .DESCRIPTION
-        Calls Azure DevOps Work Item Tracking REST API (Comments - Delete) to delete a specific
-        comment. The API returns the (now marked deleted) comment object (isDeleted = true).
+        Wraps Comments - Delete endpoint. Returns the updated (isDeleted=true) comment object.
+    .OUTPUTS
+        ADO.TOOLS.WorkItem.Comment
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT) with vso.work_write scope.
+        PAT (vso.work_write scope).
     .PARAMETER WorkItemId
-        Work item id owning the comment.
+        Work item id.
     .PARAMETER CommentId
         Comment id to delete.
     .PARAMETER ApiVersion
-        API version (default 7.1-preview.4).
+        API version (default 7.1-preview.4 or current module default if different).
     .PARAMETER Confirm
-        Prompts for confirmation (added by SupportsShouldProcess).
+        Confirmation prompt (SupportsShouldProcess).
     .PARAMETER WhatIf
-        Shows what would happen without performing delete.
+        Show what would happen without deleting.
     .EXAMPLE
-        Remove-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 50 -Confirm:$false
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Remove-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Confirm:$false
+
+        Deletes comment 42 on work item 100.
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Remove-ADOWorkItemComment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
+    [OutputType('ADO.TOOLS.WorkItem.Comment')]
     param(
         [Parameter(Mandatory = $true)]
         [string]$Organization,

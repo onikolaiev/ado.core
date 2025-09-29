@@ -1,9 +1,8 @@
-
 <#
     .SYNOPSIS
         Lists all work item tags in a project.
     .DESCRIPTION
-        Wraps Tags - List endpoint. Returns all tag definitions or raw payload.
+        Wraps Tags - List endpoint. Can return raw payload or flattened tag definitions.
     .OUTPUTS
         ADO.TOOLS.WorkItem.TagDefinition
     .PARAMETER Organization
@@ -11,21 +10,26 @@
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        PAT.
+        PAT (vso.work scope).
     .PARAMETER Raw
-        Return raw payload.
+        Return raw API payload.
     .PARAMETER ApiVersion
         API version (default 7.1).
     .EXAMPLE
         PS> Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat
+
+        Returns all tags in the project.
     .EXAMPLE
         PS> Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat -Raw
+
+        Returns raw payload with count and value array.
     .LINK
         https://learn.microsoft.com/azure/devops
 #>
 function Get-ADOWorkItemTagList {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding()]
+    [OutputType('ADO.TOOLS.WorkItem.TagDefinition')]
     param(
         [Parameter(Mandatory = $true)] [string]$Organization,
         [Parameter(Mandatory = $true)] [string]$Project,

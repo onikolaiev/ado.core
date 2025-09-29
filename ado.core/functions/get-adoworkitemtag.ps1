@@ -1,9 +1,8 @@
-
 <#
     .SYNOPSIS
-        Retrieves a single work item tag.
+        Retrieves a single work item tag definition.
     .DESCRIPTION
-        Wraps Tags - Get endpoint to fetch tag by id or name.
+        Wraps Tags - Get endpoint. Accepts tag GUID or name.
     .OUTPUTS
         ADO.TOOLS.WorkItem.TagDefinition
     .PARAMETER Organization
@@ -13,19 +12,24 @@
     .PARAMETER Token
         PAT (vso.work scope).
     .PARAMETER Tag
-        Tag id (GUID) or name.
+        Tag GUID or name.
     .PARAMETER ApiVersion
         API version (default 7.1).
     .EXAMPLE
         PS> Get-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag "my-first-tag"
+        
+        Retrieves tag by name.
     .EXAMPLE
         PS> Get-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec
+        
+        Retrieves tag by GUID.
     .LINK
         https://learn.microsoft.com/azure/devops
 #>
 function Get-ADOWorkItemTag {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding()]
+    [OutputType('ADO.TOOLS.WorkItem.TagDefinition')]
     param(
         [Parameter(Mandatory = $true)] [string]$Organization,
         [Parameter(Mandatory = $true)] [string]$Project,
