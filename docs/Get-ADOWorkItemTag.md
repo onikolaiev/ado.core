@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-ADOWorkItemTag
 
 ## SYNOPSIS
-Retrieves a single work item tag.
+Retrieves a single work item tag definition.
 
 ## SYNTAX
 
@@ -18,7 +18,8 @@ Get-ADOWorkItemTag [-Organization] <String> [-Project] <String> [-Token] <String
 ```
 
 ## DESCRIPTION
-Wraps Tags - Get endpoint to fetch tag by id or name.
+Wraps Tags - Get endpoint.
+Accepts tag GUID or name.
 
 ## EXAMPLES
 
@@ -27,10 +28,14 @@ Wraps Tags - Get endpoint to fetch tag by id or name.
 Get-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag "my-first-tag"
 ```
 
+Retrieves tag by name.
+
 ### EXAMPLE 2
 ```
 Get-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec
 ```
+
+Retrieves tag by GUID.
 
 ## PARAMETERS
 
@@ -80,7 +85,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-Tag id (GUID) or name.
+Tag GUID or name.
 
 ```yaml
 Type: String

@@ -19,7 +19,10 @@ Remove-ADOWorkItemTag [-Organization] <String> [-Project] <String> [-Token] <Str
 ```
 
 ## DESCRIPTION
-Removes the tag from the project and all associated work items / PRs.
+Wraps Tags - Delete endpoint.
+Removes tag from all work items and PRs.
+Returns tag definition
+if API supplies body; otherwise returns identifier with -PassThru.
 
 ## EXAMPLES
 
@@ -27,6 +30,15 @@ Removes the tag from the project and all associated work items / PRs.
 ```
 Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag obsolete -Confirm:$false
 ```
+
+Deletes the tag by name.
+
+### EXAMPLE 2
+```
+Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -PassThru -Confirm:$false
+```
+
+Deletes the tag by GUID and returns the GUID when successful.
 
 ## PARAMETERS
 
@@ -76,7 +88,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-Tag id or name to delete.
+Tag name or GUID.
 
 ```yaml
 Type: String
@@ -91,7 +103,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-Return supplied tag identifier if no body returned.
+Return identifier when no body.
 
 ```yaml
 Type: SwitchParameter
@@ -121,7 +133,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Show action without performing it.
+Simulation only.
 
 ```yaml
 Type: SwitchParameter
@@ -172,7 +184,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### ADO.TOOLS.WorkItem.TagDefinition, or System.String (with -PassThru and empty body).
+### ADO.TOOLS.WorkItem.TagDefinition
+### System.String
 ## NOTES
 
 ## RELATED LINKS

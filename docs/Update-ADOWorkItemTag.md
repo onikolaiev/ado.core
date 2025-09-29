@@ -8,7 +8,7 @@ schema: 2.0.0
 # Update-ADOWorkItemTag
 
 ## SYNOPSIS
-Renames an existing work item tag.
+Renames a work item tag.
 
 ## SYNTAX
 
@@ -19,19 +19,23 @@ Update-ADOWorkItemTag [-Organization] <String> [-Project] <String> [-Token] <Str
 ```
 
 ## DESCRIPTION
-PATCH wrapper for Tags - Update endpoint.
+Wraps Tags - Update endpoint to set a new tag name.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old -NewName new
+Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old-tag -NewName new-tag
 ```
+
+Renames the tag from 'old-tag' to 'new-tag'.
 
 ### EXAMPLE 2
 ```
 Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -NewName standardized
 ```
+
+Renames the tag identified by GUID to 'standardized'.
 
 ## PARAMETERS
 
@@ -81,7 +85,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-Existing tag id or name.
+Existing tag GUID or current name.
 
 ```yaml
 Type: String
@@ -126,7 +130,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Show what would happen.
+Simulation.
 
 ```yaml
 Type: SwitchParameter
@@ -141,7 +145,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Confirmation prompt.
+Confirmation prompt (SupportsShouldProcess).
 
 ```yaml
 Type: SwitchParameter

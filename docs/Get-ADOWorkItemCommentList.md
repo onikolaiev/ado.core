@@ -32,15 +32,21 @@ expand rendered text or reactions, and control sort order.
 Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123
 ```
 
+Retrieves the first page of comments for work item 123.
+
 ### EXAMPLE 2
 ```
 Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123 -Top 50 -All
 ```
 
+Retrieves all comments for work item 123 in pages of up to 50 comments.
+
 ### EXAMPLE 3
 ```
 Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123 -Expand renderedText -Order desc
 ```
+
+Retrieves all comments including rendered HTML, sorted descending by id.
 
 ## PARAMETERS
 
@@ -246,8 +252,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### ADO.TOOLS.WorkItem.Comment
-### ADO.TOOLS.WorkItem.CommentList (when -Raw)
+### System.Management.Automation.PSObject[]
 ## NOTES
 Author: Oleksandr Nikolaiev (@onikolaiev)
 

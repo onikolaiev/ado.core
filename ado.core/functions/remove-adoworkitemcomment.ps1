@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Deletes a work item comment.
@@ -23,7 +24,7 @@
         Show what would happen without deleting.
     .EXAMPLE
         PS> Remove-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Confirm:$false
-
+        
         Deletes comment 42 on work item 100.
     .LINK
         https://learn.microsoft.com/azure/devops

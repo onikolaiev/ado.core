@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-ADOWorkItemComment
 
 ## SYNOPSIS
-Removes (deletes) a work item comment.
+Deletes a work item comment.
 
 ## SYNTAX
 
@@ -19,16 +19,17 @@ Remove-ADOWorkItemComment [-Organization] <String> [-Project] <String> [-Token] 
 ```
 
 ## DESCRIPTION
-Calls Azure DevOps Work Item Tracking REST API (Comments - Delete) to delete a specific
-comment.
-The API returns the (now marked deleted) comment object (isDeleted = true).
+Wraps Comments - Delete endpoint.
+Returns the updated (isDeleted=true) comment object.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Remove-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 50 -Confirm:$false
+Remove-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Confirm:$false
 ```
+
+Deletes comment 42 on work item 100.
 
 ## PARAMETERS
 
@@ -63,7 +64,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT) with vso.work_write scope.
+PAT (vso.work_write scope).
 
 ```yaml
 Type: String
@@ -78,7 +79,7 @@ Accept wildcard characters: False
 ```
 
 ### -WorkItemId
-Work item id owning the comment.
+Work item id.
 
 ```yaml
 Type: Int32
@@ -108,7 +109,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-API version (default 7.1-preview.4).
+API version (default 7.1-preview.4 or current module default if different).
 
 ```yaml
 Type: String
@@ -123,7 +124,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen without performing delete.
+Show what would happen without deleting.
 
 ```yaml
 Type: SwitchParameter
@@ -138,7 +139,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Prompts for confirmation (added by SupportsShouldProcess).
+Confirmation prompt (SupportsShouldProcess).
 
 ```yaml
 Type: SwitchParameter
@@ -174,7 +175,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.Comment
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

@@ -38,26 +38,30 @@ Wraps the Azure DevOps Queries - Create endpoint to:
 ### EXAMPLE 1
 ```
 Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'All Bugs' -Wiql "Select ..."
-Creates a flat WIQL query under Shared Queries.
 ```
+
+Creates a flat WIQL query under Shared Queries.
 
 ### EXAMPLE 2
 ```
 Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'Release' -Folder
-Creates a folder named 'Release'.
 ```
+
+Creates a folder named 'Release'.
 
 ### EXAMPLE 3
 ```
 Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'My Queries' -Id 8a8c8212-...-d581
-Moves an existing folder/query to My Queries.
 ```
+
+Moves an existing folder/query to My Queries.
 
 ### EXAMPLE 4
 ```
 Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'Check' -Wiql 'Select ...' -ValidateWiqlOnly
-Validates WIQL without creating the query.
 ```
+
+Validates WIQL without creating the query.
 
 ## PARAMETERS
 

@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Deletes a work item query or folder.
@@ -23,11 +24,11 @@
         Simulation only.
     .EXAMPLE
         PS> Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Old' -Confirm:$false
-
+        
         Deletes the query or folder by path.
     .EXAMPLE
         PS> Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 8a8c8212-15ca-41ed-97aa-1d6fbfbcd581 -PassThru -Confirm:$false
-
+        
         Deletes the query by id and returns the id when successful.
     .LINK
         https://learn.microsoft.com/azure/devops

@@ -19,7 +19,7 @@ Get-ADOWorkItemTagList [-Organization] <String> [-Project] <String> [-Token] <St
 
 ## DESCRIPTION
 Wraps Tags - List endpoint.
-Returns all tag definitions or raw payload.
+Can return raw payload or flattened tag definitions.
 
 ## EXAMPLES
 
@@ -28,10 +28,14 @@ Returns all tag definitions or raw payload.
 Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat
 ```
 
+Returns all tags in the project.
+
 ### EXAMPLE 2
 ```
 Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat -Raw
 ```
+
+Returns raw payload with count and value array.
 
 ## PARAMETERS
 
@@ -66,7 +70,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-PAT.
+PAT (vso.work scope).
 
 ```yaml
 Type: String
@@ -81,7 +85,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-Return raw payload.
+Return raw API payload.
 
 ```yaml
 Type: SwitchParameter

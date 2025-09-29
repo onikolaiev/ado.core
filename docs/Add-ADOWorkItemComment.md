@@ -30,20 +30,23 @@ comment object.
 ### EXAMPLE 1
 ```
 Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "Deployment approved."
-Creates a markdown comment on work item 299.
 ```
+
+Creates a markdown comment on work item 299.
 
 ### EXAMPLE 2
 ```
 Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "<b>Bold</b>" -Format html
-Creates an HTML formatted comment.
 ```
+
+Creates an HTML formatted comment.
 
 ### EXAMPLE 3
 ```
 "Automated run $(Get-Date -Format o)" | Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Format markdown
-Pipes text into the cmdlet to create a timestamped comment.
 ```
+
+Pipes text into the cmdlet to create a timestamped comment.
 
 ## PARAMETERS
 

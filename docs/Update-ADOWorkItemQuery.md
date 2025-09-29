@@ -28,20 +28,23 @@ Only provided properties are changed.
 ### EXAMPLE 1
 ```
 Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/All Bugs' -Name 'Active Bugs'
-Renames the query.
 ```
+
+Renames the query.
 
 ### EXAMPLE 2
 ```
 Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-... -Wiql "Select ..."
-Updates WIQL by id.
 ```
+
+Updates WIQL by id.
 
 ### EXAMPLE 3
 ```
 Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Folder' -IsDeleted:$false -UndeleteDescendants
-Undeletes a folder and its descendants.
 ```
+
+Undeletes a folder and its descendants.
 
 ## PARAMETERS
 

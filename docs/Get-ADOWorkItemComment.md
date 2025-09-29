@@ -28,14 +28,16 @@ reactions or rendered text.
 ### EXAMPLE 1
 ```
 Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42
-Returns comment 42.
 ```
+
+Returns comment 42.
 
 ### EXAMPLE 2
 ```
 Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Expand renderedText
-Returns comment including rendered HTML.
 ```
+
+Returns comment including rendered HTML.
 
 ## PARAMETERS
 

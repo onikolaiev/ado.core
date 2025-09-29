@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Retrieves a single work item query (optionally with descendants).

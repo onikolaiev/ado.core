@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-ADOWorkItemQueryList
 
 ## SYNOPSIS
-Lists root query folders (optionally expanded).
+Lists root query folders (optionally expanding details).
 
 ## SYNTAX
 
@@ -20,19 +20,30 @@ Get-ADOWorkItemQueryList [-Organization] <String> [-Project] <String> [-Token] <
 
 ## DESCRIPTION
 Wraps Queries - List endpoint.
-Supports depth, expansion and including deleted queries.
+Supports depth, expand, include deleted and raw return.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat -Depth 1
+Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat
 ```
+
+Returns root folders only.
 
 ### EXAMPLE 2
 ```
+Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat -Depth 1
+```
+
+Returns root plus one level of children.
+
+### EXAMPLE 3
+```
 Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat -Expand wiql
 ```
+
+Includes WIQL text for each query.
 
 ## PARAMETERS
 
@@ -67,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-PAT.
+PAT (vso.work scope).
 
 ```yaml
 Type: String
@@ -82,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -Depth
-Child depth.
+Depth of child retrieval.
 
 ```yaml
 Type: Int32
@@ -179,7 +190,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### ADO.TOOLS.QueryHierarchyItem
-### (Raw payload when -Raw)
 ## NOTES
 
 ## RELATED LINKS

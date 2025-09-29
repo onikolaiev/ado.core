@@ -8,7 +8,7 @@ schema: 2.0.0
 # Update-ADOWorkItemComment
 
 ## SYNOPSIS
-Updates text/format of a work item comment.
+Updates (PATCH) an existing work item comment.
 
 ## SYNTAX
 
@@ -19,7 +19,8 @@ Update-ADOWorkItemComment [-Organization] <String> [-Project] <String> [-Token] 
 ```
 
 ## DESCRIPTION
-Wraps Comments - Update Work Item Comment endpoint (PATCH) returning updated comment.
+Wraps Comments - Update Work Item Comment endpoint.
+Allows changing text and format.
 
 ## EXAMPLES
 
@@ -27,6 +28,15 @@ Wraps Comments - Update Work Item Comment endpoint (PATCH) returning updated com
 ```
 Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Text "Corrected"
 ```
+
+Updates comment 42 on work item 100.
+
+### EXAMPLE 2
+```
+Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Text "<b>Updated</b>" -Format html
+```
+
+Updates comment 42 with HTML formatted text.
 
 ## PARAMETERS
 
@@ -76,7 +86,7 @@ Accept wildcard characters: False
 ```
 
 ### -WorkItemId
-Work item id.
+Work item id owning the comment.
 
 ```yaml
 Type: Int32
@@ -91,7 +101,7 @@ Accept wildcard characters: False
 ```
 
 ### -CommentId
-Comment id.
+Comment id to update.
 
 ```yaml
 Type: Int32
@@ -121,7 +131,7 @@ Accept wildcard characters: False
 ```
 
 ### -Format
-markdown | html format for update.
+markdown | html
 
 ```yaml
 Type: String

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-ADOWorkItemQuery
 
 ## SYNOPSIS
-Deletes a query or folder.
+Deletes a work item query or folder.
 
 ## SYNTAX
 
@@ -19,8 +19,8 @@ Remove-ADOWorkItemQuery [-Organization] <String> [-Project] <String> [-Token] <S
 ```
 
 ## DESCRIPTION
-Wraps Queries - Delete.
-Removes the item and its permission changes irreversibly.
+Wraps Queries - Delete endpoint.
+Permanently removes the item and its permission changes.
 
 ## EXAMPLES
 
@@ -28,6 +28,15 @@ Removes the item and its permission changes irreversibly.
 ```
 Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Old' -Confirm:$false
 ```
+
+Deletes the query or folder by path.
+
+### EXAMPLE 2
+```
+Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 8a8c8212-15ca-41ed-97aa-1d6fbfbcd581 -PassThru -Confirm:$false
+```
+
+Deletes the query by id and returns the id when successful.
 
 ## PARAMETERS
 
@@ -62,7 +71,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-PAT.
+PAT (vso.work_write scope).
 
 ```yaml
 Type: String
@@ -77,7 +86,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-Query path or id.
+Query path or GUID.
 
 ```yaml
 Type: String
@@ -107,7 +116,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-Emit the deleted identifier/path.
+Return the supplied path/id when deletion succeeds.
 
 ```yaml
 Type: SwitchParameter
@@ -137,7 +146,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Confirmation control (SupportsShouldProcess).
+Confirmation prompt.
 
 ```yaml
 Type: SwitchParameter
@@ -173,7 +182,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.String (when -PassThru)
+### System.String
 ## NOTES
 
 ## RELATED LINKS

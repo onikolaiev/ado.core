@@ -32,13 +32,19 @@
         API version (default 7.1-preview.4).
     .EXAMPLE
         Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123
-    
+        
+        Retrieves the first page of comments for work item 123.
+        
     .EXAMPLE
         Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123 -Top 50 -All
-    
+        
+        Retrieves all comments for work item 123 in pages of up to 50 comments.
+        
     .EXAMPLE
         Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123 -Expand renderedText -Order desc
-    
+        
+        Retrieves all comments including rendered HTML, sorted descending by id.
+        
     .NOTES
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>
@@ -90,7 +96,7 @@ function Get-ADOWorkItemCommentList {
         Write-PSFMessage -Level Verbose -Message "Starting retrieval of comments for WorkItemId: $WorkItemId (Org: $Organization, Project: $Project)"
         Invoke-TimeSignal -Start
         $baseApiUri = "$Project/_apis/wit/workItems/$WorkItemId/comments"
-        $aggregate = @()
+        $aggregate = [PSCustomObject]@()
         $pageCount = 0
         $effectiveContinuation = $ContinuationToken
     }

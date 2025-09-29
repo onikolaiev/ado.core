@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Renames a work item tag.
@@ -23,11 +24,11 @@
         Simulation.
     .EXAMPLE
         PS> Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old-tag -NewName new-tag
-
+        
         Renames the tag from 'old-tag' to 'new-tag'.
     .EXAMPLE
         PS> Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -NewName standardized
-
+        
         Renames the tag identified by GUID to 'standardized'.
     .LINK
         https://learn.microsoft.com/azure/devops

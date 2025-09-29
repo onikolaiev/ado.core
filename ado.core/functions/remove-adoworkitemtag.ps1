@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Deletes a work item tag.
@@ -25,11 +26,11 @@
         Simulation only.
     .EXAMPLE
         PS> Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag obsolete -Confirm:$false
-
+        
         Deletes the tag by name.
     .EXAMPLE
         PS> Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -PassThru -Confirm:$false
-
+        
         Deletes the tag by GUID and returns the GUID when successful.
     .LINK
         https://learn.microsoft.com/azure/devops

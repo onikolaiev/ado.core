@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-ADOWorkItemQuery
 
 ## SYNOPSIS
-Retrieves a single query (and optional descendants).
+Retrieves a single work item query (optionally with descendants).
 
 ## SYNTAX
 
@@ -19,7 +19,9 @@ Get-ADOWorkItemQuery [-Organization] <String> [-Project] <String> [-Token] <Stri
 ```
 
 ## DESCRIPTION
-Wraps Queries - Get endpoint with depth, expansion and deleted/ISO date options.
+Wraps the Azure DevOps Queries - Get endpoint.
+Supports expansion of WIQL/clauses,
+inclusion of deleted queries, depth for folder children and ISO date formatting.
 
 ## EXAMPLES
 
@@ -28,10 +30,21 @@ Wraps Queries - Get endpoint with depth, expansion and deleted/ISO date options.
 Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/All Bugs'
 ```
 
+Gets the query by path.
+
 ### EXAMPLE 2
 ```
-Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-... -Expand wiql
+Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-4069-46b1-a940-3d0468979ceb -Expand wiql
 ```
+
+Gets the query by id including WIQL text.
+
+### EXAMPLE 3
+```
+Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Folder' -Depth 2 -Expand clauses
+```
+
+Gets a folder plus its children to depth 2 including clauses.
 
 ## PARAMETERS
 
@@ -66,7 +79,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-PAT (vso.work scope).
+Personal Access Token (PAT) (vso.work scope).
 
 ```yaml
 Type: String
@@ -81,7 +94,8 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-Query id or path.
+Query GUID or path (e.g.
+'Shared Queries/All Bugs').
 
 ```yaml
 Type: String
@@ -96,7 +110,7 @@ Accept wildcard characters: False
 ```
 
 ### -Depth
-Child depth for folders.
+Depth of child expansion for folders.
 
 ```yaml
 Type: Int32
@@ -126,7 +140,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeDeleted
-Include deleted queries.
+Include deleted queries/folders.
 
 ```yaml
 Type: SwitchParameter
@@ -141,7 +155,7 @@ Accept wildcard characters: False
 ```
 
 ### -UseIsoDateFormat
-Format date clauses in ISO 8601.
+Format DateTime clauses in ISO 8601.
 
 ```yaml
 Type: SwitchParameter
@@ -156,7 +170,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-Return raw object.
+Return raw response instead of typed object.
 
 ```yaml
 Type: SwitchParameter

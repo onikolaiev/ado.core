@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Lists all work item tags in a project.
@@ -17,11 +18,11 @@
         API version (default 7.1).
     .EXAMPLE
         PS> Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat
-
+        
         Returns all tags in the project.
     .EXAMPLE
         PS> Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat -Raw
-
+        
         Returns raw payload with count and value array.
     .LINK
         https://learn.microsoft.com/azure/devops

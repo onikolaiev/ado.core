@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Lists root query folders (optionally expanding details).
