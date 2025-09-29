@@ -40,15 +40,19 @@
         API version (default 7.1).
     .EXAMPLE
         PS> Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'All Bugs' -Wiql "Select ..."
+        
         Creates a flat WIQL query under Shared Queries.
     .EXAMPLE
         PS> Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'Release' -Folder
+        
         Creates a folder named 'Release'.
     .EXAMPLE
         PS> Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'My Queries' -Id 8a8c8212-...-d581
+       
         Moves an existing folder/query to My Queries.
     .EXAMPLE
         PS> Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'Check' -Wiql 'Select ...' -ValidateWiqlOnly
+        
         Validates WIQL without creating the query.
     .LINK
         https://learn.microsoft.com/azure/devops/boards/queries/wiql-syntax

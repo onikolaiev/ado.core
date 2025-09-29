@@ -25,9 +25,11 @@
         API version (default 7.1-preview.4).
     .EXAMPLE
         PS> Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42
+        
         Returns comment 42.
     .EXAMPLE
         PS> Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Expand renderedText
+        
         Returns comment including rendered HTML.
     .LINK
         https://learn.microsoft.com/azure/devops

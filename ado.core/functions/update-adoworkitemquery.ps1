@@ -38,12 +38,15 @@
         Show what would change without applying.
     .EXAMPLE
         PS> Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/All Bugs' -Name 'Active Bugs'
+        
         Renames the query.
     .EXAMPLE
         PS> Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-... -Wiql "Select ..."
+        
         Updates WIQL by id.
     .EXAMPLE
         PS> Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Folder' -IsDeleted:$false -UndeleteDescendants
+        
         Undeletes a folder and its descendants.
     .LINK
         https://learn.microsoft.com/azure/devops

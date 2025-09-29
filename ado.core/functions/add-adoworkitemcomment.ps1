@@ -24,12 +24,15 @@
         API version (default 7.1-preview.4).
     .EXAMPLE
         PS> Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "Deployment approved."
+        
         Creates a markdown comment on work item 299.
     .EXAMPLE
         PS> Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "<b>Bold</b>" -Format html
+        
         Creates an HTML formatted comment.
     .EXAMPLE
         PS> "Automated run $(Get-Date -Format o)" | Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Format markdown
+        
         Pipes text into the cmdlet to create a timestamped comment.
     .LINK
         https://learn.microsoft.com/azure/devops

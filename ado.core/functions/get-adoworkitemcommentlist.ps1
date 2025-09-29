@@ -6,9 +6,6 @@
         Retrieves a (pageable) list of comments for the specified work item. Supports server paging
         via -Top and -ContinuationToken or automatic full retrieval with -All. Can include deleted,
         expand rendered text or reactions, and control sort order.
-    .OUTPUTS
-        ADO.TOOLS.WorkItem.Comment
-        ADO.TOOLS.WorkItem.CommentList (when -Raw)
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
@@ -35,10 +32,13 @@
         API version (default 7.1-preview.4).
     .EXAMPLE
         Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123
+    
     .EXAMPLE
         Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123 -Top 50 -All
+    
     .EXAMPLE
         Get-ADOWorkItemCommentList -Organization org -Project proj -Token $pat -WorkItemId 123 -Expand renderedText -Order desc
+    
     .NOTES
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>

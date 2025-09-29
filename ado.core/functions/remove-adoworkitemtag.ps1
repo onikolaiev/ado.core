@@ -1,4 +1,3 @@
-
 <#
     .SYNOPSIS
         Deletes a work item tag.
@@ -30,6 +29,7 @@
 function Remove-ADOWorkItemTag {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+    [OutputType('ADO.TOOLS.WorkItem.TagDefinition',[string])]
     param(
         [Parameter(Mandatory = $true)] [string]$Organization,
         [Parameter(Mandatory = $true)] [string]$Project,

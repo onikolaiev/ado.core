@@ -1,4 +1,3 @@
-
 <#
     .SYNOPSIS
         Deletes a query or folder.
@@ -30,6 +29,7 @@
 function Remove-ADOWorkItemQuery {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+    [OutputType([string])]
     param(
         [Parameter(Mandatory = $true)] [string]$Organization,
         [Parameter(Mandatory = $true)] [string]$Project,
