@@ -1,12 +1,15 @@
 
 <#
     .SYNOPSIS
-        Creates (folder/query) or moves an existing work item query.
+        Creates a new work item query/folder or moves an existing one.
     .DESCRIPTION
-        Wraps Azure DevOps Queries - Create endpoint (POST wit/queries/{parent}).
-        Parameter set Create: supply -Name (and optionally -Wiql for a query or -Folder for a folder).
-        Parameter set Move: supply -Id of existing query/folder to move under -ParentPath.
-        Use -ValidateWiqlOnly to validate WIQL without creating.
+        Wraps the Azure DevOps Queries - Create endpoint to:
+            - Create a folder ( -Folder )
+            - Create a WIQL query ( -Wiql provided, not -Folder )
+            - Move an existing query/folder ( -Id parameter set )
+            - Validate WIQL only ( -ValidateWiqlOnly )
+    .OUTPUTS
+        ADO.TOOLS.QueryHierarchyItem
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
@@ -14,33 +17,41 @@
     .PARAMETER Token
         Personal Access Token (PAT) with vso.work_write scope.
     .PARAMETER ParentPath
-        Parent folder path or id where the item is created/moved (e.g. 'Shared Queries' or 'Shared Queries/Team').
+        Destination parent path (e.g. 'Shared Queries' or 'My Queries/Sub').
     .PARAMETER Name
-        Name of new folder/query (Create set).
+        Name of the new query/folder (Create set).
     .PARAMETER Folder
-        Create a folder instead of a WIQL query.
+        Switch indicating a folder should be created.
     .PARAMETER Wiql
-        WIQL text for query (omit for folders).
+        WIQL text for the query (omit when creating a folder).
     .PARAMETER QueryType
-        flat | tree | oneHop (optional hint; usually inferred).
+        flat | tree | oneHop (optional override).
     .PARAMETER Columns
-        One or more field reference names to include as columns.
+        Field reference names for query columns.
     .PARAMETER SortColumns
-        Sort definitions. Format: FieldRefName or FieldRefName:desc
+        Sort definitions (Field or Field:desc).
     .PARAMETER Public
-        Make created item public (isPublic=true).
+        Make the created item public.
     .PARAMETER Id
         Existing query/folder id to move (Move set).
     .PARAMETER ValidateWiqlOnly
-        Only validate WIQL (no creation). Returns validation result (HTTP still POST).
+        Validate WIQL without persisting the query.
     .PARAMETER ApiVersion
         API version (default 7.1).
     .EXAMPLE
-        Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'All Bugs' -Wiql "Select ..." -Columns System.Id,System.Title,System.State
+        PS> Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'All Bugs' -Wiql "Select ..."
+        Creates a flat WIQL query under Shared Queries.
     .EXAMPLE
-        Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'My Queries' -Name 'Team' -Folder
+        PS> Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'Release' -Folder
+        Creates a folder named 'Release'.
     .EXAMPLE
-        Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'My Queries' -Id 8a8c8212-15ca-41ed-97aa-1d6fbfbcd581
+        PS> Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'My Queries' -Id 8a8c8212-...-d581
+        Moves an existing folder/query to My Queries.
+    .EXAMPLE
+        PS> Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'Check' -Wiql 'Select ...' -ValidateWiqlOnly
+        Validates WIQL without creating the query.
+    .LINK
+        https://learn.microsoft.com/azure/devops/boards/queries/wiql-syntax
     .NOTES
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>

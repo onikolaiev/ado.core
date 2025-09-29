@@ -1,29 +1,31 @@
 
 <#
     .SYNOPSIS
-        Deletes a work item query or folder.
+        Deletes a query or folder.
     .DESCRIPTION
-        Calls the Azure DevOps Work Item Tracking REST API (Queries - Delete) to remove a query
-        or folder specified by path or id. Deletion also removes any permission changes; those
-        cannot be restored by undelete.
+        Wraps Queries - Delete. Removes the item and its permission changes irreversibly.
+    .OUTPUTS
+        System.String (when -PassThru)
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT) with vso.work_write scope.
+        PAT.
     .PARAMETER Query
-        Query path (e.g. 'Shared Queries/Team/All Bugs') or query/folder id (GUID).
+        Query path or id.
+    .PARAMETER PassThru
+        Emit the deleted identifier/path.
     .PARAMETER ApiVersion
         API version (default 7.1).
-    .PARAMETER PassThru
-        Return the provided Query value on success.
+    .PARAMETER Confirm
+        Confirmation control (SupportsShouldProcess).
+    .PARAMETER WhatIf
+        Simulation only.
     .EXAMPLE
-        Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Old Folder' -Confirm:$false
-    .EXAMPLE
-        Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-4069-46b1-a940-3d0468979ceb -PassThru
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Old' -Confirm:$false
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Remove-ADOWorkItemQuery {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]

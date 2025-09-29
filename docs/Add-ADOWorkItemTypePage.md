@@ -1,7 +1,7 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops/boards/queries/wiql-syntax
 schema: 2.0.0
 ---
 

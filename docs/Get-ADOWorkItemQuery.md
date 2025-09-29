@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Get-ADOWorkItemQuery
 
 ## SYNOPSIS
-Retrieves a single work item query (and optional descendants).
+Retrieves a single query (and optional descendants).
 
 ## SYNTAX
 
@@ -19,9 +19,7 @@ Get-ADOWorkItemQuery [-Organization] <String> [-Project] <String> [-Token] <Stri
 ```
 
 ## DESCRIPTION
-Wraps Azure DevOps Queries - Get endpoint.
-Supports depth, expansion of WIQL/clauses,
-inclusion of deleted queries, and ISO date formatting for DateTime clauses.
+Wraps Queries - Get endpoint with depth, expansion and deleted/ISO date options.
 
 ## EXAMPLES
 
@@ -32,12 +30,7 @@ Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared 
 
 ### EXAMPLE 2
 ```
-Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-4069-46b1-a940-3d0468979ceb -Expand wiql
-```
-
-### EXAMPLE 3
-```
-Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Folder' -Depth 2 -Expand clauses
+Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-... -Expand wiql
 ```
 
 ## PARAMETERS
@@ -73,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT).
+PAT (vso.work scope).
 
 ```yaml
 Type: String
@@ -88,8 +81,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-Query path (e.g.
-'Shared Queries/Website team/All Bugs') or query GUID.
+Query id or path.
 
 ```yaml
 Type: String
@@ -104,7 +96,7 @@ Accept wildcard characters: False
 ```
 
 ### -Depth
-Return child queries/folders to this depth (for folders).
+Child depth for folders.
 
 ```yaml
 Type: Int32
@@ -134,7 +126,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeDeleted
-Include deleted queries/folders.
+Include deleted queries.
 
 ```yaml
 Type: SwitchParameter
@@ -149,7 +141,7 @@ Accept wildcard characters: False
 ```
 
 ### -UseIsoDateFormat
-Format DateTime clauses using ISO 8601.
+Format date clauses in ISO 8601.
 
 ```yaml
 Type: SwitchParameter
@@ -164,7 +156,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-Return raw response object instead of typed item.
+Return raw object.
 
 ```yaml
 Type: SwitchParameter
@@ -215,7 +207,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.QueryHierarchyItem
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

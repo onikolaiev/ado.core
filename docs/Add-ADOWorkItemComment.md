@@ -1,7 +1,7 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
@@ -21,17 +21,28 @@ Add-ADOWorkItemComment [-Organization] <String> [-Project] <String> [-Token] <St
 ## DESCRIPTION
 Uses the Work Item Tracking REST API (Comments - Add Comment) to create a new comment
 on the specified work item.
+Supports markdown or html format.
+Returns the created
+comment object.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
 Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "Deployment approved."
+Creates a markdown comment on work item 299.
 ```
 
 ### EXAMPLE 2
 ```
-Bold</b>" -Format html
+Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "<b>Bold</b>" -Format html
+Creates an HTML formatted comment.
+```
+
+### EXAMPLE 3
+```
+"Automated run $(Get-Date -Format o)" | Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Format markdown
+Pipes text into the cmdlet to create a timestamped comment.
 ```
 
 ## PARAMETERS
@@ -165,7 +176,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.Comment
 ## NOTES
 Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

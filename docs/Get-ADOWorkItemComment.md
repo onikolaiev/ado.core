@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Get-ADOWorkItemComment
 
 ## SYNOPSIS
-Retrieves a single comment for a work item.
+Retrieves a single work item comment.
 
 ## SYNTAX
 
@@ -19,19 +19,22 @@ Get-ADOWorkItemComment [-Organization] <String> [-Project] <String> [-Token] <St
 ```
 
 ## DESCRIPTION
-Calls the Azure DevOps Work Item Tracking REST API (Comments - Get Comment) to return a single comment.
-Supports expanding reactions or rendered text and optionally including deleted comment.
+Wraps Comments - Get Comment endpoint.
+Supports including deleted and expanding
+reactions or rendered text.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 42
+Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42
+Returns comment 42.
 ```
 
 ### EXAMPLE 2
 ```
-Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 42 -Expand renderedText
+Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Expand renderedText
+Returns comment including rendered HTML.
 ```
 
 ## PARAMETERS
@@ -67,7 +70,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT).
+PAT (vso.work scope).
 
 ```yaml
 Type: String
@@ -82,7 +85,7 @@ Accept wildcard characters: False
 ```
 
 ### -WorkItemId
-Work item id owning the comment.
+Work item id.
 
 ```yaml
 Type: Int32
@@ -97,7 +100,7 @@ Accept wildcard characters: False
 ```
 
 ### -CommentId
-Comment id to retrieve.
+Comment id.
 
 ```yaml
 Type: Int32
@@ -112,7 +115,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeDeleted
-Include deleted comment (if deleted).
+Include the comment even if deleted.
 
 ```yaml
 Type: SwitchParameter
@@ -142,8 +145,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-API version.
-Default 7.1-preview.4
+API version (default 7.1-preview.4).
 
 ```yaml
 Type: String
@@ -179,7 +181,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.Comment
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

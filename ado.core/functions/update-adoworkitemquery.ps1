@@ -1,44 +1,52 @@
 
 <#
     .SYNOPSIS
-        Updates (rename, modify WIQL, visibility, undelete, move-related metadata) a work item query or folder.
+        Updates a work item query or folder (rename, WIQL, visibility, undelete).
     .DESCRIPTION
-        Wraps Azure DevOps Queries - Update endpoint (PATCH wit/queries/{query}).
-        Only properties explicitly provided are sent in the request body.
+        PATCH wrapper for Queries - Update. Only provided properties are changed.
+    .OUTPUTS
+        ADO.TOOLS.QueryHierarchyItem
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT) with vso.work_write scope.
+        PAT (vso.work_write scope).
     .PARAMETER Query
-        Query id (GUID) or path (e.g. 'Shared Queries/Folder/All Bugs').
+        Query id or path.
     .PARAMETER Name
-        New name for the query or folder.
+        New name (rename).
     .PARAMETER Wiql
-        Updated WIQL text (queries only).
+        New WIQL text (queries only).
     .PARAMETER QueryType
-        flat | tree | oneHop (optional when changing type).
+        flat | tree | oneHop.
     .PARAMETER IsPublic
-        Set public/private (pass $true or $false).
+        Set public (true) or private (false).
     .PARAMETER IsDeleted
-        Set deletion flag (use $false to undelete).
+        Set deletion state (false to undelete).
     .PARAMETER Columns
-        Replace columns; list of field reference names.
+        Replace columns (field reference names).
     .PARAMETER SortColumns
-        Replace sort columns. Format: FieldRef or FieldRef:desc
+        Replace sort ordering (Field or Field:desc).
     .PARAMETER UndeleteDescendants
-        Include $undeleteDescendants=true query flag (used when undeleting a folder).
+        Also undelete children (folder).
     .PARAMETER ApiVersion
         API version (default 7.1).
+    .PARAMETER Confirm
+        Confirmation prompt (SupportsShouldProcess).
+    .PARAMETER WhatIf
+        Show what would change without applying.
     .EXAMPLE
-        Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Team/All Bugs' -Wiql 'Select ...'
+        PS> Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/All Bugs' -Name 'Active Bugs'
+        Renames the query.
     .EXAMPLE
-        Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-4069-46b1-a940-3d0468979ceb -Name 'Active Bugs'
+        PS> Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-... -Wiql "Select ..."
+        Updates WIQL by id.
     .EXAMPLE
-        Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'My Queries/Old' -IsDeleted:$false -UndeleteDescendants
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Update-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Folder' -IsDeleted:$false -UndeleteDescendants
+        Undeletes a folder and its descendants.
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Update-ADOWorkItemQuery {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]
@@ -52,8 +60,8 @@ function Update-ADOWorkItemQuery {
         [Parameter()] [string]$Name,
         [Parameter()] [string]$Wiql,
         [Parameter()] [ValidateSet('flat','tree','oneHop')] [string]$QueryType,
-        [Parameter()] [Nullable[bool]]$IsPublic,
-        [Parameter()] [Nullable[bool]]$IsDeleted,
+        [Parameter()] [bool]$IsPublic,
+        [Parameter()] [bool]$IsDeleted,
         [Parameter()] [string[]]$Columns,
         [Parameter()] [string[]]$SortColumns,
         [Parameter()] [switch]$UndeleteDescendants,

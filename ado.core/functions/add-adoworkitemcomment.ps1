@@ -4,7 +4,10 @@
         Adds a comment to an Azure DevOps work item.
     .DESCRIPTION
         Uses the Work Item Tracking REST API (Comments - Add Comment) to create a new comment
-        on the specified work item.
+        on the specified work item. Supports markdown or html format. Returns the created
+        comment object.
+    .OUTPUTS
+        ADO.TOOLS.WorkItem.Comment
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
@@ -20,9 +23,16 @@
     .PARAMETER ApiVersion
         API version (default 7.1-preview.4).
     .EXAMPLE
-        Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "Deployment approved."
+        PS> Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "Deployment approved."
+        Creates a markdown comment on work item 299.
     .EXAMPLE
-        Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "<b>Bold</b>" -Format html
+        PS> Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Text "<b>Bold</b>" -Format html
+        Creates an HTML formatted comment.
+    .EXAMPLE
+        PS> "Automated run $(Get-Date -Format o)" | Add-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -Format markdown
+        Pipes text into the cmdlet to create a timestamped comment.
+    .LINK
+        https://learn.microsoft.com/azure/devops
     .NOTES
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>

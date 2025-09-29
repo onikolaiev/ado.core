@@ -1,7 +1,7 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 

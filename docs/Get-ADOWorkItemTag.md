@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Get-ADOWorkItemTag
 
 ## SYNOPSIS
-Retrieves a single work item tag definition.
+Retrieves a single work item tag.
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Get-ADOWorkItemTag [-Organization] <String> [-Project] <String> [-Token] <String
 ```
 
 ## DESCRIPTION
-Calls Azure DevOps Work Item Tracking REST API (Tags - Get) to return a tag by its id (GUID) or name.
+Wraps Tags - Get endpoint to fetch tag by id or name.
 
 ## EXAMPLES
 
@@ -65,7 +65,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT).
+PAT (vso.work scope).
 
 ```yaml
 Type: String
@@ -80,7 +80,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-Tag id (GUID) or tag name.
+Tag id (GUID) or name.
 
 ```yaml
 Type: String
@@ -131,7 +131,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.TagDefinition
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

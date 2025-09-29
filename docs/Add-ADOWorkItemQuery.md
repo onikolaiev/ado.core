@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops/boards/queries/wiql-syntax
 schema: 2.0.0
 ---
 
 # Add-ADOWorkItemQuery
 
 ## SYNOPSIS
-Creates (folder/query) or moves an existing work item query.
+Creates a new work item query/folder or moves an existing one.
 
 ## SYNTAX
 
@@ -27,26 +27,36 @@ Add-ADOWorkItemQuery -Organization <String> -Project <String> -Token <String> -P
 ```
 
 ## DESCRIPTION
-Wraps Azure DevOps Queries - Create endpoint (POST wit/queries/{parent}).
-Parameter set Create: supply -Name (and optionally -Wiql for a query or -Folder for a folder).
-Parameter set Move: supply -Id of existing query/folder to move under -ParentPath.
-Use -ValidateWiqlOnly to validate WIQL without creating.
+Wraps the Azure DevOps Queries - Create endpoint to:
+    - Create a folder ( -Folder )
+    - Create a WIQL query ( -Wiql provided, not -Folder )
+    - Move an existing query/folder ( -Id parameter set )
+    - Validate WIQL only ( -ValidateWiqlOnly )
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'All Bugs' -Wiql "Select ..." -Columns System.Id,System.Title,System.State
+Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'All Bugs' -Wiql "Select ..."
+Creates a flat WIQL query under Shared Queries.
 ```
 
 ### EXAMPLE 2
 ```
-Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'My Queries' -Name 'Team' -Folder
+Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'Release' -Folder
+Creates a folder named 'Release'.
 ```
 
 ### EXAMPLE 3
 ```
-Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'My Queries' -Id 8a8c8212-15ca-41ed-97aa-1d6fbfbcd581
+Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'My Queries' -Id 8a8c8212-...-d581
+Moves an existing folder/query to My Queries.
+```
+
+### EXAMPLE 4
+```
+Add-ADOWorkItemQuery -Organization org -Project proj -Token $pat -ParentPath 'Shared Queries' -Name 'Check' -Wiql 'Select ...' -ValidateWiqlOnly
+Validates WIQL without creating the query.
 ```
 
 ## PARAMETERS
@@ -97,8 +107,8 @@ Accept wildcard characters: False
 ```
 
 ### -ParentPath
-Parent folder path or id where the item is created/moved (e.g.
-'Shared Queries' or 'Shared Queries/Team').
+Destination parent path (e.g.
+'Shared Queries' or 'My Queries/Sub').
 
 ```yaml
 Type: String
@@ -113,7 +123,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Name of new folder/query (Create set).
+Name of the new query/folder (Create set).
 
 ```yaml
 Type: String
@@ -128,7 +138,7 @@ Accept wildcard characters: False
 ```
 
 ### -Folder
-Create a folder instead of a WIQL query.
+Switch indicating a folder should be created.
 
 ```yaml
 Type: SwitchParameter
@@ -143,7 +153,7 @@ Accept wildcard characters: False
 ```
 
 ### -Wiql
-WIQL text for query (omit for folders).
+WIQL text for the query (omit when creating a folder).
 
 ```yaml
 Type: String
@@ -158,7 +168,7 @@ Accept wildcard characters: False
 ```
 
 ### -QueryType
-flat | tree | oneHop (optional hint; usually inferred).
+flat | tree | oneHop (optional override).
 
 ```yaml
 Type: String
@@ -173,7 +183,7 @@ Accept wildcard characters: False
 ```
 
 ### -Columns
-One or more field reference names to include as columns.
+Field reference names for query columns.
 
 ```yaml
 Type: String[]
@@ -188,8 +198,7 @@ Accept wildcard characters: False
 ```
 
 ### -SortColumns
-Sort definitions.
-Format: FieldRefName or FieldRefName:desc
+Sort definitions (Field or Field:desc).
 
 ```yaml
 Type: String[]
@@ -204,7 +213,7 @@ Accept wildcard characters: False
 ```
 
 ### -Public
-Make created item public (isPublic=true).
+Make the created item public.
 
 ```yaml
 Type: SwitchParameter
@@ -234,8 +243,7 @@ Accept wildcard characters: False
 ```
 
 ### -ValidateWiqlOnly
-Only validate WIQL (no creation).
-Returns validation result (HTTP still POST).
+Validate WIQL without persisting the query.
 
 ```yaml
 Type: SwitchParameter
@@ -286,7 +294,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.QueryHierarchyItem
 ## NOTES
 Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops/boards/queries/wiql-syntax](https://learn.microsoft.com/azure/devops/boards/queries/wiql-syntax)
+

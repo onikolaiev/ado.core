@@ -1,7 +1,7 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
@@ -123,8 +123,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+Shows what would happen without performing delete.
 
 ```yaml
 Type: SwitchParameter
@@ -139,7 +138,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Prompts you for confirmation before running the cmdlet.
+Prompts for confirmation (added by SupportsShouldProcess).
 
 ```yaml
 Type: SwitchParameter

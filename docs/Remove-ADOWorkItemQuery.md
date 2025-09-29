@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Remove-ADOWorkItemQuery
 
 ## SYNOPSIS
-Deletes a work item query or folder.
+Deletes a query or folder.
 
 ## SYNTAX
 
@@ -19,21 +19,14 @@ Remove-ADOWorkItemQuery [-Organization] <String> [-Project] <String> [-Token] <S
 ```
 
 ## DESCRIPTION
-Calls the Azure DevOps Work Item Tracking REST API (Queries - Delete) to remove a query
-or folder specified by path or id.
-Deletion also removes any permission changes; those
-cannot be restored by undelete.
+Wraps Queries - Delete.
+Removes the item and its permission changes irreversibly.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Old Folder' -Confirm:$false
-```
-
-### EXAMPLE 2
-```
-Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-4069-46b1-a940-3d0468979ceb -PassThru
+Remove-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Old' -Confirm:$false
 ```
 
 ## PARAMETERS
@@ -69,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT) with vso.work_write scope.
+PAT.
 
 ```yaml
 Type: String
@@ -84,8 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-Query path (e.g.
-'Shared Queries/Team/All Bugs') or query/folder id (GUID).
+Query path or id.
 
 ```yaml
 Type: String
@@ -115,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-Return the provided Query value on success.
+Emit the deleted identifier/path.
 
 ```yaml
 Type: SwitchParameter
@@ -130,8 +122,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+Simulation only.
 
 ```yaml
 Type: SwitchParameter
@@ -146,7 +137,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Prompts you for confirmation before running the cmdlet.
+Confirmation control (SupportsShouldProcess).
 
 ```yaml
 Type: SwitchParameter
@@ -182,7 +173,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### System.String (when -PassThru)
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

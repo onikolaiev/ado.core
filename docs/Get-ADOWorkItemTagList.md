@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Get-ADOWorkItemTagList
 
 ## SYNOPSIS
-Retrieves all work item tags for a project.
+Lists all work item tags in a project.
 
 ## SYNTAX
 
@@ -18,9 +18,8 @@ Get-ADOWorkItemTagList [-Organization] <String> [-Project] <String> [-Token] <St
 ```
 
 ## DESCRIPTION
-Wraps Azure DevOps Work Item Tracking REST API (Tags - List).
-Returns tag definitions (id, name, lastUpdated, url).
-Supports -Raw to return unprocessed payload.
+Wraps Tags - List endpoint.
+Returns all tag definitions or raw payload.
 
 ## EXAMPLES
 
@@ -67,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT).
+PAT.
 
 ```yaml
 Type: String
@@ -82,7 +81,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-Return raw response payload.
+Return raw payload.
 
 ```yaml
 Type: SwitchParameter
@@ -133,7 +132,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.TagDefinition
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

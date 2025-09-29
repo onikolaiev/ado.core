@@ -1,27 +1,33 @@
 
 <#
     .SYNOPSIS
-        Renames (updates) a work item tag in a project.
+        Renames an existing work item tag.
     .DESCRIPTION
-        Calls Azure DevOps Work Item Tracking REST API (Tags - Update) to change a tag's name.
+        PATCH wrapper for Tags - Update endpoint.
+    .OUTPUTS
+        ADO.TOOLS.WorkItem.TagDefinition
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT) with vso.work_write scope.
+        PAT (vso.work_write scope).
     .PARAMETER Tag
-        Existing tag id (GUID) or current tag name.
+        Existing tag id or name.
     .PARAMETER NewName
-        New tag name to assign.
+        New tag name.
     .PARAMETER ApiVersion
         API version (default 7.1).
+    .PARAMETER Confirm
+        Confirmation prompt.
+    .PARAMETER WhatIf
+        Show what would happen.
     .EXAMPLE
-        Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old-tag -NewName new-tag
+        PS> Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old -NewName new
     .EXAMPLE
-        Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -NewName standardized-tag
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -NewName standardized
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Update-ADOWorkItemTag {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]

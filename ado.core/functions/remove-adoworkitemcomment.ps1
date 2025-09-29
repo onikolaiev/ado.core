@@ -17,6 +17,10 @@
         Comment id to delete.
     .PARAMETER ApiVersion
         API version (default 7.1-preview.4).
+    .PARAMETER Confirm
+        Prompts for confirmation (added by SupportsShouldProcess).
+    .PARAMETER WhatIf
+        Shows what would happen without performing delete.
     .EXAMPLE
         Remove-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 50 -Confirm:$false
     .NOTES

@@ -1,28 +1,31 @@
 
 <#
     .SYNOPSIS
-        Deletes a work item tag from a project.
+        Deletes a work item tag.
     .DESCRIPTION
-        Calls Azure DevOps Work Item Tracking REST API (Tags - Delete). Deleting a tag removes it
-        from all work items and pull requests in the project.
+        Removes the tag from the project and all associated work items / PRs.
+    .OUTPUTS
+        ADO.TOOLS.WorkItem.TagDefinition, or System.String (with -PassThru and empty body).
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT) with vso.work_write scope.
+        PAT (vso.work_write scope).
     .PARAMETER Tag
-        Tag id (GUID) or tag name to delete.
+        Tag id or name to delete.
     .PARAMETER PassThru
-        Return the tag identifier supplied if deletion succeeds (when API returns no body).
+        Return supplied tag identifier if no body returned.
     .PARAMETER ApiVersion
         API version (default 7.1).
+    .PARAMETER Confirm
+        Confirmation prompt.
+    .PARAMETER WhatIf
+        Show action without performing it.
     .EXAMPLE
-        Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag "obsolete-tag" -Confirm:$false
-    .EXAMPLE
-        Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -PassThru -Confirm:$false
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag obsolete -Confirm:$false
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Remove-ADOWorkItemTag {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]

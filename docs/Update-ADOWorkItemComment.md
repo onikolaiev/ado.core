@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Update-ADOWorkItemComment
 
 ## SYNOPSIS
-Updates an existing comment on a work item.
+Updates text/format of a work item comment.
 
 ## SYNTAX
 
@@ -19,20 +19,13 @@ Update-ADOWorkItemComment [-Organization] <String> [-Project] <String> [-Token] 
 ```
 
 ## DESCRIPTION
-Uses the Work Item Tracking REST API (Comments - Update Work Item Comment) to modify the
-text (and format) of a comment.
-Returns the updated comment object.
+Wraps Comments - Update Work Item Comment endpoint (PATCH) returning updated comment.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 50 -Text "Updated text"
-```
-
-### EXAMPLE 2
-```
-HTML</b>" -Format html
+Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Text "Corrected"
 ```
 
 ## PARAMETERS
@@ -68,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT) with vso.work_write scope.
+PAT (vso.work_write scope).
 
 ```yaml
 Type: String
@@ -83,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -WorkItemId
-Work item id that owns the comment.
+Work item id.
 
 ```yaml
 Type: Int32
@@ -98,7 +91,7 @@ Accept wildcard characters: False
 ```
 
 ### -CommentId
-Comment id to update.
+Comment id.
 
 ```yaml
 Type: Int32
@@ -128,8 +121,7 @@ Accept wildcard characters: False
 ```
 
 ### -Format
-Comment format to send (markdown or html).
-Default markdown.
+markdown | html format for update.
 
 ```yaml
 Type: String
@@ -180,7 +172,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.Comment
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

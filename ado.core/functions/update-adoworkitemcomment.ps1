@@ -1,32 +1,31 @@
 
 <#
     .SYNOPSIS
-        Updates an existing comment on a work item.
+        Updates text/format of a work item comment.
     .DESCRIPTION
-        Uses the Work Item Tracking REST API (Comments - Update Work Item Comment) to modify the
-        text (and format) of a comment. Returns the updated comment object.
+        Wraps Comments - Update Work Item Comment endpoint (PATCH) returning updated comment.
+    .OUTPUTS
+        ADO.TOOLS.WorkItem.Comment
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT) with vso.work_write scope.
+        PAT (vso.work_write scope).
     .PARAMETER WorkItemId
-        Work item id that owns the comment.
+        Work item id.
     .PARAMETER CommentId
-        Comment id to update.
+        Comment id.
     .PARAMETER Text
         New comment text.
     .PARAMETER Format
-        Comment format to send (markdown or html). Default markdown.
+        markdown | html format for update.
     .PARAMETER ApiVersion
         API version (default 7.1-preview.4).
     .EXAMPLE
-        Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 50 -Text "Updated text"
-    .EXAMPLE
-        Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 50 -Text "<b>HTML</b>" -Format html
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Update-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Text "Corrected"
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Update-ADOWorkItemComment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]

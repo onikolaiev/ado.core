@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Get-ADOWorkItemQueryList
 
 ## SYNOPSIS
-Retrieves root work item queries (and optional descendants).
+Lists root query folders (optionally expanded).
 
 ## SYNTAX
 
@@ -19,10 +19,8 @@ Get-ADOWorkItemQueryList [-Organization] <String> [-Project] <String> [-Token] <
 ```
 
 ## DESCRIPTION
-Wraps Azure DevOps Queries - List endpoint.
-Supports depth, expansion, and inclusion of
-deleted queries/folders.
-By default returns typed QueryHierarchyItem objects.
+Wraps Queries - List endpoint.
+Supports depth, expansion and including deleted queries.
 
 ## EXAMPLES
 
@@ -33,7 +31,7 @@ Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat -Depth 1
 
 ### EXAMPLE 2
 ```
-Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat -Expand wiql -IncludeDeleted
+Get-ADOWorkItemQueryList -Organization org -Project proj -Token $pat -Expand wiql
 ```
 
 ## PARAMETERS
@@ -69,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT).
+PAT.
 
 ```yaml
 Type: String
@@ -84,7 +82,7 @@ Accept wildcard characters: False
 ```
 
 ### -Depth
-Return child queries/folders to this depth.
+Child depth.
 
 ```yaml
 Type: Int32
@@ -99,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -Expand
-none | wiql | clauses | all | minimal (query details expansion).
+none | wiql | clauses | all | minimal
 
 ```yaml
 Type: String
@@ -114,7 +112,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeDeleted
-Include deleted queries/folders.
+Include deleted queries.
 
 ```yaml
 Type: SwitchParameter
@@ -129,7 +127,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-Return raw result object (with count/value) instead of flattened items.
+Return raw response (count/value).
 
 ```yaml
 Type: SwitchParameter
@@ -180,7 +178,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.QueryHierarchyItem
+### (Raw payload when -Raw)
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

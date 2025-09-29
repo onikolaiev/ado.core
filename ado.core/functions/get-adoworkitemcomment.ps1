@@ -1,32 +1,36 @@
 
 <#
     .SYNOPSIS
-        Retrieves a single comment for a work item.
+        Retrieves a single work item comment.
     .DESCRIPTION
-        Calls the Azure DevOps Work Item Tracking REST API (Comments - Get Comment) to return a single comment.
-        Supports expanding reactions or rendered text and optionally including deleted comment.
+        Wraps Comments - Get Comment endpoint. Supports including deleted and expanding
+        reactions or rendered text.
+    .OUTPUTS
+        ADO.TOOLS.WorkItem.Comment
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT).
+        PAT (vso.work scope).
     .PARAMETER WorkItemId
-        Work item id owning the comment.
+        Work item id.
     .PARAMETER CommentId
-        Comment id to retrieve.
+        Comment id.
     .PARAMETER IncludeDeleted
-        Include deleted comment (if deleted).
+        Include the comment even if deleted.
     .PARAMETER Expand
         none | reactions | renderedText | renderedTextOnly | all
     .PARAMETER ApiVersion
-        API version. Default 7.1-preview.4
+        API version (default 7.1-preview.4).
     .EXAMPLE
-        Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 42
+        PS> Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42
+        Returns comment 42.
     .EXAMPLE
-        Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 299 -CommentId 42 -Expand renderedText
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Get-ADOWorkItemComment -Organization org -Project proj -Token $pat -WorkItemId 100 -CommentId 42 -Expand renderedText
+        Returns comment including rendered HTML.
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Get-ADOWorkItemComment {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]

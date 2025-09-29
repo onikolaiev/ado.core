@@ -1,25 +1,27 @@
 
 <#
     .SYNOPSIS
-        Retrieves a single work item tag definition.
+        Retrieves a single work item tag.
     .DESCRIPTION
-        Calls Azure DevOps Work Item Tracking REST API (Tags - Get) to return a tag by its id (GUID) or name.
+        Wraps Tags - Get endpoint to fetch tag by id or name.
+    .OUTPUTS
+        ADO.TOOLS.WorkItem.TagDefinition
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT).
+        PAT (vso.work scope).
     .PARAMETER Tag
-        Tag id (GUID) or tag name.
+        Tag id (GUID) or name.
     .PARAMETER ApiVersion
         API version (default 7.1).
     .EXAMPLE
-        Get-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag "my-first-tag"
+        PS> Get-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag "my-first-tag"
     .EXAMPLE
-        Get-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Get-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Get-ADOWorkItemTag {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]

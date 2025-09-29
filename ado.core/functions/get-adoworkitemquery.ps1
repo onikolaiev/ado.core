@@ -1,38 +1,37 @@
 
 <#
     .SYNOPSIS
-        Retrieves a single work item query (and optional descendants).
+        Retrieves a single query (and optional descendants).
     .DESCRIPTION
-        Wraps Azure DevOps Queries - Get endpoint. Supports depth, expansion of WIQL/clauses,
-        inclusion of deleted queries, and ISO date formatting for DateTime clauses.
+        Wraps Queries - Get endpoint with depth, expansion and deleted/ISO date options.
+    .OUTPUTS
+        ADO.TOOLS.QueryHierarchyItem
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT).
+        PAT (vso.work scope).
     .PARAMETER Query
-        Query path (e.g. 'Shared Queries/Website team/All Bugs') or query GUID.
+        Query id or path.
     .PARAMETER Depth
-        Return child queries/folders to this depth (for folders).
+        Child depth for folders.
     .PARAMETER Expand
         none | wiql | clauses | all | minimal
     .PARAMETER IncludeDeleted
-        Include deleted queries/folders.
+        Include deleted queries.
     .PARAMETER UseIsoDateFormat
-        Format DateTime clauses using ISO 8601.
+        Format date clauses in ISO 8601.
     .PARAMETER Raw
-        Return raw response object instead of typed item.
+        Return raw object.
     .PARAMETER ApiVersion
         API version (default 7.1).
     .EXAMPLE
-        Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/All Bugs'
+        PS> Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/All Bugs'
     .EXAMPLE
-        Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-4069-46b1-a940-3d0468979ceb -Expand wiql
-    .EXAMPLE
-        Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 'Shared Queries/Folder' -Depth 2 -Expand clauses
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Get-ADOWorkItemQuery -Organization org -Project proj -Token $pat -Query 342f0f44-... -Expand wiql
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Get-ADOWorkItemQuery {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]

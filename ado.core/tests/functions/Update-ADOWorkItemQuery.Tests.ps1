@@ -105,7 +105,7 @@
 		It 'Should have the expected parameter IsPublic' {
 			$parameter = (Get-Command Update-ADOWorkItemQuery).Parameters['IsPublic']
 			$parameter.Name | Should -Be 'IsPublic'
-			$parameter.ParameterType.ToString() | Should -Be System.Nullable`1[System.Boolean]
+			$parameter.ParameterType.ToString() | Should -Be System.Boolean
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
@@ -118,7 +118,7 @@
 		It 'Should have the expected parameter IsDeleted' {
 			$parameter = (Get-Command Update-ADOWorkItemQuery).Parameters['IsDeleted']
 			$parameter.Name | Should -Be 'IsDeleted'
-			$parameter.ParameterType.ToString() | Should -Be System.Nullable`1[System.Boolean]
+			$parameter.ParameterType.ToString() | Should -Be System.Boolean
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'

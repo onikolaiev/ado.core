@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Update-ADOWorkItemTag
 
 ## SYNOPSIS
-Renames (updates) a work item tag in a project.
+Renames an existing work item tag.
 
 ## SYNTAX
 
@@ -19,18 +19,18 @@ Update-ADOWorkItemTag [-Organization] <String> [-Project] <String> [-Token] <Str
 ```
 
 ## DESCRIPTION
-Calls Azure DevOps Work Item Tracking REST API (Tags - Update) to change a tag's name.
+PATCH wrapper for Tags - Update endpoint.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old-tag -NewName new-tag
+Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag old -NewName new
 ```
 
 ### EXAMPLE 2
 ```
-Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -NewName standardized-tag
+Update-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -NewName standardized
 ```
 
 ## PARAMETERS
@@ -66,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT) with vso.work_write scope.
+PAT (vso.work_write scope).
 
 ```yaml
 Type: String
@@ -81,7 +81,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-Existing tag id (GUID) or current tag name.
+Existing tag id or name.
 
 ```yaml
 Type: String
@@ -96,7 +96,7 @@ Accept wildcard characters: False
 ```
 
 ### -NewName
-New tag name to assign.
+New tag name.
 
 ```yaml
 Type: String
@@ -126,8 +126,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+Show what would happen.
 
 ```yaml
 Type: SwitchParameter
@@ -142,7 +141,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Prompts you for confirmation before running the cmdlet.
+Confirmation prompt.
 
 ```yaml
 Type: SwitchParameter
@@ -178,7 +177,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.TagDefinition
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

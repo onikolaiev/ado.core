@@ -1,26 +1,27 @@
 
 <#
     .SYNOPSIS
-        Retrieves all work item tags for a project.
+        Lists all work item tags in a project.
     .DESCRIPTION
-        Wraps Azure DevOps Work Item Tracking REST API (Tags - List).
-        Returns tag definitions (id, name, lastUpdated, url). Supports -Raw to return unprocessed payload.
+        Wraps Tags - List endpoint. Returns all tag definitions or raw payload.
+    .OUTPUTS
+        ADO.TOOLS.WorkItem.TagDefinition
     .PARAMETER Organization
         Azure DevOps organization name.
     .PARAMETER Project
         Project name or id.
     .PARAMETER Token
-        Personal Access Token (PAT).
+        PAT.
+    .PARAMETER Raw
+        Return raw payload.
     .PARAMETER ApiVersion
         API version (default 7.1).
-    .PARAMETER Raw
-        Return raw response payload.
     .EXAMPLE
-        Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat
+        PS> Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat
     .EXAMPLE
-        Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat -Raw
-    .NOTES
-        Author: Oleksandr Nikolaiev (@onikolaiev)
+        PS> Get-ADOWorkItemTagList -Organization org -Project proj -Token $pat -Raw
+    .LINK
+        https://learn.microsoft.com/azure/devops
 #>
 function Get-ADOWorkItemTagList {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","")]

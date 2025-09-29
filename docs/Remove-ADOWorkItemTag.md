@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Remove-ADOWorkItemTag
 
 ## SYNOPSIS
-Deletes a work item tag from a project.
+Deletes a work item tag.
 
 ## SYNTAX
 
@@ -19,20 +19,13 @@ Remove-ADOWorkItemTag [-Organization] <String> [-Project] <String> [-Token] <Str
 ```
 
 ## DESCRIPTION
-Calls Azure DevOps Work Item Tracking REST API (Tags - Delete).
-Deleting a tag removes it
-from all work items and pull requests in the project.
+Removes the tag from the project and all associated work items / PRs.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag "obsolete-tag" -Confirm:$false
-```
-
-### EXAMPLE 2
-```
-Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag 18090594-b371-4140-99d2-fc93bcbcddec -PassThru -Confirm:$false
+Remove-ADOWorkItemTag -Organization org -Project proj -Token $pat -Tag obsolete -Confirm:$false
 ```
 
 ## PARAMETERS
@@ -68,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Token
-Personal Access Token (PAT) with vso.work_write scope.
+PAT (vso.work_write scope).
 
 ```yaml
 Type: String
@@ -83,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-Tag id (GUID) or tag name to delete.
+Tag id or name to delete.
 
 ```yaml
 Type: String
@@ -98,7 +91,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-Return the tag identifier supplied if deletion succeeds (when API returns no body).
+Return supplied tag identifier if no body returned.
 
 ```yaml
 Type: SwitchParameter
@@ -128,8 +121,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+Show action without performing it.
 
 ```yaml
 Type: SwitchParameter
@@ -144,7 +136,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Prompts you for confirmation before running the cmdlet.
+Confirmation prompt.
 
 ```yaml
 Type: SwitchParameter
@@ -180,7 +172,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.TagDefinition, or System.String (with -PassThru and empty body).
 ## NOTES
-Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+
