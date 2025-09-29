@@ -12,7 +12,7 @@
 RootModule = 'ado.core.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.11'
+ModuleVersion = '1.0.13'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -175,7 +175,10 @@ FunctionsToExport = @(
     'Get-ADOWorkItemTagList',
     'Get-ADOWorkItemTag',
     'Update-ADOWorkItemTag',
-    'Remove-ADOWorkItemTag'
+    'Remove-ADOWorkItemTag',
+
+    'Add-ADOWorkItemAttachment',
+    'Get-ADOWorkItemAttachment'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
