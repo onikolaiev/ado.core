@@ -12,7 +12,7 @@
 RootModule = 'ado.core.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.1'
+ModuleVersion = '1.0.11'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -101,7 +101,7 @@ FunctionsToExport = @(
     'Get-ADOWorkItemTypeStateList',
     'Get-ADOWorkItemTypeState',
     'Add-ADOWorkItemTypeState',
-    'Hide-ADOWorkItemTypeState'
+    'Hide-ADOWorkItemTypeState',
     'Update-ADOWorkItemTypeState',
     'Remove-ADOWorkItemTypeState',
 
@@ -158,7 +158,24 @@ FunctionsToExport = @(
     'Invoke-ADOWiqlQuery',
     
     'Enable-ADOException',
-    'Disable-ADOException'
+    'Disable-ADOException',
+
+    'Get-ADOWorkItemCommentList',
+    'Get-ADOWorkItemComment',
+    'Add-ADOWorkItemComment',
+    'Update-ADOWorkItemComment',
+    'Remove-ADOWorkItemComment',
+
+    'Add-ADOWorkItemQuery',
+    'Get-ADOWorkItemQueryList',
+    'Get-ADOWorkItemQuery',
+    'Remove-ADOWorkItemQuery',
+    'Update-ADOWorkItemQuery',
+    
+    'Get-ADOWorkItemTagList',
+    'Get-ADOWorkItemTag',
+    'Update-ADOWorkItemTag',
+    'Remove-ADOWorkItemTag'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
