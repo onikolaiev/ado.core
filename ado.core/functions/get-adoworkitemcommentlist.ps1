@@ -1,4 +1,3 @@
-
 <#
     .SYNOPSIS
         Retrieves comments for an Azure DevOps work item.
@@ -96,7 +95,7 @@ function Get-ADOWorkItemCommentList {
         Write-PSFMessage -Level Verbose -Message "Starting retrieval of comments for WorkItemId: $WorkItemId (Org: $Organization, Project: $Project)"
         Invoke-TimeSignal -Start
         $baseApiUri = "$Project/_apis/wit/workItems/$WorkItemId/comments"
-        $aggregate = [PSCustomObject]@()
+        $aggregate = @()   # changed from [PSCustomObject]@() to a standard array
         $pageCount = 0
         $effectiveContinuation = $ContinuationToken
     }
@@ -106,15 +105,20 @@ function Get-ADOWorkItemCommentList {
         try {
             do {
                 $query = @{}
-                if ($Top)                { $query['$top'] = $Top }
+                if ($Top)                   { $query['$top'] = $Top }
                 if ($effectiveContinuation) { $query['continuationToken'] = $effectiveContinuation }
-                if ($IncludeDeleted)     { $query['includeDeleted'] = 'true' }
-                if ($Expand -ne 'none')  { $query['$expand'] = $Expand }
-                if ($Order)              { $query['order'] = $Order }
+                if ($IncludeDeleted)        { $query['includeDeleted'] = 'true' }
+                if ($Expand -ne 'none')     { $query['$expand'] = $Expand }
+                if ($Order)                 { $query['order'] = $Order }
 
                 $apiUri = $baseApiUri
                 if ($query.Count -gt 0) {
-                    $apiUri += '?' + ($query.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" } -join '&')
+                    # Rewritten to avoid pipeline/-join binding issue
+                    $pairs = @()
+                    foreach ($kv in $query.GetEnumerator()) {
+                        $pairs += ("{0}={1}" -f $kv.Key, $kv.Value)
+                    }
+                    $apiUri += '?' + ($pairs -join '&')
                 }
 
                 Write-PSFMessage -Level Verbose -Message "Requesting comments page (page index: $pageCount) URI: $apiUri"
@@ -134,7 +138,6 @@ function Get-ADOWorkItemCommentList {
                 }
 
                 if ($Raw) {
-                    # Raw mode: accumulate raw payload pages
                     $aggregate += $payload
                 }
                 else {
@@ -145,7 +148,7 @@ function Get-ADOWorkItemCommentList {
 
                 $effectiveContinuation = $payload.continuationToken
                 $hasMore = [string]::IsNullOrWhiteSpace($effectiveContinuation) -eq $false
-                if (-not $All) { $hasMore = $false } # Only continue automatically if -All
+                if (-not $All) { $hasMore = $false }
             } while ($hasMore)
 
             if ($Raw) {
