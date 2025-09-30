@@ -105,7 +105,7 @@ function Add-ADOWorkItemAttachment {
                 switch ($PSCmdlet.ParameterSetName) {
                     'File'    { $FileName = [System.IO.Path]::GetFileName($FilePath) }
                     'Content' { $FileName = 'content.txt' }
-                    'Stream'  { $FileName = "stream-$([guid]::NewGuid().ToString()).bin" }
+                    'Stream'  { $FileName = "stream-$([guid]::NewGuid()).bin" }
                 }
             }
 
@@ -113,7 +113,7 @@ function Add-ADOWorkItemAttachment {
 
             $query = @{}
             if ($FileName)   { $query['fileName']   = [System.Uri]::EscapeDataString($FileName) }
-            if ($UploadType) { $query['uploadType'] = $UploadType.ToLower() } # 'simple' or 'chunked'
+            if ($UploadType) { $query['uploadType'] = $UploadType.ToLower() }
             if ($AreaPath)   { $query['areaPath']   = [System.Uri]::EscapeDataString($AreaPath) }
 
             $apiUri = $basePath
@@ -121,43 +121,85 @@ function Add-ADOWorkItemAttachment {
                 $apiUri += '?' + ($query.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" } -join '&')
             }
 
-            Write-PSFMessage -Level Verbose -Message "API URI: $apiUri"
+            # Add api-version (not relying on wrapper anymore)
+            $apiUri += ($(if ($apiUri -match '\?') { '&' } else { '?' }) + "api-version=$ApiVersion")
 
-            $body = $null
-            $headers = @{ 'Content-Type' = 'application/octet-stream' }
+            Write-PSFMessage -Level Verbose -Message "API URI (direct HTTP): $apiUri"
 
-            if ($UploadType -eq 'Simple') {
+            # Prepare body (only for simple upload)
+            $bodyBytes = $null
+            if ($UploadType -ieq 'Simple') {
                 switch ($PSCmdlet.ParameterSetName) {
-                    'File'    { $body = [System.IO.File]::ReadAllBytes((Resolve-Path $FilePath)) }
-                    'Content' { $body = [System.Text.Encoding]::UTF8.GetBytes($Content) }
-                    'Stream'  {
-                        # Read entire stream into byte array
+                    'File' {
+                        $resolved = (Resolve-Path $FilePath).ProviderPath
+                        $bodyBytes = [System.IO.File]::ReadAllBytes($resolved)
+                    }
+                    'Content' {
+                        $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($Content)
+                    }
+                    'Stream' {
                         $ms = New-Object System.IO.MemoryStream
                         $Stream.CopyTo($ms)
-                        $body = $ms.ToArray()
+                        $bodyBytes = $ms.ToArray()
                         $ms.Dispose()
                     }
                 }
+                Write-PSFMessage -Level Verbose -Message "Prepared body bytes length: $($bodyBytes.Length)"
             }
             else {
-                # Chunked start: no body required (per API sample)
-                $body = $null
-                Write-PSFMessage -Level Verbose -Message "Initiating chunked upload session (no data body in this request)."
+                Write-PSFMessage -Level Verbose -Message "Chunked upload session initiation (no payload)."
             }
 
-            $response = Invoke-ADOApiRequest -Organization $Organization `
-                                             -Token $Token `
-                                             -ApiUri $apiUri `
-                                             -Method 'POST' `
-                                             -Body $body `
-                                             -Headers $headers `
-                                             -ApiVersion $ApiVersion
+            # Direct HTTP call (bypassing Invoke-ADOApiRequest to avoid binding issues with binary data)
+            $baseUrl = "https://dev.azure.com/$Organization/"
+            $fullUrl = "$baseUrl$apiUri"
 
-            Write-PSFMessage -Level Verbose -Message "Attachment upload succeeded (Type: $UploadType)"
-            return $response.Results | Select-PSFObject * -TypeName 'ADO.TOOLS.WorkItem.Attachment'
+            $authHeader = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$Token"))
+
+            $handler = [System.Net.Http.HttpClientHandler]::new()
+            $client  = [System.Net.Http.HttpClient]::new($handler)
+            $client.DefaultRequestHeaders.Authorization = [System.Net.Http.Headers.AuthenticationHeaderValue]::new("Basic", $authHeader)
+
+            if ($UploadType -ieq 'Simple') {
+                $content = [System.Net.Http.ByteArrayContent]::new($bodyBytes)
+                $content.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse("application/octet-stream")
+                $httpResponse = $client.PostAsync($fullUrl, $content).Result
+                $content.Dispose()
+            }
+            else {
+                # No body for starting a chunked upload
+                $httpResponse = $client.PostAsync($fullUrl, $null).Result
+            }
+
+            $rawResponse = $httpResponse.Content.ReadAsStringAsync().Result
+            $client.Dispose()
+
+            if (-not $httpResponse.IsSuccessStatusCode) {
+                Write-PSFMessage -Level Error -Message "HTTP error $([int]$httpResponse.StatusCode) : $($httpResponse.ReasonPhrase) - Body: $rawResponse"
+                throw "Attachment upload failed (HTTP $([int]$httpResponse.StatusCode))."
+            }
+
+            if ([string]::IsNullOrWhiteSpace($rawResponse)) {
+                throw "Empty response received from attachment endpoint."
+            }
+
+            $json = $null
+            try {
+                $json = $rawResponse | ConvertFrom-Json
+            }
+            catch {
+                throw "Failed to parse JSON response: $rawResponse"
+            }
+
+            if (-not $json.id -or -not $json.url) {
+                Write-PSFMessage -Level Warning -Message "Response JSON missing expected properties: $rawResponse"
+            }
+
+            Write-PSFMessage -Level Verbose -Message "Attachment upload succeeded (Id: $($json.id))"
+            $json | Select-PSFObject * -TypeName 'ADO.TOOLS.WorkItem.Attachment'
         }
         catch {
-            Write-PSFMessage -Level Error -Message "Attachment upload failed: $($_.ErrorDetails.Message)" -Exception $PSItem.Exception
+            Write-PSFMessage -Level Error -Message "Attachment upload failed: $($_.Exception.Message)" -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors"
         }
     }
