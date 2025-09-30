@@ -1,4 +1,3 @@
-
 <#
     .SYNOPSIS
         Downloads a work item attachment.
@@ -85,82 +84,75 @@ function Get-ADOWorkItemAttachment {
     begin {
         Write-PSFMessage -Level Verbose -Message "Starting download of attachment $Id (Org: $Organization / Project: $Project)"
         Invoke-TimeSignal -Start
-        if ($AsString -and $OutFile) { throw "Parameters -AsString and -OutFile cannot be combined." }
-        if ($AsString -and $AsBytes) { throw "Parameters -AsString and -AsBytes cannot be combined." }
-        if ($AsBytes -and $OutFile)  { throw "Parameters -AsBytes and -OutFile cannot be combined (byte[] is implied without -OutFile)." }
+        if ($AsString -and $OutFile) { throw "-AsString and -OutFile cannot be combined." }
+        if ($AsString -and $AsBytes) { throw "-AsString and -AsBytes cannot be combined." }
+        if ($AsBytes -and $OutFile)  { throw "-AsBytes and -OutFile cannot be combined (bytes implied when not saving)." }
     }
 
     process {
         if (Test-PSFFunctionInterrupt) { return }
         try {
-            $basePath = if ($Project) { "$Project/_apis/wit/attachments/$Id" } else { "_apis/wit/attachments/$Id" }
-
+            # -------- Build URL (direct REST call to avoid encoding issues) --------
+            $rel = if ($Project) { "$Project/_apis/wit/attachments/$Id" } else { "_apis/wit/attachments/$Id" }
             $q = @{}
             if ($FileName) { $q['fileName'] = [System.Uri]::EscapeDataString($FileName) }
             if ($Download) { $q['download'] = 'true' }
+            $q['api-version'] = $ApiVersion
+            $pairs = foreach ($kv in $q.GetEnumerator()) { "{0}={1}" -f $kv.Key,$kv.Value }
+            $url = "https://dev.azure.com/$Organization/$rel" + '?' + ($pairs -join '&')
+            Write-PSFMessage -Level Verbose -Message "Downloading from $url"
 
-            $apiUri = $basePath
-            if ($q.Count -gt 0) {
-                $apiUri += '?' + ($q.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" } -join '&')
-            }
-
-            Write-PSFMessage -Level Verbose -Message "API URI: $apiUri"
-
-            # Use Invoke-ADOApiRequest expecting raw byte content. If helper returns object, fall back to manual.
-            $response = Invoke-ADOApiRequest -Organization $Organization `
-                                             -Token $Token `
-                                             -ApiUri $apiUri `
-                                             -Method 'GET' `
-                                             -Headers @{ 'Accept' = 'application/octet-stream' } `
-                                             -ApiVersion $ApiVersion
-
-            $data = $null
-            if ($response -and $response.Results -is [byte[]]) {
-                $data = $response.Results
-            }
-            elseif ($response -and $response.Results -and ($response.Results.GetType().Name -eq 'String')) {
-                # Might already be a string (text attachment)
-                $data = [System.Text.Encoding]::UTF8.GetBytes([string]$response.Results)
-            }
-            elseif ($response -and $response.Results) {
-                # Try to coerce unknown object to string then bytes
-                $data = [System.Text.Encoding]::UTF8.GetBytes([string]$response.Results)
-            }
-            else {
-                # Fallback: attempt direct download using WebRequest if data missing
-                Write-PSFMessage -Level Verbose -Message "Fallback direct download for attachment $Id"
-                $baseUrl = "https://dev.azure.com/$Organization/"
-                $authToken = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$Token"))
-                $headers = @{ Authorization = "Basic $authToken"; Accept = 'application/octet-stream' }
-                $fullUrl = "$baseUrl$apiUri?api-version=$ApiVersion"
-                $raw = Invoke-WebRequest -Uri $fullUrl -Headers $headers -Method GET -UseBasicParsing
-                $data = $raw.ContentBytes
-            }
+            # -------- Auth header (Basic with PAT) --------
+            $auth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$Token"))
+            $headers = @{ Authorization = "Basic $auth" }
 
             if ($OutFile) {
                 $dir = Split-Path -Path $OutFile -Parent
                 if ($dir -and -not (Test-Path $dir)) {
-                    Write-PSFMessage -Level Verbose -Message "Creating directory $dir"
-                    New-Item -ItemType Directory -Force -Path $dir | Out-Null
+                    New-Item -ItemType Directory -Path $dir -Force | Out-Null
                 }
-                [System.IO.File]::WriteAllBytes($OutFile, $data)
+                $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get -OutFile $OutFile -UseBasicParsing -ErrorAction Stop
+                # Validate file not HTML error
+                $firstBytes = [System.IO.File]::ReadAllBytes($OutFile)[0..([Math]::Min(255, ([System.IO.File]::ReadAllBytes($OutFile).Length - 1)))]
+                $asTextSample = [System.Text.Encoding]::UTF8.GetString($firstBytes)
+                if ($asTextSample -match '<html' -and $asTextSample -match 'Sign In') {
+                    Remove-Item -LiteralPath $OutFile -ErrorAction SilentlyContinue
+                    throw "Received HTML sign-in page. Check PAT scope/org/project."
+                }
                 $fi = Get-Item -LiteralPath $OutFile
-                Write-PSFMessage -Level Verbose -Message "Attachment saved to $OutFile"
+                Write-PSFMessage -Level Verbose -Message "Saved attachment to $OutFile (Size: $($fi.Length) bytes)"
                 return $fi
             }
+            else {
+                $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get -UseBasicParsing -ErrorAction Stop
+                # RawContentStream -> MemoryStream -> bytes
+                $rawStream = $resp.RawContentStream
+                $ms = New-Object System.IO.MemoryStream
+                $rawStream.Position = 0
+                $rawStream.CopyTo($ms)
+                $bytes = $ms.ToArray()
+                $ms.Dispose()
 
-            if ($AsString) {
-                $text = [System.Text.Encoding]::UTF8.GetString($data)
-                Write-PSFMessage -Level Verbose -Message "Returning attachment as string"
-                return $text
+                if ($bytes.Length -eq 0) { throw "Downloaded content is empty." }
+
+                # Detect HTML (auth failure)
+                $sample = [System.Text.Encoding]::UTF8.GetString($bytes,0,[Math]::Min(300,$bytes.Length))
+                if ($sample -match '<html' -and $sample -match 'Sign In') {
+                    throw "Received HTML sign-in page. Authentication failed (invalid PAT or missing scope)."
+                }
+
+                if ($AsString) {
+                    $text = [System.Text.Encoding]::UTF8.GetString($bytes)
+                    Write-PSFMessage -Level Verbose -Message "Returning attachment as string (Length: $($text.Length))"
+                    return $text
+                }
+                # default / -AsBytes
+                Write-PSFMessage -Level Verbose -Message "Returning attachment as byte[] (Length: $($bytes.Length))"
+                return $bytes
             }
-
-            # Default: bytes
-            Write-PSFMessage -Level Verbose -Message "Returning attachment as byte array (Length=$($data.Length))"
-            return $data
         }
         catch {
-            Write-PSFMessage -Level Error -Message "Failed to download attachment $Id : $($_.ErrorDetails.Message)" -Exception $PSItem.Exception
+            Write-PSFMessage -Level Error -Message "Failed to download attachment $Id : $($_.Exception.Message)" -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors"
         }
     }

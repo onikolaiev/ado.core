@@ -1,4 +1,3 @@
-
 <#
     .SYNOPSIS
         Uploads (creates) a work item attachment.
@@ -129,90 +128,99 @@ function Add-ADOWorkItemAttachment {
                 }
             }
 
-            # ---------------- build relative API path & query ----------------
+            # Build base path
             $basePath = if ($Project) { "$Project/_apis/wit/attachments" } else { "_apis/wit/attachments" }
 
+            # Query params
             $query = @{}
-            if ($FileName)   { $query['fileName']   = [System.Uri]::EscapeDataString($FileName) }
-            if ($UploadType) { $query['uploadType'] = $UploadType.ToLower() }
-            if ($AreaPath)   { $query['areaPath']   = [System.Uri]::EscapeDataString($AreaPath) }
+            if ($FileName)   { $query['fileName'] = [System.Uri]::EscapeDataString($FileName) }
+            if ($UploadType -eq 'Chunked') { $query['uploadType'] = 'Chunked' } # omit for Simple
+            if ($AreaPath)   { $query['areaPath'] = [System.Uri]::EscapeDataString($AreaPath) }
 
             $apiUri = $basePath
             if ($query.Count -gt 0) {
-                $pairs = foreach ($kv in $query.GetEnumerator()) { "{0}={1}" -f $kv.Key, $kv.Value }
+                $pairs = foreach ($kv in $query.GetEnumerator()) { "{0}={1}" -f $kv.Key,$kv.Value }
                 $apiUri += '?' + ($pairs -join '&')
             }
-            # Append api-version
-            $apiUri += ($(if ($apiUri -match '\?') { '&' } else { '?' }) + "api-version=$ApiVersion")
-            Write-PSFMessage -Level Verbose -Message "API relative URI: $apiUri"
+            $apiUri += ($(if ($apiUri -match '\?'){'&'}else{'?'}) + "api-version=$ApiVersion")
 
             $baseUrl = "https://dev.azure.com/$Organization/"
             $fullUrl = "$baseUrl$apiUri"
-            Write-PSFMessage -Level Verbose -Message "Full URL: $fullUrl"
+            Write-PSFMessage -Level Verbose -Message "Upload URL: $fullUrl"
 
-            # ---------------- prepare body (simple upload only) ----------------
-            $bodyBytes = $null
-            if ($UploadType -ieq 'Simple') {
-                switch ($PSCmdlet.ParameterSetName) {
-                    'File' {
-                        $resolved = (Resolve-Path $FilePath -ErrorAction Stop).ProviderPath
-                        if (-not (Test-Path $resolved -PathType Leaf)) {
-                            throw "File not found: $resolved"
-                        }
-                        $bodyBytes = [System.IO.File]::ReadAllBytes($resolved)
-                    }
-                    'Content' {
-                        $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($Content)
-                    }
-                    'Stream' {
-                        if (-not $Stream.CanRead) { throw "Provided stream is not readable." }
-                        $ms = New-Object System.IO.MemoryStream
-                        $Stream.CopyTo($ms)
-                        $bodyBytes = $ms.ToArray()
-                        $ms.Dispose()
-                    }
-                }
-                if (-not $bodyBytes -or $bodyBytes.Length -eq 0) {
-                    throw "Upload content is empty. Provide a non-empty file, content or stream."
-                }
-                Write-PSFMessage -Level Verbose -Message "Payload size (bytes): $($bodyBytes.Length)"
-            }
-            else {
-                Write-PSFMessage -Level Verbose -Message "Initiating chunked upload session (no payload sent)."
-            }
-
-            # ---------------- perform request ----------------
             $authHeader = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$Token"))
             $headers = @{ Authorization = "Basic $authHeader" }
 
-            if ($UploadType -ieq 'Simple') {
-                # Use Invoke-RestMethod to let PowerShell handle response parsing
-                $resultJson = Invoke-RestMethod -Method Post -Uri $fullUrl -Headers $headers -Body $bodyBytes -ContentType 'application/octet-stream' -ErrorAction Stop
+            $tempFile = $null
+            $uploadedJson = $null
+
+            if ($UploadType -eq 'Chunked') {
+                # Start chunked session (no body)
+                $resp = Invoke-WebRequest -Uri $fullUrl -Headers $headers -Method Post -UseBasicParsing -ErrorAction Stop
+                $uploadedJson = $resp.Content
             }
             else {
-                # Start chunked session (no body)
-                $resultJson = Invoke-RestMethod -Method Post -Uri $fullUrl -Headers $headers -ErrorAction Stop
+                # Simple upload: ensure we have a physical file to send via -InFile
+                switch ($PSCmdlet.ParameterSetName) {
+                    'File' {
+                        $resolved = (Resolve-Path $FilePath -ErrorAction Stop).ProviderPath
+                        if (-not (Test-Path $resolved -PathType Leaf)) { throw "File not found: $resolved" }
+                        $inFile = $resolved
+                    }
+                    'Content' {
+                        $tempFile = [System.IO.Path]::GetTempFileName()
+                        [System.IO.File]::WriteAllText($tempFile, $Content, [System.Text.Encoding]::UTF8)
+                        $inFile = $tempFile
+                    }
+                    'Stream' {
+                        if (-not $Stream.CanRead) { throw "Provided stream is not readable." }
+                        $tempFile = [System.IO.Path]::GetTempFileName()
+                        $fs = [System.IO.File]::OpenWrite($tempFile)
+                        $Stream.CopyTo($fs)
+                        $fs.Flush(); $fs.Dispose()
+                        $inFile = $tempFile
+                    }
+                }
+
+                $size = (Get-Item -LiteralPath $inFile).Length
+                if ($size -le 0) { throw "Prepared upload file '$inFile' is empty." }
+                Write-PSFMessage -Level Verbose -Message "Uploading file '$inFile' ($size bytes)"
+
+                $resp = Invoke-WebRequest -Uri $fullUrl -Headers $headers -Method Post -ContentType 'application/octet-stream' -InFile $inFile -UseBasicParsing -ErrorAction Stop
+                $uploadedJson = $resp.Content
             }
 
-            if (-not $resultJson) { throw "Empty response received." }
+            if ([string]::IsNullOrWhiteSpace($uploadedJson)) {
+                throw "Empty response from attachment service."
+            }
 
-            # If Invoke-RestMethod returned HTML (auth or sign-in page), treat as error
-            if ($resultJson -is [string] -and $resultJson -match '<html' ) {
-                $snippet = ($resultJson -replace '\r','' -replace '\n',' ' )
+            # Detect HTML (auth failure)
+            if ($uploadedJson -match '<html') {
+                $snippet = ($uploadedJson -replace '\r','' -replace '\n',' ')
                 if ($snippet.Length -gt 200) { $snippet = $snippet.Substring(0,200) + '...' }
-                throw "Unexpected HTML response (probable authentication failure or wrong PAT). Verify -Token (PAT), -Organization, and scopes. Snippet: $snippet"
+                throw "Unexpected HTML response (authentication/scopes issue). Snippet: $snippet"
             }
 
-            if (-not $resultJson.id -or -not $resultJson.url) {
-                throw "Response missing expected properties (id/url). Raw: $($resultJson | ConvertTo-Json -Depth 4)"
+            $jsonObj = $null
+            try { $jsonObj = $uploadedJson | ConvertFrom-Json -ErrorAction Stop } catch {
+                throw "Response not valid JSON. Raw: $uploadedJson"
             }
 
-            Write-PSFMessage -Level Verbose -Message "Attachment upload succeeded (Id: $($resultJson.id))"
-            $resultJson | Select-PSFObject * -TypeName 'ADO.TOOLS.WorkItem.Attachment'
+            if (-not $jsonObj.id -or -not $jsonObj.url) {
+                throw "Response JSON missing expected properties (id/url). Raw: $uploadedJson"
+            }
+
+            Write-PSFMessage -Level Verbose -Message "Upload succeeded Id=$($jsonObj.id)"
+            $jsonObj | Select-PSFObject * -TypeName 'ADO.TOOLS.WorkItem.Attachment'
         }
         catch {
             Write-PSFMessage -Level Error -Message "Attachment upload failed: $($_.Exception.Message)"
             Stop-PSFFunction -Message "Stopping because of errors" -Target $PSCmdlet.MyInvocation.MyCommand.Name -ErrorRecord $_
+        }
+        finally {
+            if ($tempFile -and (Test-Path $tempFile)) {
+                try { Remove-Item -LiteralPath $tempFile -ErrorAction SilentlyContinue } catch {}
+            }
         }
     }
 
