@@ -1,12 +1,13 @@
+
 <#
     .SYNOPSIS
         Uploads (creates) a work item attachment.
     .DESCRIPTION
         Uses the Azure DevOps Work Item Tracking REST API (Attachments - Create) to upload an attachment.
         Supports three content sources (separate parameter sets):
-          - File:    Provide a local file path via -FilePath
-          - Content: Provide text via -Content (converted to UTF8 bytes)
-          - Stream:  Provide an open System.IO.Stream via -Stream
+            - File:    Provide a local file path via -FilePath
+            - Content: Provide text via -Content (converted to UTF8 bytes)
+            - Stream:  Provide an open System.IO.Stream via -Stream
         Also supports initiating a chunked upload session with -UploadType Chunked (no data chunks
         are uploaded in this initial request). For chunked transfers you must later call the chunk
         upload APIs (not implemented here).
@@ -97,11 +98,29 @@ function Add-ADOWorkItemAttachment {
     begin {
         Write-PSFMessage -Level Verbose -Message "Starting attachment upload (Type: $UploadType) (Org: $Organization / Project: $Project)"
         Invoke-TimeSignal -Start
+
+        # --- Basic PAT sanity checks (common cause of HTML login response) ---
+        if ([string]::IsNullOrWhiteSpace($Token)) {
+            Stop-PSFFunction -Message "Empty -Token value supplied. Provide a valid Azure DevOps PAT." -Target 'Add-ADOWorkItemAttachment'
+            return
+        }
+        if ($Token -eq $Organization) {
+            Stop-PSFFunction -Message "The -Token value equals the organization name ('$Organization'). You passed the org instead of a PAT." -Target 'Add-ADOWorkItemAttachment'
+            return
+        }
+        if ($Token -match '\s') {
+            Stop-PSFFunction -Message "The -Token contains whitespace which is invalid for a PAT." -Target 'Add-ADOWorkItemAttachment'
+            return
+        }
+        if ($Token.Length -lt 30) {
+            Write-PSFMessage -Level Warning -Message "PAT length ($($Token.Length)) looks short; a full PAT is usually > 30 chars. This may fail authentication."
+        }
     }
 
     process {
         if (Test-PSFFunctionInterrupt) { return }
         try {
+            # ---------------- derive FileName ----------------
             if (-not $FileName) {
                 switch ($PSCmdlet.ParameterSetName) {
                     'File'    { $FileName = [System.IO.Path]::GetFileName($FilePath) }
@@ -110,6 +129,7 @@ function Add-ADOWorkItemAttachment {
                 }
             }
 
+            # ---------------- build relative API path & query ----------------
             $basePath = if ($Project) { "$Project/_apis/wit/attachments" } else { "_apis/wit/attachments" }
 
             $query = @{}
@@ -119,89 +139,80 @@ function Add-ADOWorkItemAttachment {
 
             $apiUri = $basePath
             if ($query.Count -gt 0) {
-                $apiUri += '?' + ($query.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" } -join '&')
+                $pairs = foreach ($kv in $query.GetEnumerator()) { "{0}={1}" -f $kv.Key, $kv.Value }
+                $apiUri += '?' + ($pairs -join '&')
             }
-
-            # Add api-version (not relying on wrapper anymore)
+            # Append api-version
             $apiUri += ($(if ($apiUri -match '\?') { '&' } else { '?' }) + "api-version=$ApiVersion")
+            Write-PSFMessage -Level Verbose -Message "API relative URI: $apiUri"
 
-            Write-PSFMessage -Level Verbose -Message "API URI (direct HTTP): $apiUri"
+            $baseUrl = "https://dev.azure.com/$Organization/"
+            $fullUrl = "$baseUrl$apiUri"
+            Write-PSFMessage -Level Verbose -Message "Full URL: $fullUrl"
 
-            # Prepare body (only for simple upload)
+            # ---------------- prepare body (simple upload only) ----------------
             $bodyBytes = $null
             if ($UploadType -ieq 'Simple') {
                 switch ($PSCmdlet.ParameterSetName) {
                     'File' {
-                        $resolved = (Resolve-Path $FilePath).ProviderPath
+                        $resolved = (Resolve-Path $FilePath -ErrorAction Stop).ProviderPath
+                        if (-not (Test-Path $resolved -PathType Leaf)) {
+                            throw "File not found: $resolved"
+                        }
                         $bodyBytes = [System.IO.File]::ReadAllBytes($resolved)
                     }
                     'Content' {
                         $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($Content)
                     }
                     'Stream' {
+                        if (-not $Stream.CanRead) { throw "Provided stream is not readable." }
                         $ms = New-Object System.IO.MemoryStream
                         $Stream.CopyTo($ms)
                         $bodyBytes = $ms.ToArray()
                         $ms.Dispose()
                     }
                 }
-                Write-PSFMessage -Level Verbose -Message "Prepared body bytes length: $($bodyBytes.Length)"
+                if (-not $bodyBytes -or $bodyBytes.Length -eq 0) {
+                    throw "Upload content is empty. Provide a non-empty file, content or stream."
+                }
+                Write-PSFMessage -Level Verbose -Message "Payload size (bytes): $($bodyBytes.Length)"
             }
             else {
-                Write-PSFMessage -Level Verbose -Message "Chunked upload session initiation (no payload)."
+                Write-PSFMessage -Level Verbose -Message "Initiating chunked upload session (no payload sent)."
             }
 
-            # Direct HTTP call (bypassing Invoke-ADOApiRequest to avoid binding issues with binary data)
-            $baseUrl = "https://dev.azure.com/$Organization/"
-            $fullUrl = "$baseUrl$apiUri"
-
+            # ---------------- perform request ----------------
             $authHeader = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$Token"))
-
-            $handler = [System.Net.Http.HttpClientHandler]::new()
-            $client  = [System.Net.Http.HttpClient]::new($handler)
-            $client.DefaultRequestHeaders.Authorization = [System.Net.Http.Headers.AuthenticationHeaderValue]::new("Basic", $authHeader)
+            $headers = @{ Authorization = "Basic $authHeader" }
 
             if ($UploadType -ieq 'Simple') {
-                $content = [System.Net.Http.ByteArrayContent]::new($bodyBytes)
-                $content.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse("application/octet-stream")
-                $httpResponse = $client.PostAsync($fullUrl, $content).Result
-                $content.Dispose()
+                # Use Invoke-RestMethod to let PowerShell handle response parsing
+                $resultJson = Invoke-RestMethod -Method Post -Uri $fullUrl -Headers $headers -Body $bodyBytes -ContentType 'application/octet-stream' -ErrorAction Stop
             }
             else {
-                # No body for starting a chunked upload
-                $httpResponse = $client.PostAsync($fullUrl, $null).Result
+                # Start chunked session (no body)
+                $resultJson = Invoke-RestMethod -Method Post -Uri $fullUrl -Headers $headers -ErrorAction Stop
             }
 
-            $rawResponse = $httpResponse.Content.ReadAsStringAsync().Result
-            $client.Dispose()
+            if (-not $resultJson) { throw "Empty response received." }
 
-            if (-not $httpResponse.IsSuccessStatusCode) {
-                Write-PSFMessage -Level Error -Message "HTTP error $([int]$httpResponse.StatusCode) : $($httpResponse.ReasonPhrase) - Body: $rawResponse"
-                throw "Attachment upload failed (HTTP $([int]$httpResponse.StatusCode))."
+            # If Invoke-RestMethod returned HTML (auth or sign-in page), treat as error
+            if ($resultJson -is [string] -and $resultJson -match '<html' ) {
+                $snippet = ($resultJson -replace '\r','' -replace '\n',' ' )
+                if ($snippet.Length -gt 200) { $snippet = $snippet.Substring(0,200) + '...' }
+                throw "Unexpected HTML response (probable authentication failure or wrong PAT). Verify -Token (PAT), -Organization, and scopes. Snippet: $snippet"
             }
 
-            if ([string]::IsNullOrWhiteSpace($rawResponse)) {
-                throw "Empty response received from attachment endpoint."
+            if (-not $resultJson.id -or -not $resultJson.url) {
+                throw "Response missing expected properties (id/url). Raw: $($resultJson | ConvertTo-Json -Depth 4)"
             }
 
-            $json = $null
-            try {
-                $json = $rawResponse | ConvertFrom-Json
-            }
-            catch {
-                throw "Failed to parse JSON response: $rawResponse"
-            }
-
-            if (-not $json.id -or -not $json.url) {
-                Write-PSFMessage -Level Warning -Message "Response JSON missing expected properties: $rawResponse"
-            }
-
-            Write-PSFMessage -Level Verbose -Message "Attachment upload succeeded (Id: $($json.id))"
-            $json | Select-PSFObject * -TypeName 'ADO.TOOLS.WorkItem.Attachment'
+            Write-PSFMessage -Level Verbose -Message "Attachment upload succeeded (Id: $($resultJson.id))"
+            $resultJson | Select-PSFObject * -TypeName 'ADO.TOOLS.WorkItem.Attachment'
         }
         catch {
-            Write-PSFMessage -Level Error -Message "Attachment upload failed: $($_.Exception.Message)" -Exception $PSItem.Exception
-            Stop-PSFFunction -Message "Stopping because of errors"
+            Write-PSFMessage -Level Error -Message "Attachment upload failed: $($_.Exception.Message)"
+            Stop-PSFFunction -Message "Stopping because of errors" -Target $PSCmdlet.MyInvocation.MyCommand.Name -ErrorRecord $_
         }
     }
 

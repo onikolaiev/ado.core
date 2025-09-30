@@ -1,14 +1,14 @@
 ﻿---
 external help file: ado.core-help.xml
 Module Name: ado.core
-online version:
+online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
 # Add-ADOWorkItemAttachment
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Uploads (creates) a work item attachment.
 
 ## SYNTAX
 
@@ -34,96 +34,53 @@ Add-ADOWorkItemAttachment -Organization <String> [-Project <String>] -Token <Str
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Uses the Azure DevOps Work Item Tracking REST API (Attachments - Create) to upload an attachment.
+Supports three content sources (separate parameter sets):
+    - File:    Provide a local file path via -FilePath
+    - Content: Provide text via -Content (converted to UTF8 bytes)
+    - Stream:  Provide an open System.IO.Stream via -Stream
+Also supports initiating a chunked upload session with -UploadType Chunked (no data chunks
+are uploaded in this initial request).
+For chunked transfers you must later call the chunk
+upload APIs (not implemented here).
+Returns the attachment reference object (id, url) as type ADO.TOOLS.WorkItem.Attachment.
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Add-ADOWorkItemAttachment -Organization contoso -Project WebApp -Token $pat -FilePath .\readme.md
 ```
 
-{{ Add example description here }}
+Uploads readme.md using simple upload and returns the attachment reference.
+
+### EXAMPLE 2
+```
+Add-ADOWorkItemAttachment -Organization contoso -Project WebApp -Token $pat -Content "Log $(Get-Date -Format o)" -FileName runlog.txt
+```
+
+Uploads generated text as runlog.txt.
+
+### EXAMPLE 3
+```
+$fs = [System.IO.File]::OpenRead('diagram.png')
+PS> Add-ADOWorkItemAttachment -Organization contoso -Project WebApp -Token $pat -Stream $fs -FileName diagram.png
+```
+
+Uploads the stream content (diagram.png) then returns the attachment reference.
+
+### EXAMPLE 4
+```
+Add-ADOWorkItemAttachment -Organization contoso -Token $pat -FilePath .\large.zip -UploadType Chunked
+```
+
+Initiates a chunked upload session for large.zip (no data chunks uploaded here).
 
 ## PARAMETERS
 
-### -ApiVersion
-{{ Fill ApiVersion Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AreaPath
-{{ Fill AreaPath Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Content
-{{ Fill Content Description }}
-
-```yaml
-Type: String
-Parameter Sets: Content
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FileName
-{{ Fill FileName Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FilePath
-{{ Fill FilePath Description }}
-
-```yaml
-Type: String
-Parameter Sets: File
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Organization
-{{ Fill Organization Description }}
+Azure DevOps organization name (e.g.
+contoso).
 
 ```yaml
 Type: String
@@ -138,7 +95,8 @@ Accept wildcard characters: False
 ```
 
 ### -Project
-{{ Fill Project Description }}
+(Optional) Project name or id.
+If omitted, the attachment is uploaded at the account level.
 
 ```yaml
 Type: String
@@ -152,8 +110,55 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Token
+Personal Access Token (PAT) with vso.work_write (or broader) scope.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FilePath
+Path to an existing local file to upload (File parameter set).
+
+```yaml
+Type: String
+Parameter Sets: File
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Content
+Plain text content to upload (Content parameter set).
+Encoded as UTF8.
+
+```yaml
+Type: String
+Parameter Sets: Content
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Stream
-{{ Fill Stream Description }}
+Open readable System.IO.Stream to upload (Stream parameter set).
+Entire stream is buffered.
 
 ```yaml
 Type: Stream
@@ -167,15 +172,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Token
-{{ Fill Token Description }}
+### -FileName
+Target file name to store in Azure DevOps.
+Defaults to the leaf name of FilePath, 'content.txt'
+for -Content, or a generated name for -Stream when not specified.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -183,17 +190,48 @@ Accept wildcard characters: False
 ```
 
 ### -UploadType
-{{ Fill UploadType Description }}
+simple | chunked.
+Default simple.
+chunked only starts a chunked upload session (no payload).
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: Simple, Chunked
+
+Required: False
+Position: Named
+Default value: Simple
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AreaPath
+Optional area path (areaPath query parameter) to associate with the upload.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ApiVersion
+API version (default 7.1).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 7.1
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -218,12 +256,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
-
 ## OUTPUTS
 
 ### ADO.TOOLS.WorkItem.Attachment
-
 ## NOTES
+Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+
