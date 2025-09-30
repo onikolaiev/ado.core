@@ -219,7 +219,10 @@ function Add-ADOWorkItemAttachment {
         }
         finally {
             if ($tempFile -and (Test-Path $tempFile)) {
-                try { Remove-Item -LiteralPath $tempFile -ErrorAction SilentlyContinue } catch {}
+                try { Remove-Item -LiteralPath $tempFile -ErrorAction SilentlyContinue }
+                catch {
+                    Write-PSFMessage -Level Verbose -Message "Temp file cleanup failed: $($_.Exception.Message)"
+                }
             }
         }
     }
