@@ -49,6 +49,7 @@
         Uploads the stream content (diagram.png) then returns the attachment reference.
     .EXAMPLE
         PS> Add-ADOWorkItemAttachment -Organization contoso -Token $pat -FilePath .\large.zip -UploadType Chunked
+        
         Initiates a chunked upload session for large.zip (no data chunks uploaded here).
     .LINK
         https://learn.microsoft.com/azure/devops
