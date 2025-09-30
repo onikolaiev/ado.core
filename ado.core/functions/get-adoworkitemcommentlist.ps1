@@ -95,7 +95,7 @@ function Get-ADOWorkItemCommentList {
         Write-PSFMessage -Level Verbose -Message "Starting retrieval of comments for WorkItemId: $WorkItemId (Org: $Organization, Project: $Project)"
         Invoke-TimeSignal -Start
         $baseApiUri = "$Project/_apis/wit/workItems/$WorkItemId/comments"
-        $aggregate = @()   # changed from [PSCustomObject]@() to a standard array
+        $aggregate = [PSCustomObject]@()   # changed from [PSCustomObject]@() to a standard array
         $pageCount = 0
         $effectiveContinuation = $ContinuationToken
     }
@@ -163,7 +163,7 @@ function Get-ADOWorkItemCommentList {
         catch {
             Write-PSFMessage -Level Error -Message "Failed to retrieve comments for WorkItemId: $WorkItemId : $($_.ErrorDetails.Message)" -Exception $PSItem.Exception
             Stop-PSFFunction -Message "Stopping because of errors"
-            return
+            [PSCustomObject]@()
         }
     }
 
