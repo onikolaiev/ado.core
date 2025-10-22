@@ -38,6 +38,7 @@
 function Get-ADOClassificationNodeRoot {
     [CmdletBinding()]
     [OutputType('ADO.TOOLS.WorkItem.ClassificationNode[]')]
+    [OutputType([System.Object[]])]
     param(
         [Parameter(Mandatory=$true)]
         [string]$Organization,

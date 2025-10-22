@@ -113,12 +113,12 @@ function Remove-ADOClassificationNode {
             
             if ($PSCmdlet.ShouldProcess($target, "Delete classification node")) {
                 # Make API call
-                $response = Invoke-ADOApiRequest -Organization $Organization `
-                                                 -Token $Token `
-                                                 -ApiUri $apiUri `
-                                                 -Method 'DELETE' `
-                                                 -Headers @{'Content-Type' = 'application/json'} `
-                                                 -ApiVersion $ApiVersion
+                Invoke-ADOApiRequest -Organization $Organization `
+                                     -Token $Token `
+                                     -ApiUri $apiUri `
+                                     -Method 'DELETE' `
+                                     -Headers @{'Content-Type' = 'application/json'} `
+                                     -ApiVersion $ApiVersion
 
                 Write-PSFMessage -Level Verbose -Message "Successfully deleted classification node '$Path'"
 
