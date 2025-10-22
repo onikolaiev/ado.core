@@ -32,26 +32,30 @@ Supports:
 ### EXAMPLE 1
 ```
 Update-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Frontend Team" -Name "UI Team"
-Renames the "Frontend Team" area to "UI Team".
 ```
+
+Renames the "Frontend Team" area to "UI Team".
 
 ### EXAMPLE 2
 ```
 Update-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Sprint 1" -StartDate "2024-01-01T00:00:00Z" -FinishDate "2024-01-15T00:00:00Z"
-Updates Sprint 1 iteration with new start and finish dates.
 ```
+
+Updates Sprint 1 iteration with new start and finish dates.
 
 ### EXAMPLE 3
 ```
 Update-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Current Sprint" -Attributes @{ startDate = "2024-02-01T00:00:00Z"; finishDate = "2024-02-14T00:00:00Z" }
-Updates iteration dates using the Attributes hashtable.
 ```
+
+Updates iteration dates using the Attributes hashtable.
 
 ### EXAMPLE 4
 ```
 Update-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Name "New Root Area Name"
-Renames the root Areas node.
 ```
+
+Renames the root Areas node.
 
 ## PARAMETERS
 

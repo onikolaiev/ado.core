@@ -32,13 +32,19 @@
         Show what would happen without deleting.
     .EXAMPLE
         PS> Remove-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Frontend Team" -Confirm:$false
+        
         Deletes the "Frontend Team" area node without confirmation.
+        
     .EXAMPLE
         PS> Remove-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Old Sprint" -ReclassifyId 12345 -PassThru
+        
         Deletes "Old Sprint" iteration after reclassifying work items to node ID 12345, returns the deleted path.
+        
     .EXAMPLE
         PS> Remove-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Development\Legacy" -WhatIf
+        
         Shows what would be deleted without actually performing the deletion.
+        
     .LINK
         https://learn.microsoft.com/azure/devops
     .NOTES

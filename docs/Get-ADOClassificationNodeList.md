@@ -32,26 +32,30 @@ Supports:
 ### EXAMPLE 1
 ```
 Get-ADOClassificationNodeList -Organization contoso -Project WebApp -Token $pat
-Gets all root classification nodes (both Areas and Iterations).
 ```
+
+Gets all root classification nodes (both Areas and Iterations).
 
 ### EXAMPLE 2
 ```
 Get-ADOClassificationNodeList -Organization contoso -Project WebApp -Token $pat -Ids 1,3,5
-Gets classification nodes with IDs 1, 3, and 5.
 ```
+
+Gets classification nodes with IDs 1, 3, and 5.
 
 ### EXAMPLE 3
 ```
 Get-ADOClassificationNodeList -Organization contoso -Project WebApp -Token $pat -Depth 2
-Gets root nodes including 2 levels of child nodes.
 ```
+
+Gets root nodes including 2 levels of child nodes.
 
 ### EXAMPLE 4
 ```
 Get-ADOClassificationNodeList -Organization contoso -Project WebApp -Token $pat -Ids 1,999 -ErrorPolicy omit
-Gets node ID 1 and returns null for invalid ID 999 (instead of failing).
 ```
+
+Gets node ID 1 and returns null for invalid ID 999 (instead of failing).
 
 ## PARAMETERS
 

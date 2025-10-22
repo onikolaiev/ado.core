@@ -21,15 +21,21 @@
         API version (default 7.2-preview.2).
     .EXAMPLE
         PS> Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat
+        
         Gets both root Areas and Iterations nodes.
+        
     .EXAMPLE
         PS> Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat -Depth 2
+        
         Gets root nodes including 2 levels of child nodes for both Areas and Iterations.
+        
     .EXAMPLE
         PS> $roots = Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat -Depth 1
         PS> $areas = $roots | Where-Object { $_.structureType -eq 'area' }
         PS> $iterations = $roots | Where-Object { $_.structureType -eq 'iteration' }
+        
         Gets root nodes with immediate children and separates Areas from Iterations.
+        
     .LINK
         https://learn.microsoft.com/azure/devops
     .NOTES

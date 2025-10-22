@@ -33,16 +33,24 @@
         API version (default 7.2-preview.2).
     .EXAMPLE
         PS> Update-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Frontend Team" -Name "UI Team"
+        
         Renames the "Frontend Team" area to "UI Team".
+        
     .EXAMPLE
         PS> Update-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Sprint 1" -StartDate "2024-01-01T00:00:00Z" -FinishDate "2024-01-15T00:00:00Z"
+        
         Updates Sprint 1 iteration with new start and finish dates.
+        
     .EXAMPLE
         PS> Update-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Current Sprint" -Attributes @{ startDate = "2024-02-01T00:00:00Z"; finishDate = "2024-02-14T00:00:00Z" }
+        
         Updates iteration dates using the Attributes hashtable.
+        
     .EXAMPLE
         PS> Update-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Name "New Root Area Name"
+        
         Renames the root Areas node.
+        
     .LINK
         https://learn.microsoft.com/azure/devops
     .NOTES

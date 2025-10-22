@@ -29,16 +29,24 @@
         API version (default 7.2-preview.2).
     .EXAMPLE
         PS> Get-ADOClassificationNodeList -Organization contoso -Project WebApp -Token $pat
+        
         Gets all root classification nodes (both Areas and Iterations).
+        
     .EXAMPLE
         PS> Get-ADOClassificationNodeList -Organization contoso -Project WebApp -Token $pat -Ids 1,3,5
+        
         Gets classification nodes with IDs 1, 3, and 5.
+        
     .EXAMPLE
         PS> Get-ADOClassificationNodeList -Organization contoso -Project WebApp -Token $pat -Depth 2
+        
         Gets root nodes including 2 levels of child nodes.
+        
     .EXAMPLE
         PS> Get-ADOClassificationNodeList -Organization contoso -Project WebApp -Token $pat -Ids 1,999 -ErrorPolicy omit
+        
         Gets node ID 1 and returns null for invalid ID 999 (instead of failing).
+        
     .LINK
         https://learn.microsoft.com/azure/devops
     .NOTES

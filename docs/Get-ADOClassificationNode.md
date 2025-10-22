@@ -29,26 +29,30 @@ at specified depths for hierarchical navigation.
 ### EXAMPLE 1
 ```
 Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas
-Gets the root Areas node.
 ```
+
+Gets the root Areas node.
 
 ### EXAMPLE 2
 ```
 Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Sprint 1"
-Gets the "Sprint 1" iteration node.
 ```
+
+Gets the "Sprint 1" iteration node.
 
 ### EXAMPLE 3
 ```
 Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Development" -Depth 2
-Gets the "Development" area node including 2 levels of child nodes.
 ```
+
+Gets the "Development" area node including 2 levels of child nodes.
 
 ### EXAMPLE 4
 ```
 Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Depth 1
-Gets the root Iterations node with immediate children.
 ```
+
+Gets the root Iterations node with immediate children.
 
 ## PARAMETERS
 

@@ -26,16 +26,24 @@
         API version (default 7.2-preview.2).
     .EXAMPLE
         PS> Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas
+        
         Gets the root Areas node.
+        
     .EXAMPLE
         PS> Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Sprint 1"
+        
         Gets the "Sprint 1" iteration node.
+        
     .EXAMPLE
         PS> Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Development" -Depth 2
+        
         Gets the "Development" area node including 2 levels of child nodes.
+        
     .EXAMPLE
         PS> Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Depth 1
+        
         Gets the root Iterations node with immediate children.
+        
     .LINK
         https://learn.microsoft.com/azure/devops
     .NOTES

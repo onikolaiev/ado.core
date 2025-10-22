@@ -40,26 +40,30 @@ Supports:
 ### EXAMPLE 1
 ```
 Add-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Name "Frontend Team"
-Creates a new Area node named "Frontend Team" at the root level.
 ```
+
+Creates a new Area node named "Frontend Team" at the root level.
 
 ### EXAMPLE 2
 ```
 Add-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Name "Sprint 1" -StartDate "2024-01-01T00:00:00Z" -FinishDate "2024-01-15T00:00:00Z"
-Creates a new Iteration with start and finish dates.
 ```
+
+Creates a new Iteration with start and finish dates.
 
 ### EXAMPLE 3
 ```
 Add-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Development\Backend" -Name "API Team"
-Creates "API Team" area under Development\Backend path.
 ```
+
+Creates "API Team" area under Development\Backend path.
 
 ### EXAMPLE 4
 ```
 Add-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "NewParent" -Id 126391
-Moves existing area node (ID 126391) under "NewParent" path.
 ```
+
+Moves existing area node (ID 126391) under "NewParent" path.
 
 ## PARAMETERS
 

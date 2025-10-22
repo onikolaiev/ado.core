@@ -36,16 +36,24 @@
         API version (default 7.2-preview.2).
     .EXAMPLE
         PS> Add-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Name "Frontend Team"
+        
         Creates a new Area node named "Frontend Team" at the root level.
+        
     .EXAMPLE
         PS> Add-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Name "Sprint 1" -StartDate "2024-01-01T00:00:00Z" -FinishDate "2024-01-15T00:00:00Z"
+        
         Creates a new Iteration with start and finish dates.
+        
     .EXAMPLE
         PS> Add-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Development\Backend" -Name "API Team"
+        
         Creates "API Team" area under Development\Backend path.
+        
     .EXAMPLE
         PS> Add-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "NewParent" -Id 126391
+        
         Moves existing area node (ID 126391) under "NewParent" path.
+        
     .LINK
         https://learn.microsoft.com/azure/devops
     .NOTES

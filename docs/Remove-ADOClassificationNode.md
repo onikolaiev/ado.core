@@ -30,20 +30,23 @@ This operation cannot be undone.
 ### EXAMPLE 1
 ```
 Remove-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Frontend Team" -Confirm:$false
-Deletes the "Frontend Team" area node without confirmation.
 ```
+
+Deletes the "Frontend Team" area node without confirmation.
 
 ### EXAMPLE 2
 ```
 Remove-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Old Sprint" -ReclassifyId 12345 -PassThru
-Deletes "Old Sprint" iteration after reclassifying work items to node ID 12345, returns the deleted path.
 ```
+
+Deletes "Old Sprint" iteration after reclassifying work items to node ID 12345, returns the deleted path.
 
 ### EXAMPLE 3
 ```
 Remove-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Development\Legacy" -WhatIf
-Shows what would be deleted without actually performing the deletion.
 ```
+
+Shows what would be deleted without actually performing the deletion.
 
 ## PARAMETERS
 

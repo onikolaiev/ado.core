@@ -28,22 +28,25 @@ root nodes with optional child hierarchy depth.
 ### EXAMPLE 1
 ```
 Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat
-Gets both root Areas and Iterations nodes.
 ```
+
+Gets both root Areas and Iterations nodes.
 
 ### EXAMPLE 2
 ```
 Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat -Depth 2
-Gets root nodes including 2 levels of child nodes for both Areas and Iterations.
 ```
+
+Gets root nodes including 2 levels of child nodes for both Areas and Iterations.
 
 ### EXAMPLE 3
 ```
 $roots = Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat -Depth 1
 PS> $areas = $roots | Where-Object { $_.structureType -eq 'area' }
 PS> $iterations = $roots | Where-Object { $_.structureType -eq 'iteration' }
-Gets root nodes with immediate children and separates Areas from Iterations.
 ```
+
+Gets root nodes with immediate children and separates Areas from Iterations.
 
 ## PARAMETERS
 
