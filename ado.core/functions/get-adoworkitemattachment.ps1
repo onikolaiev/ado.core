@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Downloads a work item attachment.

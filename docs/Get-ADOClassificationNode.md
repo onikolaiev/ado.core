@@ -5,43 +5,56 @@ online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
-# Get-ADOProjectList
+# Get-ADOClassificationNode
 
 ## SYNOPSIS
-Retrieves a list of projects in the Azure DevOps organization that the authenticated user has access to.
+Gets a classification node (Area or Iteration).
 
 ## SYNTAX
 
 ```
-Get-ADOProjectList [-Organization] <String> [-Token] <String> [[-StateFilter] <ProjectState>] [[-Top] <Int32>]
- [[-Skip] <Int32>] [[-ContinuationToken] <Int32>] [-GetDefaultTeamImageUrl] [[-ApiVersion] <String>]
+Get-ADOClassificationNode [-Organization] <String> [-Project] <String> [-Token] <String>
+ [-StructureGroup] <String> [[-Path] <String>] [[-Depth] <Int32>] [[-ApiVersion] <String>]
  [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOps REST API and retrieve a list of projects.
-It supports optional parameters such as state filter, pagination, and default team image URL.
+Uses the Azure DevOps Work Item Tracking REST API (Classification Nodes - Get) to
+retrieve a classification node for a given path.
+Supports fetching child nodes
+at specified depths for hierarchical navigation.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-ADOProjectList -Organization "fabrikam" -Token "my-token"
+Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas
+Gets the root Areas node.
 ```
-
-Retrieves all projects in the specified organization.
 
 ### EXAMPLE 2
 ```
-Get-ADOProjectList -Organization "fabrikam" -Token "my-token" -StateFilter "WellFormed" -Top 10
+Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Path "Sprint 1"
+Gets the "Sprint 1" iteration node.
 ```
 
-Retrieves the first 10 well-formed projects in the specified organization.
+### EXAMPLE 3
+```
+Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Areas -Path "Development" -Depth 2
+Gets the "Development" area node including 2 levels of child nodes.
+```
+
+### EXAMPLE 4
+```
+Get-ADOClassificationNode -Organization contoso -Project WebApp -Token $pat -StructureGroup Iterations -Depth 1
+Gets the root Iterations node with immediate children.
+```
 
 ## PARAMETERS
 
 ### -Organization
-The name of the Azure DevOps organization.
+Azure DevOps organization name (e.g.
+contoso).
 
 ```yaml
 Type: String
@@ -55,8 +68,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Token
-The authentication token for accessing Azure DevOps.
+### -Project
+Project name or id.
 
 ```yaml
 Type: String
@@ -70,43 +83,43 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -StateFilter
-Filter on team projects in a specific state (e.g., WellFormed, Deleted, All).
-Default is WellFormed.
+### -Token
+Personal Access Token (PAT) with vso.work scope.
 
 ```yaml
-Type: ProjectState
+Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: All, CreatePending, Deleted, Deleting, New, Unchanged, WellFormed
 
-Required: False
+Required: True
 Position: 3
-Default value: All
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Top
-The maximum number of projects to return.
+### -StructureGroup
+Areas | Iterations - specifies whether to retrieve Area or Iteration nodes.
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Skip
-The number of projects to skip.
+### -Path
+Path of the classification node to retrieve (e.g.
+'ParentArea\ChildArea').
+Leave empty to get the root node.
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -117,8 +130,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ContinuationToken
-Pointer that shows how many projects have already been fetched.
+### -Depth
+Depth of children to fetch (optional).
+Specify a number to include child nodes
+in the response hierarchy.
 
 ```yaml
 Type: Int32
@@ -127,29 +142,13 @@ Aliases:
 
 Required: False
 Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GetDefaultTeamImageUrl
-Whether to include the default team image URL in the response.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-The version of the Azure DevOps REST API to use.
-Default is set globally.
+API version (default 7.2-preview.2).
 
 ```yaml
 Type: String
@@ -158,7 +157,7 @@ Aliases:
 
 Required: False
 Position: 7
-Default value: $Script:ADOApiVersion
+Default value: 7.2-preview.2
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -185,9 +184,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.ClassificationNode
 ## NOTES
-The function will return the project list in a structured format.
-
 Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

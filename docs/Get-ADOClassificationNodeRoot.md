@@ -5,42 +5,51 @@ online version: https://learn.microsoft.com/azure/devops
 schema: 2.0.0
 ---
 
-# Get-ADOProcessBehaviorList
+# Get-ADOClassificationNodeRoot
 
 ## SYNOPSIS
-Retrieves a list of all behaviors in the process.
+Gets root classification nodes (Areas and Iterations).
 
 ## SYNTAX
 
 ```
-Get-ADOProcessBehaviorList [-Organization] <String> [-Token] <String> [-ProcessId] <String>
- [[-Expand] <String>] [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-ADOClassificationNodeRoot [-Organization] <String> [-Project] <String> [-Token] <String> [[-Depth] <Int32>]
+ [[-ApiVersion] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function uses the \`Invoke-ADOApiRequest\` function to call the Azure DevOps REST API and retrieve all behaviors for a specified process.
-It supports optional parameters to expand specific properties of the behaviors.
+Uses the Azure DevOps Work Item Tracking REST API (Classification Nodes - Get Root Nodes)
+to retrieve root classification nodes under the project.
+Returns both Areas and Iterations
+root nodes with optional child hierarchy depth.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-ADOProcessBehaviorList -Organization "fabrikam" -Token "my-token" -ProcessId "906c7065-2a04-4f61-aac1-b5da9cef040b"
+Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat
+Gets both root Areas and Iterations nodes.
 ```
-
-Retrieves all behaviors for the specified process.
 
 ### EXAMPLE 2
 ```
-Get-ADOProcessBehaviorList -Organization "fabrikam" -Token "my-token" -ProcessId "906c7065-2a04-4f61-aac1-b5da9cef040b" -Expand "fields"
+Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat -Depth 2
+Gets root nodes including 2 levels of child nodes for both Areas and Iterations.
 ```
 
-Retrieves all behaviors for the specified process with fields expanded.
+### EXAMPLE 3
+```
+$roots = Get-ADOClassificationNodeRoot -Organization contoso -Project WebApp -Token $pat -Depth 1
+PS> $areas = $roots | Where-Object { $_.structureType -eq 'area' }
+PS> $iterations = $roots | Where-Object { $_.structureType -eq 'iteration' }
+Gets root nodes with immediate children and separates Areas from Iterations.
+```
 
 ## PARAMETERS
 
 ### -Organization
-The name of the Azure DevOps organization.
+Azure DevOps organization name (e.g.
+contoso).
 
 ```yaml
 Type: String
@@ -54,8 +63,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Token
-The authentication token for accessing Azure DevOps.
+### -Project
+Project name or id.
 
 ```yaml
 Type: String
@@ -69,8 +78,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProcessId
-The ID of the process.
+### -Token
+Personal Access Token (PAT) with vso.work scope.
 
 ```yaml
 Type: String
@@ -84,24 +93,25 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Expand
-Optional parameter to expand specific properties of the behaviors (e.g., fields, combinedFields, none).
+### -Depth
+Depth of children to fetch (optional).
+Specify a number to include child nodes
+in the response hierarchy.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 4
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-The version of the Azure DevOps REST API to use.
-Default is "7.1".
+API version (default 7.2-preview.2).
 
 ```yaml
 Type: String
@@ -110,7 +120,7 @@ Aliases:
 
 Required: False
 Position: 5
-Default value: $Script:ADOApiVersion
+Default value: 7.2-preview.2
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -137,9 +147,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### ADO.TOOLS.WorkItem.ClassificationNode[]
 ## NOTES
-This function follows PSFramework best practices for logging and error handling.
-
 Author: Oleksandr Nikolaiev (@onikolaiev)
 
 ## RELATED LINKS
+
+[https://learn.microsoft.com/azure/devops](https://learn.microsoft.com/azure/devops)
+

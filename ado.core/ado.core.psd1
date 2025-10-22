@@ -178,7 +178,14 @@ FunctionsToExport = @(
     'Remove-ADOWorkItemTag',
 
     'Add-ADOWorkItemAttachment',
-    'Get-ADOWorkItemAttachment'
+    'Get-ADOWorkItemAttachment',
+
+    'Add-ADOClassificationNode',
+    'Remove-ADOClassificationNode',
+    'Get-ADOClassificationNode',
+    'Get-ADOClassificationNodeList',
+    'Get-ADOClassificationNodeRoot',
+    'Update-ADOClassificationNode'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
