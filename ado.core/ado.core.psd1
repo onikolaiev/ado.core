@@ -185,7 +185,18 @@ FunctionsToExport = @(
     'Get-ADOClassificationNode',
     'Get-ADOClassificationNodeList',
     'Get-ADOClassificationNodeRoot',
-    'Update-ADOClassificationNode'
+    'Update-ADOClassificationNode',
+
+    'Get-ADOTeamList',
+    'Get-ADOTeam',
+    'Get-ADOProjectTeamList',
+    'Add-ADOTeam',
+    'Remove-ADOTeam',
+    
+    'Get-ADOBoardList',
+    'Get-ADOBoard',
+    'Get-ADOBoardColumnList',
+    'Update-ADOBoardColumnList'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
