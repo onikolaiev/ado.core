@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Deletes a team from an Azure DevOps project.
@@ -34,9 +35,9 @@
         This function follows PSFramework best practices for logging and error handling.
         
         Possible failure scenarios:
-        - Invalid project name/ID (project doesn't exist): 404
-        - Invalid team name/ID (team doesn't exist): 404
-        - Insufficient privileges: 403
+            - Invalid project name/ID (project doesn't exist): 404
+            - Invalid team name/ID (team doesn't exist): 404
+            - Insufficient privileges: 403
         
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>

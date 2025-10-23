@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Gets a list of all teams in an Azure DevOps organization.

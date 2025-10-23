@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Creates a new team in an Azure DevOps project.
@@ -37,10 +38,10 @@
         This function follows PSFramework best practices for logging and error handling.
         
         Possible failure scenarios:
-        - Invalid project name/ID (project doesn't exist): 404
-        - Invalid team name or description: 400
-        - Team already exists: 400
-        - Insufficient privileges: 400
+            - Invalid project name/ID (project doesn't exist): 404
+            - Invalid team name or description: 400
+            - Team already exists: 400
+            - Insufficient privileges: 400
         
         Author: Oleksandr Nikolaiev (@onikolaiev)
 #>

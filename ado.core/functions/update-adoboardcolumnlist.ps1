@@ -1,3 +1,4 @@
+
 <#
     .SYNOPSIS
         Updates columns on a specific board in an Azure DevOps team.
@@ -29,28 +30,28 @@
     .EXAMPLE
         $columns = @"
         [
-          {
+        {
             "id": "12eed5fb-8af3-47bb-9d2a-058fbe7e1196",
             "name": "New",
             "itemLimit": 0,
             "stateMappings": {
-              "Product Backlog Item": "New",
-              "Bug": "New"
+                "Product Backlog Item": "New",
+                "Bug": "New"
             },
             "columnType": "incoming"
-          },
-          {
+        },
+        {
             "id": "5f72391d-af1c-4754-9459-23138eba13e3",
             "name": "Approved",
             "itemLimit": 10,
             "stateMappings": {
-              "Product Backlog Item": "Approved",
-              "Bug": "Approved"
+                "Product Backlog Item": "Approved",
+                "Bug": "Approved"
             },
             "isSplit": false,
             "description": "Updated description",
             "columnType": "inProgress"
-          }
+        }
         ]
         "@
         
