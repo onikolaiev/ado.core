@@ -81,11 +81,15 @@ function Get-ADOTeamList {
             $apiUri = "_apis/teams"
             
             # Build query parameters
-            $queryParams = @{}
-            if ($Mine) { $queryParams['$mine'] = 'true' }
-            if ($PSBoundParameters.ContainsKey('Top')) { $queryParams['$top'] = $Top }
-            if ($PSBoundParameters.ContainsKey('Skip')) { $queryParams['$skip'] = $Skip }
-            if ($ExpandIdentity) { $queryParams['$expandIdentity'] = 'true' }
+            $queryParams = @()
+            if ($Mine) { $queryParams += '$mine=true' }
+            if ($PSBoundParameters.ContainsKey('Top')) { $queryParams += "`$top=$Top" }
+            if ($PSBoundParameters.ContainsKey('Skip')) { $queryParams += "`$skip=$Skip" }
+            if ($ExpandIdentity) { $queryParams += '$expandIdentity=true' }
+            
+            if ($queryParams.Count -gt 0) {
+                $apiUri += "?" + ($queryParams -join "&")
+            }
 
             # Log the request details
             Write-PSFMessage -Level Verbose -Message "API URI: $apiUri"
@@ -95,7 +99,6 @@ function Get-ADOTeamList {
                                              -Token $Token `
                                              -ApiUri $apiUri `
                                              -Method "GET" `
-                                             -QueryParameters $queryParams `
                                              -ApiVersion $ApiVersion
 
             # Log the successful response

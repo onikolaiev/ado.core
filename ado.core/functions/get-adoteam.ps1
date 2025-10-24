@@ -75,8 +75,12 @@ function Get-ADOTeam {
             $apiUri = "_apis/projects/$ProjectId/teams/$TeamId"
             
             # Build query parameters
-            $queryParams = @{}
-            if ($ExpandIdentity) { $queryParams['$expandIdentity'] = 'true' }
+            $queryParams = @()
+            if ($ExpandIdentity) { $queryParams += '$expandIdentity=true' }
+            
+            if ($queryParams.Count -gt 0) {
+                $apiUri += "?" + ($queryParams -join "&")
+            }
 
             # Log the request details
             Write-PSFMessage -Level Verbose -Message "API URI: $apiUri"
@@ -86,7 +90,6 @@ function Get-ADOTeam {
                                              -Token $Token `
                                              -ApiUri $apiUri `
                                              -Method "GET" `
-                                             -QueryParameters $queryParams `
                                              -ApiVersion $ApiVersion
 
             # Log the successful response
